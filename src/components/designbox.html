@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .custom-box {
+            width: 80.1875rem; /* 1283px */
+            height: 40rem; /* 642px */
+            background: #D9D9D9;
+            border-radius: 1.875rem; /* 30px */
+            position: relative;
+            margin-top: 26.37rem; 
+            margin-left: 41.06rem;
+            margin-right: 14.69rem;
+            flex-shrink: 0;
+            z-index: 1;
+        }
+
+        .button {
+            width: 9.3125rem; /* 149px */
+            height: 2.5rem; /* 28px */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            bottom: 100%;
+            border-radius: 2.5rem 2.5rem 0 0;
+            cursor: pointer;
+            background-color: #D9D9D9;
+            transition: background-color 0.3s, color 0.3s;
+            z-index: 0;
+            flex-shrink: 0;
+        }
+
+        .button span {
+            color: #000;
+            text-align: center;
+            font-family: "SF Pro", sans-serif;
+            font-size: 1rem;
+            font-style: normal;
+            font-weight: 700;
+            line-height: normal;
+        }
+
+        #imageButton {
+            right: 10.7rem; 
+        }
+
+        #codeButton {
+            right: 1.5rem;
+        }
+
+        .active {
+            background-color: #485CF3;
+            color: white;
+        }
+
+        .active span {
+            color: white;
+        }
+    </style>
+    <title>Custom Box with Buttons</title>
+</head>
+<body>
+    <div class="custom-box">
+        <div id="imageButton" class="button" onclick="showImage()">
+            <span>이미지보기</span>
+        </div>
+        <div id="codeButton" class="button" onclick="showCode()">
+            <span>코드보기</span>
+        </div>
+    </div>
+
+    <script>
+        function showImage() {
+            document.getElementById('imageButton').classList.add('active');
+            document.getElementById('codeButton').classList.remove('active');
+        }
+
+        function showCode() {
+            document.getElementById('codeButton').classList.add('active');
+            document.getElementById('imageButton').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
