@@ -1,11 +1,17 @@
-import { useState } from 'react';
-import './App.css';
 
-function App({ children }) {
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Main from './pages/Main'
+import Login from './pages/Login';
+
+function App() {
   return (
-    <div>
-      {children}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/main" element={<Main />} />
+        <Route path="/login" element={<Login />} />
+       </Routes>
+  
+    </Router>
   );
 }
 
