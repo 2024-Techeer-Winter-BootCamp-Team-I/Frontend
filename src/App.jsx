@@ -1,16 +1,15 @@
-import { useState } from 'react';
-import GrayBox from './components/GrayBox'; // GrayBox 불러오기
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Main from './pages/Main';
+import Main from './pages/Login';
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div>
-      <GrayBox /> {/* GrayBox 컴포넌트 사용 */}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/main" element={<Main />} />
+       </Routes>
+    </Router>
   );
 }
-
 
 export default App;
