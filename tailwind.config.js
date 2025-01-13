@@ -1,8 +1,14 @@
-/** @type {import('tailwindcss').Config} */
+import { colors } from './src/config/colors';
+
 export default {
   content: ['./index.html', './src/**/*.{js,jsx}'],
   theme: {
-    extend: {},
+    extend: {
+      colors,
+      fontFamily: {
+        sans: ['SF Pro', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 };
