@@ -24,3 +24,7 @@ dist-ssr
 *.sw?
 
 *storybook.log
+package.json
+yarn.lock
+.gitignore
+src/App.jsx
