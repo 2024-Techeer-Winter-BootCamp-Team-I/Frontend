@@ -1,4 +1,4 @@
-const BackSetting = () => {
+const FrontSetting = () => {
   return (
     <div className="flex h-10 w-full items-center justify-between px-4">
       {/* Start */}
@@ -80,4 +80,4 @@ const BackSetting = () => {
   );
 };
 
-export default BackSetting;
+export default FrontSetting;
