@@ -24,7 +24,7 @@ function RouteTabs() {
           <button
             key={tab.label}
             onClick={() => handleClick(tab)}
-            className={`h-[57px] w-[350px] text-[20px] font-bold text-white transition-colors duration-200 ${isActive ? 'bg-green-main' : 'bg-black hover:bg-gray-700'} `}
+            className={`h-[50px] w-[270px] text-[20px] font-bold text-white transition-colors duration-200 ${isActive ? 'bg-green-main' : 'bg-black hover:bg-gray-700'} `}
           >
             {tab.label}
           </button>
