@@ -35,10 +35,9 @@ const Navbar = () => {
         onClick={moveMainPage}
       />
 
-      {/* 좌우로 공간을 나누기 위해 justify-between 사용 */}
-      <div className="container mb-[15px] ml-[50px] mr-[50px] flex w-full items-end justify-between py-4 text-[18px]">
+      <div className="container mb-[15px] ml-[82px] mr-[50px] flex w-full items-end justify-between py-4 text-[18px]">
         {/* 왼쪽 메뉴들 */}
-        <div className="flex gap-8">
+        <div className="flex gap-[32px]">
           {navItems.map((item) => (
             <button
               key={item.label}
