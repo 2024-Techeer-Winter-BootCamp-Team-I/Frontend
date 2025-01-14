@@ -1,5 +1,7 @@
-import RouteTabs from '../components/RouteTabs';
+
+import Line from '../components/Line';
 const Main = () => {
-  return <RouteTabs />;
+  return <Line />;
+
 };
 export default Main;
