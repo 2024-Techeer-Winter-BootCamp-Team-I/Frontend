@@ -3,7 +3,7 @@ import columnLine from '../assets/image/columnLine.svg';
 
 const Line = () => {
   return (
-    <div className="relative h-screen w-full bg-black-background text-white">
+    <div className="relative h-screen w-full text-white">
       {/* 세로줄 (columnLine) */}
       <img
         src={columnLine}
