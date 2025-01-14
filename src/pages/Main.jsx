@@ -1,5 +1,5 @@
-import Navbar from '../components/Navbar';
+import RouteTabs from '../components/RouteTabs';
 const Main = () => {
-  return <Navbar />;
+  return <RouteTabs />;
 };
 export default Main;
