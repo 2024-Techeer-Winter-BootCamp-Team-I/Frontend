@@ -23,7 +23,7 @@ const GitRepository = () => {
   return (
     <div className="absolute left-[22rem] top-[20rem]">
       {/* 제목 텍스트 */}
-      <div className="relative left-[8rem] text-white text-[1.5rem] font-sans font-[500] break-words mb-[1rem]">
+      <div className="relative left-[8rem] text-white text-[1.1rem] font-sans font-[100rem] break-words mb-[1rem]">
         깃허브에 업로드하기
       </div>
 
@@ -35,16 +35,16 @@ const GitRepository = () => {
         </div>
 
         {/* 메인 컴포넌트 */}
-        <div className="w-[51.25rem] h-[11.25rem] bg-[#F1EDED] rounded-[1.25rem] flex">
+        <div className="w-[48rem] h-[11.25rem] bg-[#F1EDED] rounded-[1.25rem] flex">
           {/* 왼쪽 섹션 */}
-          <div className="w-[13.125rem] flex flex-col justify-center items-start pl-[3rem] space-y-[0.75rem]">
+          <div className="w-[10rem] flex flex-col justify-center items-start pl-[2rem] space-y-[0.75rem]">
             {["REPOSITORY", "PUSH", "IDE"].map((buttonName) => (
               <button
                 key={buttonName}
                 onClick={() => handleButtonClick(buttonName)} // 버튼 클릭 이벤트 처리
-                className={`text-[1.25rem] font-[590] font-sans ${
+                className={`text-[1.1rem] font-[590] font-sans ${
                   activeButton === buttonName
-                    ? "text-[#485cf3]" // 활성화된 버튼 색상
+                    ? "text-blue-main" // 활성화된 버튼 색상
                     : "text-[#545353]" // 비활성화된 버튼 색상
                 }`}
               >
@@ -65,11 +65,11 @@ const GitRepository = () => {
                 onClick={toggleInnerCircle}
                 className="relative w-[1.5rem] h-[1.5rem] cursor-pointer"
               >
-                <div className="absolute w-[1.5rem] h-[1.5rem] bg-[#485CF3] rounded-full" />
+                <div className="absolute w-[1.5rem] h-[1.5rem] bg-blue-main rounded-full" />
                 <div className="absolute w-[1.21875rem] h-[1.21875rem] bg-[#D9D9D9] rounded-full left-[0.14rem] top-[0.14rem]" />
                 <div
                   className={`absolute w-[1rem] h-[1rem] rounded-full left-[0.25rem] top-[0.25rem] ${
-                    innerCircleActive ? "bg-[#485CF3]" : "bg-[#D9D9D9]"
+                    innerCircleActive ? "bg-blue-main" : "bg-[#D9D9D9]"
                   }`}
                 />
               </div>
@@ -92,7 +92,7 @@ const GitRepository = () => {
             <div className="flex justify-end">
               <button
                 onClick={handleCreateClick}
-                className="w-[6.25rem] h-[2.5rem] bg-[#485cf3] text-white rounded-md"
+                className="w-[6rem] h-[2.1rem] bg-blue-main text-white rounded-md"
               >
                 CREATE
               </button>
