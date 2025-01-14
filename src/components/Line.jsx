@@ -3,12 +3,12 @@ import columnLine from '../assets/image/columnLine.svg';
 
 const Line = () => {
   return (
-    <div className="absolute h-screen w-full text-white"> {/*원래 relative였던걸 absolute로 바꾸니까 문제 해결결*/}
+    <div className="absolute h-screen w-full text-white"> 
       {/* 세로줄 (columnLine) */}
       <img
         src={columnLine}
         alt="columnLine"
-        className="absolute top-[15rem] left-[17rem] right-[30rem] h-[100%] -translate-y-1/3"
+        className="absolute top-[15rem] left-[17rem] right-[30rem] h-[full] -translate-y-1/3"
       />
 
       {/* 가로줄 (rowLine) */}
