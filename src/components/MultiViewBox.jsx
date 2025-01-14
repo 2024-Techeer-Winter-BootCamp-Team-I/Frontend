@@ -11,7 +11,7 @@ const MultiViewBox = () => {
         <div
             className="
                 w-[50rem] h-[28rem] bg-[#D9D9D9] rounded-[1.875rem]
-                absolute top-[12.37rem] left-[28.06rem] right-[30.6rem] flex-shrink-0 z-[20]  // Increase z-index to 20
+                absolute top-[13.2rem] left-[28.06rem] right-[30.6rem] flex-shrink-0 z-[20]  // Increase z-index to 20
             "
         >
             {/* 이미지보기 버튼 */}
