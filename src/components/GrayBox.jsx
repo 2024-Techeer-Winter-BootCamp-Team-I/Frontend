@@ -11,7 +11,7 @@ const GrayBox = () => {
         <div
             className="
                 w-[50rem] h-[28rem] bg-[#D9D9D9] rounded-[1.875rem]
-                relative mt-[10.37rem] ml-[22.06rem] mr-[30.69rem] flex-shrink-0 z-[1]
+                absolute top-[9.37rem] left-[22.06rem] right-[30.6rem] flex-shrink-0 z-[1]
             "
         >
             {/* 이미지보기 버튼 */}
@@ -21,7 +21,7 @@ const GrayBox = () => {
                     w-[6rem] h-[2rem] flex flex-col justify-center items-center absolute 
                     bottom-full right-[7.5rem] rounded-t-full cursor-pointer z-[0] flex-shrink-0
                     transition-all duration-300 ease-in-out
-                    ${Tab === 'image' ? 'bg-[#485CF3] text-white' : 'bg-[#D9D9D9] text-black'}
+                    ${Tab === 'image' ? 'bg-[#D9D9D9] text-black' : 'bg-blue-main text-white'}
                 `}
             >
                 <span
@@ -40,7 +40,7 @@ const GrayBox = () => {
                     w-[6rem] h-[2rem] flex flex-col justify-center items-center absolute 
                     bottom-full right-[1.5rem] rounded-t-full cursor-pointer z-[0] flex-shrink-0
                     transition-all duration-300 ease-in-out
-                    ${Tab === 'code' ? 'bg-[#485CF3] text-white' : 'bg-[#D9D9D9] text-black'}
+                    ${Tab === 'code' ? 'bg-[#D9D9D9] text-black' : 'bg-blue-main text-white'}
                 `}
             >
                 <span
