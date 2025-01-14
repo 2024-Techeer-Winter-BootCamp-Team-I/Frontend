@@ -1,6 +1,6 @@
-import Frame from '../components/Frame';
+import LoginModal from '../components/LoginMal';
 
 const Main = () => {
-  return <Frame />;
+  return <LoginModal></LoginModal>;
 };
 export default Main;
