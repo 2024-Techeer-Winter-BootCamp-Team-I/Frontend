@@ -1,5 +1,5 @@
-import Navbar from '../components/Navbar';
+import Line from '../components/Line';
 const Main = () => {
-  return <Navbar />;
+  return <Line />;
 };
 export default Main;
