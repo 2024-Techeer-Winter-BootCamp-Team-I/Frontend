@@ -1,6 +1,5 @@
+import Navbar from '../components/Navbar';
 const Main = () => {
-    return (
-        <div>메롱메롱</div>
-    )
-}
+  return <Navbar />;
+};
 export default Main;
