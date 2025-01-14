@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/image/logo.svg';
+import rowLine from '../assets/image/rowLine.svg';
+import columnLine from '../assets/image/columnLine.svg';
 
-const Navbar = () => {
+const Frame = () => {
   const navigate = useNavigate();
   const moveMainPage = () => {
     navigate('/');
@@ -51,30 +53,42 @@ const Navbar = () => {
           ))}
         </div>
 
-     {/* 오른쪽 끝에 추가할 메뉴들(로그인, 마이페이지) */}
-    <div className="mr-[50px] flex gap-8 text-[18px]">
-      <button
-        onClick={() => handleClick({ label: '로그인', path: '/login' })}
-        className={`transition-colors duration-100 ease-out ${
-          activeNav === '로그인' ? 'text-green-main' : ''
-        }`}
-      >
-        로그인
-      </button>
-      <button
-        onClick={() =>
-          handleClick({ label: '마이페이지', path: '/mypage' })
-        }
-        className={`transition-colors duration-100 ease-out ${
-          activeNav === '마이페이지' ? 'text-green-main' : ''
-        }`}
-      >
-        마이페이지
-      </button>
+        {/* 오른쪽 끝에 추가할 메뉴들(로그인, 마이페이지) */}
+        <div className="mr-[50px] flex gap-8 text-[18px]">
+          <button
+            onClick={() => handleClick({ label: '로그인', path: '/login' })}
+            className={`transition-colors duration-100 ease-out ${
+              activeNav === '로그인' ? 'text-green-main' : ''
+            }`}
+          >
+            로그인
+          </button>
+          <button
+            onClick={() =>
+              handleClick({ label: '마이페이지', path: '/mypage' })
+            }
+            className={`transition-colors duration-100 ease-out ${
+              activeNav === '마이페이지' ? 'text-green-main' : ''
+            }`}
+          >
+            마이페이지
+          </button>
+          <img
+            src={columnLine}
+            alt="columnLine"
+            className="absolute left-[300px] top-1/2 h-[90%] -translate-y-1/2"
+          />
+
+          {/* 가로줄 (rowLine) */}
+          <img
+            src={rowLine}
+            alt="rowLine"
+            className="absolute left-1/2 top-[150px] w-[90%] -translate-x-1/2"
+          />
+        </div>
+      </div>
     </div>
-  </div>
-</div>
   );
 };
 
-export default Navbar;
+export default Frame;

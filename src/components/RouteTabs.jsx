@@ -17,7 +17,7 @@ function RouteTabs() {
   };
 
   return (
-    <div className="flex flex-col mt-44 z-[20]">
+    <div className="flex flex-col mt-1 ml-7 z-[10]">
       {tabsData.map((tab) => {
         const isActive = activeTab === tab.label;
         return (
