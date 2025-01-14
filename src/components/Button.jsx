@@ -21,7 +21,7 @@ const Button = () => {
                     rounded-full text-lg font-bold cursor-pointer
                     flex items-center justify-center transition-all
                     duration-300 ease-in-out
-                    absolute top-[39rem] left-[68rem] right-[30rem] flex-shrink-0 z-[1]
+                    absolute top-[41rem] left-[70rem] right-[30rem] flex-shrink-0 z-[1]
                 "
             >
                 {isSaved ? "저장 완료" : "저장"}
