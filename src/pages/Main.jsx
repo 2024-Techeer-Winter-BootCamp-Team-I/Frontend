@@ -1,10 +1,6 @@
-
-import Layout from "./Layout";
+import Frame from '../components/Frame';
 
 const Main = () => {
-  return (<Layout>
-<div>메롱메롱</div>
-</Layout>
-  )
+  return <Frame />;
 };
 export default Main;
