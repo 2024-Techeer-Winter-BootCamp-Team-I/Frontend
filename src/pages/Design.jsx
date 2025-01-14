@@ -1,11 +1,11 @@
 import Button from '../components/Button';
-import GrayBox from '../components/GrayBox';
+import MultiViewBox from '../components/MultiViewBox';
 
 function Design() {
     return (
         <div className="bg-[#1E1E1E] min-h-[100vh] flex flex-col">
             <>
-                <GrayBox />
+                <MultiViewBox />
             </>
             <>
                 <Button />

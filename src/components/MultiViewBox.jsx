@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const GrayBox = () => {
+const MultiViewBox = () => {
     const [Tab, setTab] = useState('image'); // 기본 활성화 탭: 'image'
 
     const TabClick = (tab) => {
@@ -55,4 +55,4 @@ const GrayBox = () => {
     );
 };
 
-export default GrayBox;
+export default MultiViewBox;
