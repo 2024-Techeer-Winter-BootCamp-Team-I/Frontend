@@ -17,14 +17,14 @@ function RouteTabs() {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col z-[10]">
       {tabsData.map((tab) => {
         const isActive = activeTab === tab.label;
         return (
           <button
             key={tab.label}
             onClick={() => handleClick(tab)}
-            className={`h-[50px] w-[270px] text-[20px] font-bold text-white transition-colors duration-200 ${isActive ? 'bg-green-main' : 'bg-black hover:bg-gray-700'} `}
+            className={`h-[50px] w-[270px] text-[20px] font-bold text-white transition-colors duration-200 ${isActive ? 'bg-green-main' : 'bg-black hover:bg-gray-700'}`}
           >
             {tab.label}
           </button>

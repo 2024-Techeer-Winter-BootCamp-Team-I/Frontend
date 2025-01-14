@@ -26,55 +26,56 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex h-[150px] bg-black-background font-sans text-white">
-      {/* 로고 클릭 시 메인 페이지 이동 */}
-      <img
-        src={logo}
-        alt="logo"
-        className="over:cursor-pointer ml-[50px] mt-[35px] h-[80px] w-[250px]"
-        onClick={moveMainPage}
-      />
-
+    <div className="flex h-[150px] bg-black-background font-sans text-white z-[0]">
+    {/* 로고 클릭 시 메인 페이지 이동 */}
+    <img
+      src={logo}
+      alt="logo"
+      className="over:cursor-pointer ml-[50px] mt-[35px] h-[80px] w-[250px]"
+      onClick={moveMainPage}
+    />
+  
       {/* 좌우로 공간을 나누기 위해 justify-between 사용 */}
-      <div className="container mb-[15px] ml-[50px] mr-[50px] flex w-full items-end justify-between py-4 text-[18px]">
-        {/* 왼쪽 메뉴들 */}
-        <div className="flex gap-8">
-          {navItems.map((item) => (
-            <button
-              key={item.label}
-              onClick={() => handleClick(item)}
-              className={`ease-ou transition-colors duration-100 ${
-                activeNav === item.label ? 'text-green-main' : ''
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
-
-        {/* 오른쪽 끝에 추가할 메뉴들(로그인, 마이페이지) */}
-        <div className="mr-[50px] flex gap-8 text-[18px]">
-          <button
-            onClick={() => handleClick({ label: '로그인', path: '/login' })}
-            className={`transition-colors duration-100 ease-out ${
-              activeNav === '로그인' ? 'text-green-main' : ''
-            }`}
-          >
-            로그인
-          </button>
-          <button
-            onClick={() =>
-              handleClick({ label: '마이페이지', path: '/mypage' })
-            }
-            className={`transition-colors duration-100 ease-out ${
-              activeNav === '마이페이지' ? 'text-green-main' : ''
-            }`}
-          >
-            마이페이지
-          </button>
-        </div>
-      </div>
+  <div className="container mb-[15px] ml-[50px] mr-[50px] flex w-full items-end justify-between py-4 text-[18px]">
+    {/* 왼쪽 메뉴들 */}
+    <div className="flex gap-8">
+      {navItems.map((item) => (
+        <button
+          key={item.label}
+          onClick={() => handleClick(item)}
+          className={`ease-ou transition-colors duration-100 ${
+            activeNav === item.label ? 'text-green-main' : ''
+          }`}
+        >
+          {item.label}
+        </button>
+      ))}
     </div>
+
+
+     {/* 오른쪽 끝에 추가할 메뉴들(로그인, 마이페이지) */}
+    <div className="mr-[50px] flex gap-8 text-[18px]">
+      <button
+        onClick={() => handleClick({ label: '로그인', path: '/login' })}
+        className={`transition-colors duration-100 ease-out ${
+          activeNav === '로그인' ? 'text-green-main' : ''
+        }`}
+      >
+        로그인
+      </button>
+      <button
+        onClick={() =>
+          handleClick({ label: '마이페이지', path: '/mypage' })
+        }
+        className={`transition-colors duration-100 ease-out ${
+          activeNav === '마이페이지' ? 'text-green-main' : ''
+        }`}
+      >
+        마이페이지
+      </button>
+    </div>
+  </div>
+</div>
   );
 };
 

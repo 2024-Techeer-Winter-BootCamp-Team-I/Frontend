@@ -11,7 +11,7 @@ const MultiViewBox = () => {
         <div
             className="
                 w-[50rem] h-[28rem] bg-[#D9D9D9] rounded-[1.875rem]
-                absolute top-[11.37rem] left-[28.06rem] right-[30.6rem] flex-shrink-0 z-[1]
+                absolute top-[12.37rem] left-[28.06rem] right-[30.6rem] flex-shrink-0 z-[20]  // Increase z-index to 20
             "
         >
             {/* 이미지보기 버튼 */}
@@ -19,15 +19,14 @@ const MultiViewBox = () => {
                 onClick={() => TabClick('image')}
                 className={`
                     w-[6rem] h-[2rem] flex flex-col justify-center items-center absolute 
-                    bottom-full right-[7.5rem] rounded-t-full cursor-pointer z-[0] flex-shrink-0
+                    bottom-full right-[7.5rem] rounded-t-full cursor-pointer z-[30]  // Increase z-index to 30
+                    flex-shrink-0
                     transition-all duration-300 ease-in-out
                     ${Tab === 'image' ? 'bg-[#D9D9D9] text-black' : 'bg-blue-main text-white'}
                 `}
             >
                 <span
-                    className="
-                        text-center font-sans text-[0.7rem] font-bold leading-normal
-                    "
+                    className="text-center font-sans text-[0.7rem] font-bold leading-normal"
                 >
                     이미지보기
                 </span>
@@ -38,15 +37,14 @@ const MultiViewBox = () => {
                 onClick={() => TabClick('code')}
                 className={`
                     w-[6rem] h-[2rem] flex flex-col justify-center items-center absolute 
-                    bottom-full right-[1.5rem] rounded-t-full cursor-pointer z-[0] flex-shrink-0
+                    bottom-full right-[1.5rem] rounded-t-full cursor-pointer z-[30]  // Increase z-index to 30
+                    flex-shrink-0
                     transition-all duration-300 ease-in-out
                     ${Tab === 'code' ? 'bg-[#D9D9D9] text-black' : 'bg-blue-main text-white'}
                 `}
             >
                 <span
-                    className="
-                        text-center font-sans text-[0.7rem] font-bold leading-normal
-                    "
+                    className="text-center font-sans text-[0.7rem] font-bold leading-normal"
                 >
                     코드보기
                 </span>
