@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Main from './pages/Main';
+import SpecificPage from './pages/SpecificPage';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/main" element={<Main />} />
+        <Route path="/specific" element={<SpecificPage />} />
       </Routes>
     </Router>
   );
