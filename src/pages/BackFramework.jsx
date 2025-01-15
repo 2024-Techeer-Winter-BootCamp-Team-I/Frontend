@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ChooseBox from '../components/ChooseBox';
@@ -11,6 +11,7 @@ import springboot from '../assets/image/springboot.svg';
 const BackFramework = () => {
   const navigate = useNavigate();
   const [selectedBox, setSelectedBox] = useState(null); // selectedBox 상태 추가
+
   const GoBackDatabase = () => {
     navigate('/backdatabase');
   };
@@ -26,7 +27,7 @@ const BackFramework = () => {
 
         {/* BackSettingStep을 컨테이너 내부에 배치 */}
         <div className="mb-auto ml-auto mt-auto flex w-3/4 items-center justify-center">
-          <BackendStepper />
+          <BackendStepper PcurrentPage={0} />
         </div>
 
         {/* ChooseBox를 일렬로 배열 */}

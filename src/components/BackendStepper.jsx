@@ -1,5 +1,20 @@
-const BackendStepper = () => {
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import blueSnake from '../assets/image/blueSnake.svg'; // 이미지 경로를 정확히 입력해주세요.
 
+const BackendStepper = () => {
+  const location = useLocation();
+
+  const getTextForPath = (path) => {
+    switch (path) {
+      case '/backframework':
+        return 'Framework';
+      case '/backdatabase':
+        return 'Database';
+      default:
+        return '';
+    }
+  };
 
   return (
     <div className="flex h-10 w-full items-center justify-between px-4">
@@ -16,6 +31,7 @@ const BackendStepper = () => {
       <div className="relative mx-4 flex flex-1 items-center">
         {/* 점선 */}
         <div className="h-1 w-full border-t-2 border-dashed border-blue-main"></div>
+
         {/* 중간 점 */}
         <div
           className="absolute top-1/2 -translate-y-1/2 transform"
@@ -24,6 +40,7 @@ const BackendStepper = () => {
           <div className="h-4 w-4 rounded-full bg-blue-main"></div>
         </div>
 
+        {/* 첫 번째 단계 */}
         <div
           className="absolute top-1/2 -translate-y-1/2 transform"
           style={{ left: '30%' }}
@@ -32,7 +49,26 @@ const BackendStepper = () => {
           <div className="absolute -inset-1 rounded-full bg-blue-400 opacity-50"></div>
           {/* 중간 점 */}
           <div className="h-4 w-4 rounded-full bg-blue-main"></div>
+          {/* 그림 */}
+          {location.pathname === '/backframework' && (
+            <img
+              src={blueSnake}
+              alt="blueSnake"
+              className="absolute -top-5 left-1/2 h-8 w-8 -translate-x-1/2 transform"
+            />
+          )}
+          {/* 텍스트 */}
+          {location.pathname === '/backframework' && (
+            <span
+              className="absolute top-full mt-2 text-[1rem] text-white"
+              style={{ left: '50%', transform: 'translateX(-50%)' }}
+            >
+              {getTextForPath('/backframework')}
+            </span>
+          )}
         </div>
+
+        {/* 두 번째 단계 */}
         <div
           className="absolute top-1/2 -translate-y-1/2 transform"
           style={{ left: '70%' }}
@@ -41,7 +77,25 @@ const BackendStepper = () => {
           <div className="absolute -inset-1 rounded-full bg-blue-400 opacity-50"></div>
           {/* 중간 점 */}
           <div className="h-4 w-4 rounded-full bg-blue-main"></div>
+          {/* 그림 */}
+          {location.pathname === '/backdatabase' && (
+            <img
+              src={blueSnake}
+              alt="blueSnake"
+              className="absolute -top-5 left-1/2 h-8 w-8 -translate-x-1/2 transform"
+            />
+          )}
+          {/* 텍스트 */}
+          {location.pathname === '/backdatabase' && (
+            <span
+              className="absolute top-full mt-2 text-[1rem] text-white"
+              style={{ left: '50%', transform: 'translateX(-50%)' }}
+            >
+              {getTextForPath('/backdatabase')}
+            </span>
+          )}
         </div>
+
         {/* 화살표 */}
         <div
           className="absolute top-1/2 -translate-y-1/2 transform"
@@ -59,9 +113,4 @@ const BackendStepper = () => {
   );
 };
 
-
-
-
 export default BackendStepper;
-
-

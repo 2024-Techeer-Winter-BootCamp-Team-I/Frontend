@@ -1,4 +1,25 @@
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import greenSnake from '../assets/image/greenSnake.svg';
+
 const FrontendStepper = () => {
+  const location = useLocation();
+
+  const getTextForPath = (path) => {
+    switch (path) {
+      case '/frontpackage':
+        return 'Package';
+      case '/frontbuild':
+        return 'Build';
+      case '/frontframework':
+        return 'Framework';
+      case '/frontlanguage':
+        return 'Language';
+      default:
+        return '';
+    }
+  };
+
   return (
     <div className="flex h-10 w-full items-center justify-between px-4">
       {/* Start */}
@@ -32,6 +53,23 @@ const FrontendStepper = () => {
           <div className="absolute -inset-1 rounded-full bg-green-main opacity-50"></div>
           {/* 중간 점 */}
           <div className="h-4 w-4 rounded-full bg-green-main"></div>
+          {/* 그림 */}
+          {location.pathname === '/frontpackage' && (
+            <img
+              src={greenSnake}
+              alt="greenSnake"
+              className="absolute -top-5 left-1/2 h-8 w-8 -translate-x-1/2 transform"
+            />
+          )}
+          {/* 텍스트 */}
+          {location.pathname === '/frontpackage' && (
+            <span
+              className="absolute top-full mt-2 text-[1rem] text-white"
+              style={{ left: '50%', transform: 'translateX(-50%)' }}
+            >
+              {getTextForPath('/frontpackage')}
+            </span>
+          )}
         </div>
 
         {/* 두 번째 단계*/}
@@ -41,6 +79,23 @@ const FrontendStepper = () => {
         >
           <div className="absolute -inset-1 rounded-full bg-green-main opacity-50"></div>
           <div className="h-4 w-4 rounded-full bg-green-main"></div>
+          {/* 그림 */}
+          {location.pathname === '/frontbuild' && (
+            <img
+              src={greenSnake}
+              alt="greenSnake"
+              className="absolute -top-5 left-1/2 h-8 w-8 -translate-x-1/2 transform"
+            />
+          )}
+          {/* 텍스트 */}
+          {location.pathname === '/frontbuild' && (
+            <span
+              className="absolute top-full mt-2 text-[1rem] text-white"
+              style={{ left: '50%', transform: 'translateX(-50%)' }}
+            >
+              {getTextForPath('/frontbuild')}
+            </span>
+          )}
         </div>
 
         {/* 세 번째 단계 */}
@@ -50,6 +105,23 @@ const FrontendStepper = () => {
         >
           <div className="absolute -inset-1 rounded-full bg-green-main opacity-50"></div>
           <div className="h-4 w-4 rounded-full bg-green-main"></div>
+          {/* 그림 */}
+          {location.pathname === '/frontframework' && (
+            <img
+              src={greenSnake}
+              alt="greenSnake"
+              className="absolute -top-5 left-1/2 h-8 w-8 -translate-x-1/2 transform"
+            />
+          )}
+          {/* 텍스트 */}
+          {location.pathname === '/frontframework' && (
+            <span
+              className="absolute top-full mt-2 text-[1rem] text-white"
+              style={{ left: '50%', transform: 'translateX(-50%)' }}
+            >
+              {getTextForPath('/frontframework')}
+            </span>
+          )}
         </div>
 
         {/* 네 번째 단계 */}
@@ -59,6 +131,23 @@ const FrontendStepper = () => {
         >
           <div className="absolute -inset-1 rounded-full bg-green-main opacity-50"></div>
           <div className="h-4 w-4 rounded-full bg-green-main"></div>
+          {/* 그림 */}
+          {location.pathname === '/frontlanguage' && (
+            <img
+              src={greenSnake}
+              alt="greenSnake"
+              className="absolute -top-5 left-1/2 h-8 w-8 -translate-x-1/2 transform"
+            />
+          )}
+          {/* 텍스트 */}
+          {location.pathname === '/frontlanguage' && (
+            <span
+              className="absolute top-full mt-2 text-[1rem] text-white"
+              style={{ left: '50%', transform: 'translateX(-50%)' }}
+            >
+              {getTextForPath('/frontlanguage')}
+            </span>
+          )}
         </div>
 
         {/* 화살표 */}
