@@ -8,6 +8,7 @@ function App() {
       <Routes>
         <Route path="/main" element={<Main />} />
         <Route path="/mypage" element={<MyPage />} />
+        <Route path="/check" element={<SettingCheck/>} />
       </Routes>
     </Router>
   );
