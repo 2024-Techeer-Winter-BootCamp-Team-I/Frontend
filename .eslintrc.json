@@ -1,0 +1,25 @@
+{
+  "env": {
+    "browser": true,
+    "node": true, // Node.js 환경 추가
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:tailwindcss/recommended",
+    "plugin:storybook/recommended"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["react", "tailwindcss"],
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "tailwindcss/classnames-order": "warn"
+  }
+}
