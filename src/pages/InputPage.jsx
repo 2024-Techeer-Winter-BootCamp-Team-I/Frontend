@@ -1,4 +1,4 @@
-import Layout from './Layout';
+import Layout from '../components/Layout';
 import greenDragon from '../assets/image/greenDragon.svg';
 
 const InputPage = () => {

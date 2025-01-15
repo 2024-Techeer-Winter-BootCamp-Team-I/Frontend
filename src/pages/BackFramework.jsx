@@ -8,11 +8,11 @@ import BackendStepper from '../components/BackendStepper';
 import django from '../assets/image/django.svg';
 import springboot from '../assets/image/springboot.svg';
 
-const BackendSetting1 = () => {
+const BackFramework = () => {
   const navigate = useNavigate();
 
-  const handleSettingButtonClick = () => {
-    navigate('/next-page');
+  const GoBackDatabase = () => {
+    navigate('/backdatabase');
   };
 
   return (
@@ -50,7 +50,7 @@ const BackendSetting1 = () => {
         <div className="ml-auto mt-auto flex w-full max-w-2xl justify-end">
           <SettingButton
             text="완료"
-            onClick={handleSettingButtonClick}
+            onClick={GoBackDatabase}
             className="justify-end"
           />
         </div>
@@ -71,4 +71,4 @@ const SettingButton = ({ text, onClick }) => {
   );
 };
 
-export default BackendSetting1;
+export default BackFramework;

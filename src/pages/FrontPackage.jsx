@@ -9,11 +9,12 @@ import npm from '../assets/image/npm.svg';
 import yarn from '../assets/image/yarn.svg';
 import pnpm from '../assets/image/pnpm.svg';
 
-const FrontendSetting1 = () => {
+const FrontPackage = () => {
   const navigate = useNavigate();
 
-  const handleSettingButtonClick = () => {
-    navigate('/next-page');
+  const GoFrontBuild = () => {
+    console.log('Navigating to /frontbuild');
+    navigate('/frontbuild');
   };
 
   return (
@@ -30,9 +31,7 @@ const FrontendSetting1 = () => {
         <div className="ml-96 mr-60 flex w-full max-w-2xl justify-center gap-8">
           <ChooseBox
             className="min-w-0 flex-1"
-
             title="npm"
-
             color="border-green-main"
             backColor="bg-black-background"
             imageUrl={npm}
@@ -41,9 +40,7 @@ const FrontendSetting1 = () => {
 
           <ChooseBox
             className="min-w-0 flex-1"
-
             title="yarn"
-
             color="border-green-main"
             backColor="bg-black-background"
             imageUrl={yarn}
@@ -52,9 +49,7 @@ const FrontendSetting1 = () => {
 
           <ChooseBox
             className="min-w-0 flex-1"
-
             title="pnpm"
-
             color="border-green-main"
             backColor="bg-black-background"
             imageUrl={pnpm}
@@ -66,7 +61,7 @@ const FrontendSetting1 = () => {
         <div className="ml-auto mt-auto flex w-full max-w-2xl justify-end">
           <SettingButton
             text="완료"
-            onClick={handleSettingButtonClick}
+            onClick={GoFrontBuild}
             className="justify-end"
           />
         </div>
@@ -87,4 +82,4 @@ const SettingButton = ({ text, onClick }) => {
   );
 };
 
-export default FrontendSetting1;
+export default FrontPackage;
