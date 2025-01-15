@@ -1,14 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import ChooseBox from '../components/chooseBox';
+import ChooseBox from '../components/ChooseBox';
 
 import Frame from '../components/Frame';
 
-import FrontendStepper from '../components/frontendStepper';
-=======
-
-
+import FrontendStepper from '../components/FrontendStepper';
 
 import greenSnake from '../assets/image/greenSnake.svg';
 
