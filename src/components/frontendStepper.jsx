@@ -4,7 +4,9 @@ const FrontendStepper = () => {
       {/* Start */}
       <div className="ml-4 flex items-center">
         <div className="relative ml-4 flex items-center">
-          <span className="absolute -left-10 top-1/2 -translate-y-1/2 transform text-[1rem] text-blue-main">
+
+          <span className="absolute -left-10 top-1/2 -translate-y-1/2 transform text-[1.5rem] text-blue-main">
+
             Start
           </span>
         </div>
@@ -74,7 +76,9 @@ const FrontendStepper = () => {
 
       {/* End (점선 컨테이너 외부) */}
       <div className="ml-0 flex items-center">
+
         <span className="text-[1rem] text-green-main">End</span>
+
       </div>
     </div>
   );

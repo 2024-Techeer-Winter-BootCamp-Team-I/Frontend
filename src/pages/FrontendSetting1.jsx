@@ -2,9 +2,16 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ChooseBox from '../components/chooseBox';
+
 import Frame from '../components/Frame';
 
 import FrontendStepper from '../components/frontendStepper';
+=======
+
+
+
+import greenSnake from '../assets/image/greenSnake.svg';
+
 
 import react from '../assets/image/react.svg';
 import vue from '../assets/image/vue.svg';
@@ -18,6 +25,7 @@ const FrontendSetting1 = () => {
   };
 
   return (
+
     <div className="relative flex min-h-screen w-full justify-end bg-black-background">
       <div className="mt-0 flex w-full flex-1 flex-col justify-center p-8 pt-0">
         <Frame className="m-0 mb-auto h-full w-full p-0 pb-0" />
@@ -66,6 +74,7 @@ const FrontendSetting1 = () => {
             onClick={handleSettingButtonClick}
             className="justify-end"
           />
+
         </div>
       </div>
     </div>
@@ -76,7 +85,9 @@ const FrontendSetting1 = () => {
 const SettingButton = ({ text, onClick }) => {
   return (
     <button
+
       className="ml-auto h-[3rem] w-[10rem] rounded-[1rem] bg-blue-main text-sm font-semibold text-white transition-colors hover:bg-[#3a4ac2]"
+
       onClick={onClick}
     >
       {text}
