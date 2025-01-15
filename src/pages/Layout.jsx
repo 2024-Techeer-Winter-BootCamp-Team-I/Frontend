@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
     <div className="relative min-h-screen w-full bg-black-background">
       <Frame></Frame>
 
-      <main className="absolute z-40 mt-[155px] pt-[200px]">{children}</main>
+      <main className="relative z-40">{children}</main>
     </div>
   );
 };
