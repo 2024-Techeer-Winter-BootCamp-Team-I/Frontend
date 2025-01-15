@@ -12,11 +12,7 @@ const ChooseBox = ({
   // isSelected에 따라 배경색과 테두리 색상 결정
   const handleBackGround = () => {
     if (isSelected) {
-      if (color === 'border-blue-main') {
-        return 'bg-blue-900';
-      } else {
-        return 'bg-green-900';
-      }
+      return color === 'border-blue-main' ? 'bg-blue-900' : 'bg-green-900';
     }
     return backColor;
   };

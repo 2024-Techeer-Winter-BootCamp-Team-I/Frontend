@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react'; // useState 추가
 import { useNavigate } from 'react-router-dom';
 
 import ChooseBox from '../components/ChooseBox';
@@ -11,10 +11,16 @@ import pnpm from '../assets/image/pnpm.svg';
 
 const FrontPackage = () => {
   const navigate = useNavigate();
+  const [selectedBox, setSelectedBox] = useState(null); // selectedBox 상태 추가
 
   const GoFrontBuild = () => {
     console.log('Navigating to /frontbuild');
     navigate('/frontbuild');
+  };
+
+  // ChooseBox 클릭 시 선택 상태 업데이트
+  const handleBoxClick = (title) => {
+    setSelectedBox(title);
   };
 
   return (
@@ -35,6 +41,8 @@ const FrontPackage = () => {
             color="border-green-main"
             backColor="bg-black-background"
             imageUrl={npm}
+            isSelected={selectedBox === 'npm'} // 선택 상태 전달
+            onClick={() => handleBoxClick('npm')} // 클릭 핸들러 전달
             description="Node.js와 함께 기본으로 제공되며, 가장 널리 사용되는 패키지 매니저"
           />
 
@@ -44,6 +52,8 @@ const FrontPackage = () => {
             color="border-green-main"
             backColor="bg-black-background"
             imageUrl={yarn}
+            isSelected={selectedBox === 'yarn'} // 선택 상태 전달
+            onClick={() => handleBoxClick('yarn')} // 클릭 핸들러 전달
             description="빠른 속도와 효율적인 캐싱으로 성능을 개선한 Facebook에서 개발한 패키지 매니저"
           />
 
@@ -53,6 +63,8 @@ const FrontPackage = () => {
             color="border-green-main"
             backColor="bg-black-background"
             imageUrl={pnpm}
+            isSelected={selectedBox === 'pnpm'} // 선택 상태 전달
+            onClick={() => handleBoxClick('pnpm')} // 클릭 핸들러 전달
             description="디스크 공간을 절약하고 빠른 설치를 제공하며 모노레포 프로젝트에 최적화된 패키지 매니저"
           />
         </div>

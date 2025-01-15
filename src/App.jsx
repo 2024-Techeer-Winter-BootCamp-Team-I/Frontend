@@ -13,8 +13,6 @@ import FrontLanguage from './pages/FrontLanguage';
 import BackFramework from './pages/BackFramework';
 import BackDatabase from './pages/BackDatabase';
 
-import InputPage from './pages/InputPage';
-
 function App() {
   return (
     <Router>
@@ -23,8 +21,6 @@ function App() {
         <Route path="/api" element={<Api />} />
         <Route path="/erd" element={<Erd />} />
         <Route path="/diagram" element={<Diagram />} />
-
-        <Route path="/input" element={<InputPage />} />
 
         <Route path="/settingpage" element={<SettingPage />} />
         <Route path="/frontpackage" element={<FrontPackage />} />

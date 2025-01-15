@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react'; // useState 추가
 import { useNavigate } from 'react-router-dom';
 
 import ChooseBox from '../components/ChooseBox';
@@ -10,9 +10,15 @@ import webpack from '../assets/image/webpack.svg';
 
 const FrontBuild = () => {
   const navigate = useNavigate();
+  const [selectedBox, setSelectedBox] = useState(null); // selectedBox 상태 추가
 
   const GoFrontFramework = () => {
     navigate('/frontframework');
+  };
+
+  // ChooseBox 클릭 시 선택 상태 업데이트
+  const handleBoxClick = (title) => {
+    setSelectedBox(title);
   };
 
   return (
@@ -33,6 +39,8 @@ const FrontBuild = () => {
             color="border-green-main"
             backColor="bg-black-background"
             imageUrl={vite}
+            isSelected={selectedBox === 'Vite'} // 선택 상태 전달
+            onClick={() => handleBoxClick('Vite')} // 클릭 핸들러 전달
             description="빠른 개발 서버와 모듈 번들링을 제공하며, 최신 브라우저 기능을 활용해 효율적으로 동작"
           />
 
@@ -42,6 +50,8 @@ const FrontBuild = () => {
             color="border-green-main"
             backColor="bg-black-background"
             imageUrl={webpack}
+            isSelected={selectedBox === 'WebPack'} // 선택 상태 전달
+            onClick={() => handleBoxClick('WebPack')} // 클릭 핸들러 전달
             description="다양한 플러그인과 설정으로 유연한 번들링 옵션을 제공하는 강력한 빌드 도구"
           />
         </div>
