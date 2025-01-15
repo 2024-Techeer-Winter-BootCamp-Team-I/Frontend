@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import ChooseBox from '../components/chooseBox';
+import ChooseBox from '../components/ChooseBox';
 import Frame from '../components/Frame';
-import FrontendStepper from '../components/frontendStepper';
+import FrontendStepper from '../components/FrontendStepper';
 
 import npm from '../assets/image/npm.svg';
 import yarn from '../assets/image/yarn.svg';
