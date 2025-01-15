@@ -30,7 +30,7 @@ const FrontPackage = () => {
 
         {/* FrontSettingStep을 컨테이너 내부에 배치 */}
         <div className="mb-auto ml-auto mt-auto flex w-3/4 items-center justify-center">
-          <FrontendStepper />
+          <FrontendStepper currentPage={0} />
         </div>
 
         {/* ChooseBox를 일렬로 배열 */}
