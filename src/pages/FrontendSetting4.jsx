@@ -5,9 +5,8 @@ import ChooseBox from '../components/chooseBox';
 import Frame from '../components/Frame';
 import FrontendStepper from '../components/frontendStepper';
 
-import npm from '../assets/image/npm.svg';
-import yarn from '../assets/image/yarn.svg';
-import pnpm from '../assets/image/pnpm.svg';
+import styledComponents from '../assets/image/styledComponents.svg';
+import tailwindcss from '../assets/image/tailwindcss.svg';
 
 const FrontendSetting1 = () => {
   const navigate = useNavigate();
@@ -30,35 +29,20 @@ const FrontendSetting1 = () => {
         <div className="ml-96 mr-60 flex w-full max-w-2xl justify-center gap-8">
           <ChooseBox
             className="min-w-0 flex-1"
-
-            title="npm"
-
+            title="TailwindCSS"
             color="border-green-main"
             backColor="bg-black-background"
-            imageUrl={npm}
-            description="Node.js와 함께 기본으로 제공되며, 가장 널리 사용되는 패키지 매니저"
+            imageUrl={tailwindcss}
+            description="클래스 기반 유틸리티 스타일을 통해 빠르게 반응형 웹을 개발할 수 있는 CSS 프레임워크"
           />
 
           <ChooseBox
-            className="min-w-0 flex-1"
-
-            title="yarn"
-
+            className="min-w-0 flex-1 whitespace-pre-line"
+            title={'Styled - Components'}
             color="border-green-main"
             backColor="bg-black-background"
-            imageUrl={yarn}
-            description="빠른 속도와 효율적인 캐싱으로 성능을 개선한 Facebook에서 개발한 패키지 매니저"
-          />
-
-          <ChooseBox
-            className="min-w-0 flex-1"
-
-            title="pnpm"
-
-            color="border-green-main"
-            backColor="bg-black-background"
-            imageUrl={pnpm}
-            description="디스크 공간을 절약하고 빠른 설치를 제공하며 모노레포 프로젝트에 최적화된 패키지 매니저"
+            imageUrl={styledComponents}
+            description="CSS-in-JS 방식으로 컴포넌트와 스타일을 결합하여 유지보수와 코드 재사용성을 높이는 css 라이브러리"
           />
         </div>
 
