@@ -1,6 +1,5 @@
+import RouteTabs from '../components/RouteTabs';
 const Main = () => {
-    return (
-        <div>메롱메롱</div>
-    )
-}
+  return <RouteTabs />;
+};
 export default Main;
