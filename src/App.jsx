@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import FrontendSetting4 from './pages/FrontendSetting4';
+import Main from './page/Main.jsx';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/front4" element={<FrontendSetting4 />} />
+        <Route path="/main" element={<Main />} />
       </Routes>
     </Router>
   );

@@ -2,12 +2,20 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ChooseBox from '../components/chooseBox';
-import Frame from '../components/Frame';
-import FrontendStepper from '../components/frontendStepper';
 
-import npm from '../assets/image/npm.svg';
-import yarn from '../assets/image/yarn.svg';
-import pnpm from '../assets/image/pnpm.svg';
+import Frame from '../components/Frame';
+
+import FrontendStepper from '../components/frontendStepper';
+=======
+
+
+
+import greenSnake from '../assets/image/greenSnake.svg';
+
+
+import react from '../assets/image/react.svg';
+import vue from '../assets/image/vue.svg';
+import svelt from '../assets/image/svelt.svg';
 
 const FrontendSetting1 = () => {
   const navigate = useNavigate();
@@ -17,9 +25,12 @@ const FrontendSetting1 = () => {
   };
 
   return (
+
     <div className="relative flex min-h-screen w-full justify-end bg-black-background">
       <div className="mt-0 flex w-full flex-1 flex-col justify-center p-8 pt-0">
         <Frame className="m-0 mb-auto h-full w-full p-0 pb-0" />
+
+        {/* Step 컨테이너 */}
 
         {/* FrontSettingStep을 컨테이너 내부에 배치 */}
         <div className="mb-auto ml-auto mt-auto flex w-3/4 items-center justify-center">
@@ -30,35 +41,29 @@ const FrontendSetting1 = () => {
         <div className="ml-96 mr-60 flex w-full max-w-2xl justify-center gap-8">
           <ChooseBox
             className="min-w-0 flex-1"
-
-            title="npm"
-
+            title="React"
             color="border-green-main"
             backColor="bg-black-background"
-            imageUrl={npm}
-            description="Node.js와 함께 기본으로 제공되며, 가장 널리 사용되는 패키지 매니저"
+            imageUrl={react}
+            description="Facebook에서 개발한 UI 라이브러리로, 컴포넌트 기반 아키텍처와 상태 관리가 뛰어나며 대규모 애플리케이션 개발에 적합"
           />
 
           <ChooseBox
             className="min-w-0 flex-1"
-
-            title="yarn"
-
+            title="Vue"
             color="border-green-main"
             backColor="bg-black-background"
-            imageUrl={yarn}
-            description="빠른 속도와 효율적인 캐싱으로 성능을 개선한 Facebook에서 개발한 패키지 매니저"
+            imageUrl={vue}
+            description="사용자 친화적인 문법과 데이터 바인딩을 통해 간단한 프로젝트부터 복잡한 애플리케이션까지 쉽게 개발할 수 있는 프레임워크"
           />
 
           <ChooseBox
             className="min-w-0 flex-1"
-
-            title="pnpm"
-
+            title="Svelt"
             color="border-green-main"
             backColor="bg-black-background"
-            imageUrl={pnpm}
-            description="디스크 공간을 절약하고 빠른 설치를 제공하며 모노레포 프로젝트에 최적화된 패키지 매니저"
+            imageUrl={svelt}
+            description="컴파일 단계에서 DOM 업데이트 코드를 생성하여 빠르고 간결한 개발 경험을 제공하는 차세대 UI 프레임워크"
           />
         </div>
 
@@ -69,6 +74,7 @@ const FrontendSetting1 = () => {
             onClick={handleSettingButtonClick}
             className="justify-end"
           />
+
         </div>
       </div>
     </div>
@@ -79,7 +85,9 @@ const FrontendSetting1 = () => {
 const SettingButton = ({ text, onClick }) => {
   return (
     <button
+
       className="ml-auto h-[3rem] w-[10rem] rounded-[1rem] bg-blue-main text-sm font-semibold text-white transition-colors hover:bg-[#3a4ac2]"
+
       onClick={onClick}
     >
       {text}

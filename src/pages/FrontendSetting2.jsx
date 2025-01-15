@@ -5,9 +5,8 @@ import ChooseBox from '../components/chooseBox';
 import Frame from '../components/Frame';
 import FrontendStepper from '../components/frontendStepper';
 
-import npm from '../assets/image/npm.svg';
-import yarn from '../assets/image/yarn.svg';
-import pnpm from '../assets/image/pnpm.svg';
+import vite from '../assets/image/vite.svg';
+import webpack from '../assets/image/webpack.svg';
 
 const FrontendSetting1 = () => {
   const navigate = useNavigate();
@@ -30,35 +29,20 @@ const FrontendSetting1 = () => {
         <div className="ml-96 mr-60 flex w-full max-w-2xl justify-center gap-8">
           <ChooseBox
             className="min-w-0 flex-1"
-
-            title="npm"
-
+            title="Vite"
             color="border-green-main"
             backColor="bg-black-background"
-            imageUrl={npm}
-            description="Node.js와 함께 기본으로 제공되며, 가장 널리 사용되는 패키지 매니저"
+            imageUrl={vite}
+            description="빠른 개발 서버와 모듈 번들링을 제공하며, 최신 브라우저 기능을 활용해 효율적으로 동작"
           />
 
           <ChooseBox
             className="min-w-0 flex-1"
-
-            title="yarn"
-
+            title="WebPack"
             color="border-green-main"
             backColor="bg-black-background"
-            imageUrl={yarn}
-            description="빠른 속도와 효율적인 캐싱으로 성능을 개선한 Facebook에서 개발한 패키지 매니저"
-          />
-
-          <ChooseBox
-            className="min-w-0 flex-1"
-
-            title="pnpm"
-
-            color="border-green-main"
-            backColor="bg-black-background"
-            imageUrl={pnpm}
-            description="디스크 공간을 절약하고 빠른 설치를 제공하며 모노레포 프로젝트에 최적화된 패키지 매니저"
+            imageUrl={webpack}
+            description="다양한 플러그인과 설정으로 유연한 번들링 옵션을 제공하는 강력한 빌드 도구"
           />
         </div>
 
