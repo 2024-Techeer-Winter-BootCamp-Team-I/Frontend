@@ -4,9 +4,7 @@ const FrontendStepper = () => {
       {/* Start */}
       <div className="ml-4 flex items-center">
         <div className="relative ml-4 flex items-center">
-
           <span className="absolute -left-10 top-1/2 -translate-y-1/2 transform text-[1rem] text-blue-main">
-
             Start
           </span>
         </div>
@@ -25,6 +23,7 @@ const FrontendStepper = () => {
           <div className="h-4 w-4 rounded-full bg-blue-main"></div>
         </div>
 
+        {/* 첫 번째 단계 */}
         <div
           className="absolute top-1/2 -translate-y-1/2 transform"
           style={{ left: '20%' }}
@@ -35,33 +34,30 @@ const FrontendStepper = () => {
           <div className="h-4 w-4 rounded-full bg-green-main"></div>
         </div>
 
+        {/* 두 번째 단계*/}
         <div
           className="absolute top-1/2 -translate-y-1/2 transform"
           style={{ left: '40%' }}
         >
-          {/* 큰 원 */}
           <div className="absolute -inset-1 rounded-full bg-green-main opacity-50"></div>
-          {/* 중간 점 */}
           <div className="h-4 w-4 rounded-full bg-green-main"></div>
         </div>
 
+        {/* 세 번째 단계 */}
         <div
           className="absolute top-1/2 -translate-y-1/2 transform"
           style={{ left: '60%' }}
         >
-          {/* 큰 원 */}
           <div className="absolute -inset-1 rounded-full bg-green-main opacity-50"></div>
-          {/* 중간 점 */}
           <div className="h-4 w-4 rounded-full bg-green-main"></div>
         </div>
 
+        {/* 네 번째 단계 */}
         <div
           className="absolute top-1/2 -translate-y-1/2 transform"
           style={{ left: '80%' }}
         >
-          {/* 큰 원 */}
           <div className="absolute -inset-1 rounded-full bg-green-main opacity-50"></div>
-          {/* 중간 점 */}
           <div className="h-4 w-4 rounded-full bg-green-main"></div>
         </div>
 
@@ -76,9 +72,7 @@ const FrontendStepper = () => {
 
       {/* End (점선 컨테이너 외부) */}
       <div className="ml-0 flex items-center">
-
         <span className="text-[1rem] text-green-main">End</span>
-
       </div>
     </div>
   );

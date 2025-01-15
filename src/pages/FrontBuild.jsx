@@ -8,11 +8,11 @@ import FrontendStepper from '../components/FrontendStepper';
 import vite from '../assets/image/vite.svg';
 import webpack from '../assets/image/webpack.svg';
 
-const FrontendSetting1 = () => {
+const FrontBuild = () => {
   const navigate = useNavigate();
 
-  const handleSettingButtonClick = () => {
-    navigate('/next-page');
+  const GoFrontFramework = () => {
+    navigate('/frontframework');
   };
 
   return (
@@ -50,7 +50,7 @@ const FrontendSetting1 = () => {
         <div className="ml-auto mt-auto flex w-full max-w-2xl justify-end">
           <SettingButton
             text="완료"
-            onClick={handleSettingButtonClick}
+            onClick={GoFrontFramework}
             className="justify-end"
           />
         </div>
@@ -71,4 +71,4 @@ const SettingButton = ({ text, onClick }) => {
   );
 };
 
-export default FrontendSetting1;
+export default FrontBuild;

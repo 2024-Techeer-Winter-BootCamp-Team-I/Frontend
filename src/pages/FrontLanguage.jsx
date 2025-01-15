@@ -5,12 +5,13 @@ import ChooseBox from '../components/ChooseBox';
 import Frame from '../components/Frame';
 import FrontendStepper from '../components/FrontendStepper';
 
-import styledComponents from '../assets/image/styledComponents.svg';
-import tailwindcss from '../assets/image/tailwindcss.svg';
+import javascript from '../assets/image/javascript.svg';
+import typescript from '../assets/image/typescript.svg';
 
 const FrontendSetting1 = () => {
   const navigate = useNavigate();
 
+  // 이후 경로 수정 예정
   const handleSettingButtonClick = () => {
     navigate('/next-page');
   };
@@ -29,20 +30,20 @@ const FrontendSetting1 = () => {
         <div className="ml-96 mr-60 flex w-full max-w-2xl justify-center gap-8">
           <ChooseBox
             className="min-w-0 flex-1"
-            title="TailwindCSS"
+            title="Javascript"
             color="border-green-main"
             backColor="bg-black-background"
-            imageUrl={tailwindcss}
-            description="클래스 기반 유틸리티 스타일을 통해 빠르게 반응형 웹을 개발할 수 있는 CSS 프레임워크"
+            imageUrl={javascript}
+            description="웹과 서버에서 사용하는 동적 타이핑 기반의 유연한 스크립트 언어"
           />
 
           <ChooseBox
             className="min-w-0 flex-1 whitespace-pre-line"
-            title={'Styled - Components'}
+            title="Typescript"
             color="border-green-main"
             backColor="bg-black-background"
-            imageUrl={styledComponents}
-            description="CSS-in-JS 방식으로 컴포넌트와 스타일을 결합하여 유지보수와 코드 재사용성을 높이는 css 라이브러리"
+            imageUrl={typescript}
+            description="정적 타이핑과 추가 기능으로 코드 안정성을 강화한 JavaScript의 확장 언어"
           />
         </div>
 
