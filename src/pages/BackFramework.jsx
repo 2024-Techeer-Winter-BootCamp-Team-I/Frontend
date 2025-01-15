@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import ChooseBox from '../components/chooseBox';
+import ChooseBox from '../components/ChooseBox';
 import Frame from '../components/Frame';
-import BackendStepper from '../components/backendStepper';
+import BackendStepper from '../components/BackendStepper';
 
 import django from '../assets/image/django.svg';
 import springboot from '../assets/image/springboot.svg';
