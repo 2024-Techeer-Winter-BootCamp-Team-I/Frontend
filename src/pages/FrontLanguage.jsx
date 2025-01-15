@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react'; // useState 추가
 import { useNavigate } from 'react-router-dom';
 
 import ChooseBox from '../components/ChooseBox';
@@ -10,10 +10,16 @@ import typescript from '../assets/image/typescript.svg';
 
 const FrontendSetting1 = () => {
   const navigate = useNavigate();
+  const [selectedBox, setSelectedBox] = useState(null); // selectedBox 상태 추가
 
   // 이후 경로 수정 예정
   const handleSettingButtonClick = () => {
     navigate('/next-page');
+  };
+
+  // ChooseBox 클릭 시 선택 상태 업데이트
+  const handleBoxClick = (title) => {
+    setSelectedBox(title);
   };
 
   return (
@@ -34,6 +40,8 @@ const FrontendSetting1 = () => {
             color="border-green-main"
             backColor="bg-black-background"
             imageUrl={javascript}
+            isSelected={selectedBox === 'Javascript'} // 선택 상태 전달
+            onClick={() => handleBoxClick('Javascript')} // 클릭 핸들러 전달
             description="웹과 서버에서 사용하는 동적 타이핑 기반의 유연한 스크립트 언어"
           />
 
@@ -43,6 +51,8 @@ const FrontendSetting1 = () => {
             color="border-green-main"
             backColor="bg-black-background"
             imageUrl={typescript}
+            isSelected={selectedBox === 'Typescript'} // 선택 상태 전달
+            onClick={() => handleBoxClick('Typescript')} // 클릭 핸들러 전달
             description="정적 타이핑과 추가 기능으로 코드 안정성을 강화한 JavaScript의 확장 언어"
           />
         </div>

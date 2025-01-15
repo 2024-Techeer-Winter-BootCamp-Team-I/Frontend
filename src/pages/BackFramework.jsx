@@ -10,11 +10,15 @@ import springboot from '../assets/image/springboot.svg';
 
 const BackFramework = () => {
   const navigate = useNavigate();
-
+  const [selectedBox, setSelectedBox] = useState(null); // selectedBox 상태 추가
   const GoBackDatabase = () => {
     navigate('/backdatabase');
   };
 
+  // ChooseBox 클릭 시 선택 상태 업데이트
+  const handleBoxClick = (title) => {
+    setSelectedBox(title);
+  };
   return (
     <div className="relative flex min-h-screen w-full justify-end bg-black-background">
       <div className="mt-0 flex w-full flex-1 flex-col justify-center p-8 pt-0">
@@ -33,6 +37,8 @@ const BackFramework = () => {
             color="border-blue-main"
             backColor="bg-black-background"
             imageUrl={django}
+            isSelected={selectedBox === 'Django'} // 클릭 핸들러 전달
+            onClick={() => handleBoxClick('Django')}
             description="Python 기반 웹 프레임워크로, 빠른 개발과 단순함을 지향하며 ORM, 인증, 관리자 패널 등 다양한 기능을 기본 제공"
           />
 
@@ -42,6 +48,8 @@ const BackFramework = () => {
             color="border-blue-main"
             backColor="bg-black-background"
             imageUrl={springboot}
+            isSelected={selectedBox === 'springboot'} // 클릭 핸들러 전달
+            onClick={() => handleBoxClick('springboot')}
             description="Java 기반 프레임워크 Spring의 확장판으로, 설정을 간소화하고 빠른 애플리케이션 개발을 지원하며 REST API, 마이크로서비스 등에 적합"
           />
         </div>

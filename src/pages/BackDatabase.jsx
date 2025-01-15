@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react'; // useState 추가
 import { useNavigate } from 'react-router-dom';
 
 import ChooseBox from '../components/ChooseBox';
@@ -8,11 +8,17 @@ import BackendStepper from '../components/BackendStepper';
 import mySql from '../assets/image/mySql.svg';
 import postgreSql from '../assets/image/postgreSql.svg';
 
-const BackendSetting1 = () => {
+const BackendDatabase = () => {
   const navigate = useNavigate();
+  const [selectedBox, setSelectedBox] = useState(null); // selectedBox 상태 추가
 
   const handleSettingButtonClick = () => {
     navigate('/next-page');
+  };
+
+  // ChooseBox 클릭 시 선택 상태 업데이트
+  const handleBoxClick = (title) => {
+    setSelectedBox(title);
   };
 
   return (
@@ -33,6 +39,8 @@ const BackendSetting1 = () => {
             color="border-blue-main"
             backColor="bg-black-background"
             imageUrl={mySql}
+            isSelected={selectedBox === 'MySQL'} // 선택 상태 전달
+            onClick={() => handleBoxClick('MySQL')} // 클릭 핸들러 전달
             description="오픈 소스 관계형 데이터베이스로, 속도와 단순함을 중시하며 웹 애플리케이션에 자주 사용됨"
           />
 
@@ -42,6 +50,8 @@ const BackendSetting1 = () => {
             color="border-blue-main"
             backColor="bg-black-background"
             imageUrl={postgreSql}
+            isSelected={selectedBox === 'PostgreSQL'} // 선택 상태 전달
+            onClick={() => handleBoxClick('PostgreSQL')} // 클릭 핸들러 전달
             description="오픈 소스 객체-관계형 데이터베이스로, 높은 확장성과 표준 준수, 복잡한 쿼리 및 데이터 무결성을 지원함"
           />
         </div>
@@ -71,4 +81,4 @@ const SettingButton = ({ text, onClick }) => {
   );
 };
 
-export default BackendSetting1;
+export default BackendDatabase;
