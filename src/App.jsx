@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Main from './pages/Main';
-
+import Main from './pages/Main'
 import './App.css';
 import './index.css';
 
@@ -9,7 +8,6 @@ function App() {
     <Router>
       <Routes>
         <Route path="/main" element={<Main />} />
-      </Routes>
     </Router>
   );
 }
