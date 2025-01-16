@@ -27,7 +27,6 @@ const BackendDatabase = () => {
           {/* 왼쪽 컨테이너 */}
           <div className="flex flex-col items-center justify-center rounded-lg p-4">
             {/* 왼쪽 컨테이너에 추가할 내용이 있다면 여기에 배치 */}
-            <p className="text-center text-gray-700">왼쪽 컨테이너</p>
           </div>
 
           {/* 오른쪽 컨테이너 */}
