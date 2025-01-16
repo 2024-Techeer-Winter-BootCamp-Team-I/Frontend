@@ -1,6 +1,6 @@
 import logo from '../assets/image/logo.svg';
-import greenDragon from '../assets/image/greenDragon.svg';
-import blueDragon from '../assets/image/blueDragon.svg';
+import greenSnake from '../assets/image/greenSnake.svg';
+import blueSnake from '../assets/image/blueSnake.svg';
 import github from '../assets/image/github.svg';
 
 const LoginModal = () => {
@@ -31,13 +31,13 @@ const LoginModal = () => {
           {/* 드래곤 이미지들 */}
           <div className="mb-6 flex justify-center space-x-4">
             <img
-              src={greenDragon}
-              alt="Green Dragon"
+              src={greenSnake}
+              alt="GreenSnake"
               className="h-[80px] w-[80px]"
             />
             <img
-              src={blueDragon}
-              alt="Blue Dragon"
+              src={blueSnake}
+              alt="BlueSnake"
               className="h-[80px] w-[80px]"
             />
           </div>

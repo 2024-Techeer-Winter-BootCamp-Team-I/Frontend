@@ -1,5 +1,5 @@
 import Layout from '../components/Layout';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ChooseBox from '../components/ChooseBox';
 import FrontendStepper from '../components/FrontendStepper';
@@ -86,6 +86,7 @@ const InputPage = () => {
 };
 
 // 버튼 컴포넌트
+// eslint-disable-next-line react/prop-types
 const SettingButton = ({ text, onClick }) => {
   return (
     <button

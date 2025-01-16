@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import SpecificPage from './pages/SpecificPage';
+import Onboarding from './pages/Onboarding';
 
 import Design from './pages/Design';
 import Api from './pages/Api';
@@ -6,6 +8,7 @@ import Erd from './pages/Erd';
 import Diagram from './pages/Diagram';
 
 import InputPage from './pages/InputPage';
+
 
 import SettingPage from './pages/SettingPage';
 import FrontPackage from './pages/FrontPackage';
@@ -19,6 +22,8 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/specific" element={<SpecificPage />} />
+        <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/design" element={<Design />} />
         <Route path="/api" element={<Api />} />
         <Route path="/erd" element={<Erd />} />
@@ -32,6 +37,7 @@ function App() {
         <Route path="/frontlanguage" element={<FrontLanguage />} />
         <Route path="/backframework" element={<BackFramework />} />
         <Route path="/backdatabase" element={<BackDatabase />} />
+
       </Routes>
     </Router>
   );
