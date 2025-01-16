@@ -1,4 +1,4 @@
-import Layout from './Layout';
+import Layout from '../components/Layout';
 import greenSnake from '../assets/image/greenSnake.svg';
 import blueSnake from '../assets/image/blueSnake.svg';
 import EditModal from '../components/EditModal';
@@ -68,7 +68,7 @@ const SpecificPage = () => {
             </div>
             {/* 수정 요청 및 설계하기 버튼 */}
             <div className="flex flex-row">
-              <img src={blueSnake} alt="Mascot" className="h-24" />
+              <img src={blueSnake} alt="Mascot" className="mt-3 h-24" />
               <div className="mt-[30px] flex justify-end space-x-4">
                 <button
                   onClick={handleEditModalToggle}
@@ -80,7 +80,7 @@ const SpecificPage = () => {
                   설계하기
                 </button>
               </div>
-              <img src={greenSnake} alt="Mascot" className="h-24" />
+              <img src={greenSnake} alt="Mascot" className="mt-3 h-24" />
             </div>
 
             {/* EditModal */}
