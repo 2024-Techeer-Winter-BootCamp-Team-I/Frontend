@@ -6,7 +6,6 @@ import ChooseBox from '../components/chooseBox';
 import Frame from '../components/Frame';
 
 import FrontendStepper from '../components/frontendStepper';
-=======
 
 
 
