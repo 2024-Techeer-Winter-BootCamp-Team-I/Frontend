@@ -1,7 +1,11 @@
 import { colors } from './src/config/colors';
 
 export default {
-  content: ['./index.html', './src/**/*.{js,jsx}'],
+  content: [
+    './index.html',
+    './src/**/*.{js,jsx}',
+    './.storybook/**/*.{js,jsx}',
+  ],
   theme: {
     extend: {
       colors,
