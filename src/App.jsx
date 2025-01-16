@@ -1,7 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Temp from './pages/Temp';
-
 import Design from './pages/Design';
 import Api from './pages/Api';
 import Erd from './pages/Erd';
@@ -26,8 +24,6 @@ function App() {
         <Route path="/erd" element={<Erd />} />
         <Route path="/diagram" element={<Diagram />} />
         <Route path="/input" element={<InputPage />} />
-
-        <Route path="/temp" element={<Temp />} />
 
         <Route path="/settingpage" element={<SettingPage />} />
         <Route path="/frontpackage" element={<FrontPackage />} />

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ChooseBox from '../components/chooseBox';
+import ChooseBox from '../components/ChooseBox';
 import greenSnake from '../assets/image/greenSnake.svg';
 import blueSnake from '../assets/image/blueSnake.svg';
-import Frame from '../components/Frame';
+
+import Layout from '../components/Layout';
 
 const SettingPage = () => {
   const navigate = useNavigate();
@@ -24,46 +25,47 @@ const SettingPage = () => {
   };
 
   return (
-    <div className="relative flex min-h-screen w-full justify-end bg-black-background">
-      <div className="mt-0 flex w-full flex-1 flex-col justify-center p-8 pt-0">
-        <Frame className="m-0 mb-auto h-full w-full p-0 pb-0" />
+    <Layout>
+      <div className="flex h-full flex-col justify-start p-5">
+        {/* 그리드 레이아웃 */}
+        <div className="mx-auto grid w-full grid-cols-[250px_auto] gap-8">
+          {/* 왼쪽 컨테이너 */}
+          <div className="flex flex-col items-center justify-center rounded-lg p-4">
+            {/* 왼쪽 컨테이너에 추가할 내용이 있다면 여기에 배치 */}
+          </div>
 
-        <div className="relative z-20 ml-auto mt-auto flex w-3/4 flex-1 justify-start">
-          <div className="flex flex-1 flex-col">
-            <div className="flex w-full max-w-2xl flex-1 flex-col items-start justify-center p-8">
-              <span className="font-sans text-sm text-white">
-                프로젝트 입력창
-              </span>
-              <div className="flex h-12 w-full items-center justify-center rounded-lg bg-green-main bg-opacity-50"></div>
+          {/* 오른쪽 컨테이너 */}
+          <div className="flex h-full flex-col items-center justify-center rounded-lg p-6">
+            <div className="mb-0 w-full">
+              <p className="font-sans text-lg text-white">프로젝트 입력창</p>
+              <input className="flex h-12 w-3/4 items-center justify-center rounded-lg bg-gray-800 bg-opacity-50 text-white"></input>
 
-              <span className="mt-4 font-sans text-sm text-white">
+              <p className="mt-10 font-sans text-lg text-white">
                 프로젝트 세팅할 포지션(중복가능)
-              </span>
+              </p>
 
-              <div className="mt-4 flex w-full justify-between">
-                <div className="ml-10">
-                  <ChooseBox
-                    title="Frontend"
-                    color="border-green-main"
-                    backColor="bg-black-background"
-                    imageUrl={greenSnake}
-                    isSelected={selectedPosition === 'Frontend'}
-                    onClick={() => handleChooseBoxClick('Frontend')}
-                  />
-                </div>
-                <div className="mr-10">
-                  <ChooseBox
-                    title="Backend"
-                    color="border-blue-main"
-                    backColor="bg-black-background"
-                    imageUrl={blueSnake}
-                    isSelected={selectedPosition === 'Backend'}
-                    onClick={() => handleChooseBoxClick('Backend')}
-                  />
-                </div>
+              <div className="mt-6 flex w-full max-w-2xl justify-center gap-8">
+                <ChooseBox
+                  title="Frontend"
+                  color="border-green-main"
+                  backColor="bg-black-background"
+                  imageUrl={greenSnake}
+                  isSelected={selectedPosition === 'Frontend'}
+                  onClick={() => handleChooseBoxClick('Frontend')}
+                />
+
+                <ChooseBox
+                  title="Backend"
+                  color="border-blue-main"
+                  backColor="bg-black-background"
+                  imageUrl={blueSnake}
+                  isSelected={selectedPosition === 'Backend'}
+                  onClick={() => handleChooseBoxClick('Backend')}
+                />
               </div>
             </div>
-            <div className="mt-8 flex w-full justify-end">
+
+            <div className="mt-0 flex w-full max-w-2xl justify-end">
               <SettingButton
                 text="세팅하러가기"
                 onClick={GoSetting}
@@ -73,10 +75,11 @@ const SettingPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 
+// 버튼 컴포넌트
 const SettingButton = ({ text, onClick }) => {
   return (
     <button
