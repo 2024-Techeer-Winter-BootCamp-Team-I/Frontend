@@ -1,5 +1,5 @@
 import Layout from '../components/Layout';
-import greenDragon from '../assets/image/greenDragon.svg';
+import greenSnake from '../assets/image/greenSnake.svg';
 
 const InputPage = () => {
   return (
@@ -31,7 +31,7 @@ const InputPage = () => {
             </div>
 
             {/* 공룡 이미지 */}
-            <img src={greenDragon} alt="Mascot" className="h-24" />
+            <img src={greenSnake} alt="Mascot" className="h-24" />
           </div>
 
           {/* 오른쪽 박스 */}

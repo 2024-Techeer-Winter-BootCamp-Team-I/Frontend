@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const ChooseBox = ({
@@ -7,20 +6,13 @@ const ChooseBox = ({
   backColor,
   imageUrl,
   description, // 기술스택 설명 추가
+  isSelected,
+  onClick, // 부모 컴포넌트에서 전달된 onClick 핸들러
 }) => {
-  const [isClicked, setIsClicked] = useState(false);
-
-  const handleClick = () => {
-    setIsClicked(!isClicked);
-  };
-
+  // isSelected에 따라 배경색과 테두리 색상 결정
   const handleBackGround = () => {
-    if (isClicked) {
-      if (color === 'border-blue-main') {
-        return 'bg-blue-900';
-      } else {
-        return 'bg-green-900';
-      }
+    if (isSelected) {
+      return color === 'border-blue-main' ? 'bg-blue-900' : 'bg-green-900';
     }
     return backColor;
   };
@@ -28,8 +20,8 @@ const ChooseBox = ({
   return (
     // ChooseBox 컨테이너
     <div
-      className={`relative h-[20rem] w-[13rem] border-[0.3125rem] ${color} ${handleBackGround()} items-start-end relative flex cursor-pointer flex-col items-center justify-start rounded-[3.125rem] p-4`}
-      onClick={handleClick}
+      className={`relative h-[20rem] w-[13rem] border-[0.3125rem] ${color} ${handleBackGround()} items-start-end relative flex cursor-pointer flex-col items-center justify-start rounded-[2rem] p-4`}
+      onClick={onClick} // 부모 컴포넌트에서 전달된 onClick 호출
     >
       {/* 기술스택 이름 */}
       <h2
@@ -76,6 +68,8 @@ ChooseBox.propTypes = {
   backColor: PropTypes.string, // 배경 색상 (선택)
   imageUrl: PropTypes.string, // 이미지 URL (선택)
   description: PropTypes.string, // 기술스택 설명 (선택)
+  isSelected: PropTypes.bool, // 선택된 상태 (선택)
+  onClick: PropTypes.func, // 클릭 핸들러 (선택)
 };
 
 // 기본값 설정
@@ -84,6 +78,8 @@ ChooseBox.defaultProps = {
   backColor: 'bg-gray-main', // 기본 배경 색상
   imageUrl: '', // 기본 이미지 URL
   description: '', // 기본 설명
+  isSelected: false, // 기본 선택 상태
+  onClick: () => {}, // 기본 클릭 핸들러
 };
 
 export default ChooseBox;

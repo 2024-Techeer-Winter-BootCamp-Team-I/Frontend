@@ -1,40 +1,44 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Main from './pages/Main'
-import Design from './pages/Design'
-import Api from './pages/Api'
-import Erd from './pages/Erd'
-import Diagram from './pages/Diagram'
-import BackendSetting1 from './pages/BackendSetting1'
-import BackendSetting2 from './pages/BackendSetting2'
-import FrontendSetting1 from './pages/BackendSetting1'
-import FrontendSetting2 from './pages/FrontendSetting2'
-import FrontendSetting3 from './pages/FrontendSetting3'
-import FrontendSetting4 from './pages/FrontendSetting4'
-import InputPage from './pages/InputPage'
-import Mypage from './pages/Mypage'
-import SettingCheck from './pages/SettingCheck'
-import SettingPage from './pages/SettingPage'
+import SpecificPage from './pages/SpecificPage';
+import Onboarding from './pages/Onboarding';
+
+import Design from './pages/Design';
+import Api from './pages/Api';
+import Erd from './pages/Erd';
+import Diagram from './pages/Diagram';
+
+import InputPage from './pages/InputPage';
+
+
+import SettingPage from './pages/SettingPage';
+import FrontPackage from './pages/FrontPackage';
+import FrontBuild from './pages/FrontBuild';
+import FrontFramework from './pages/FrontFramework';
+import FrontLanguage from './pages/FrontLanguage';
+import BackFramework from './pages/BackFramework';
+import BackDatabase from './pages/BackDatabase';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/main" element={<Main />} />
+        <Route path="/specific" element={<SpecificPage />} />
+        <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/design" element={<Design />} />
         <Route path="/api" element={<Api />} />
         <Route path="/erd" element={<Erd />} />
         <Route path="/diagram" element={<Diagram />} />
-        <Route path="/bs1" element={<BackendSetting1 />} />
-        <Route path="/bs2" element={<BackendSetting2 />} />
-        <Route path="/fs1" element={<FrontendSetting1 />} />
-        <Route path="/fs2" element={<FrontendSetting2 />} />
-        <Route path="/fs3" element={<FrontendSetting3 />} />
-        <Route path="/fs4" element={<FrontendSetting4 />} />
-        <Route path="/inputpage" element={<InputPage />} />
-        <Route path="/mypage" element={<Mypage />} />
-        <Route path="/settingcheck" element={<SettingCheck />} />
+        <Route path="/input" element={<InputPage />} />
+
         <Route path="/settingpage" element={<SettingPage />} />
-       </Routes>
+        <Route path="/frontpackage" element={<FrontPackage />} />
+        <Route path="/frontbuild" element={<FrontBuild />} />
+        <Route path="/frontframework" element={<FrontFramework />} />
+        <Route path="/frontlanguage" element={<FrontLanguage />} />
+        <Route path="/backframework" element={<BackFramework />} />
+        <Route path="/backdatabase" element={<BackDatabase />} />
+
+      </Routes>
     </Router>
   );
 }

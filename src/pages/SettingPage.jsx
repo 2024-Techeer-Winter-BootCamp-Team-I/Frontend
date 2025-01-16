@@ -1,70 +1,81 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ChooseBox from '../components/chooseBox';
+import ChooseBox from '../components/ChooseBox';
 import greenSnake from '../assets/image/greenSnake.svg';
 import blueSnake from '../assets/image/blueSnake.svg';
-import Frame from '../components/Frame'; // Frame 컴포넌트 import
+
+import Layout from '../components/Layout';
 
 const SettingPage = () => {
   const navigate = useNavigate();
+  const [selectedPosition, setSelectedPosition] = useState(null);
 
-  const handleSettingButtonClick = () => {
-    navigate('/next-page');
+  const GoSetting = () => {
+    if (selectedPosition === 'Frontend') {
+      navigate('/frontpackage');
+    } else if (selectedPosition === 'Backend') {
+      navigate('/backframework');
+    } else {
+      alert('프론트엔드 또는 백엔드를 선택해주세요.');
+    }
+  };
+
+  const handleChooseBoxClick = (position) => {
+    setSelectedPosition(position);
   };
 
   return (
-    <div className="relative flex min-h-screen flex-col bg-black-background">
-      {/* Frame 컨테이너 (왼쪽 상단에 배치) */}
-      <Frame />
+    <Layout>
+      <div className="flex h-full flex-col justify-start p-5">
+        {/* 그리드 레이아웃 */}
+        <div className="mx-auto grid w-full grid-cols-[250px_auto] gap-8">
+          {/* 왼쪽 컨테이너 */}
+          <div className="flex flex-col items-center justify-center rounded-lg p-4">
+            {/* 왼쪽 컨테이너에 추가할 내용이 있다면 여기에 배치 */}
+          </div>
 
-      {/* 메인 컨테이너 (오른쪽에 배치, Frame과 겹치지 않도록 여백 추가) */}
-      <div className="relative z-20 ml-auto mt-auto flex w-3/4 flex-1 justify-start">
-        {/* 오른쪽 메인 컨텐츠 */}
-        <div className="flex flex-1 flex-col">
-          {/* 모든 컴포넌트를 감싸는 부모 컨테이너 (왼쪽 정렬) */}
-          <div className="flex w-full max-w-2xl flex-1 flex-col items-start justify-center p-8">
-            {/* 프로젝트 입력창 (왼쪽 정렬) */}
-            <span className="font-sans text-sm text-white">
-              프로젝트 입력창
-            </span>
-            <div className="flex h-12 w-full items-center justify-center rounded-lg bg-green-main bg-opacity-50"></div>
+          {/* 오른쪽 컨테이너 */}
+          <div className="flex h-full flex-col items-center justify-center rounded-lg p-6">
+            <div className="mb-0 w-full">
+              <p className="font-sans text-lg text-white">프로젝트 입력창</p>
+              <input className="flex h-12 w-3/4 items-center justify-center rounded-lg bg-gray-800 bg-opacity-50 text-white"></input>
 
-            {/* 프로젝트 세팅할 포지션 (왼쪽 정렬) */}
-            <span className="mt-4 font-sans text-sm text-white">
-              프로젝트 세팅할 포지션(중복가능)
-            </span>
+              <p className="mt-10 font-sans text-lg text-white">
+                프로젝트 세팅할 포지션(중복가능)
+              </p>
 
-            {/* ChooseBox를 일렬로 배열 (Frontend와 Backend 박스 사이에 여백 추가) */}
-            <div className="mt-4 flex w-full justify-between">
-              <div className="ml-10">
+              <div className="mt-6 flex w-full max-w-2xl justify-center gap-8">
                 <ChooseBox
                   title="Frontend"
                   color="border-green-main"
                   backColor="bg-black-background"
                   imageUrl={greenSnake}
+                  isSelected={selectedPosition === 'Frontend'}
+                  onClick={() => handleChooseBoxClick('Frontend')}
                 />
-              </div>
-              <div className="mr-10">
+
                 <ChooseBox
                   title="Backend"
                   color="border-blue-main"
                   backColor="bg-black-background"
                   imageUrl={blueSnake}
+                  isSelected={selectedPosition === 'Backend'}
+                  onClick={() => handleChooseBoxClick('Backend')}
                 />
               </div>
             </div>
 
-            {/* 설정하기 버튼을 오른쪽 아래에 배치 */}
-            <div className="mt-8 flex w-full justify-end">
+            <div className="mt-0 flex w-full max-w-2xl justify-end">
               <SettingButton
                 text="세팅하러가기"
-                onClick={handleSettingButtonClick}
+                onClick={GoSetting}
+                className="justify-end"
               />
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 
