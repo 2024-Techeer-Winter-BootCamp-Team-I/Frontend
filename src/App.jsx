@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SpecificPage from './pages/SpecificPage';
-import Onboarding from './pages/Onboarding';
 
 import Design from './pages/Design';
 import Api from './pages/Api';
