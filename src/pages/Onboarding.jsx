@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 
-const OnboardingPage = () => {
+const Onboarding = () => {
   const sectionsRef = useRef([]); // 각 섹션 참조
   const [currentSection, setCurrentSection] = useState(0); // 현재 섹션 상태
 
@@ -159,4 +159,4 @@ const OnboardingPage = () => {
   );
 };
 
-export default OnboardingPage;
+export default Onboarding;
