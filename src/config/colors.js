@@ -1,12 +1,8 @@
 export const colors = {
-  green: {
-    main: '#61DF7E',
-  },
   blue: {
-    main: '#485CF3',
+    main: '#1488FC',
   },
   black: {
-    background: '#1E1E1E',
     50: '#F9F9FA',
     100: '#ECEEF0',
     150: '#DEE1E5',

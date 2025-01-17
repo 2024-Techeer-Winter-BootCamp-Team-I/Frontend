@@ -1,14 +1,13 @@
 import PropTypes from 'prop-types';
 const Button = ({ label, size, color, onClick }) => {
   const sizeClass = {
-    small: 'px-2 py-1 text-sm',
-    medium: 'px-4 py-2',
-    large: 'px-6 py-3 text-lg',
+    small:
+      'flex items-center justify-center px-2 py-1 text-[14px] font-semibold font-sans w-[100px] h-[30px]',
+    medium:
+      'flex items-center justify-center font-sans font-semibold text-[22px] px-4 py-2  w-[250px] h-[50px] ',
   };
   const colorClass = {
     primary: 'bg-blue-500 text-white hover:bg-blue-700',
-    secondary: 'bg-gray-500 text-white hover:bg-gray-700',
-    danger: 'bg-red-500 text-white hover:bg-red-700',
   };
   return (
     <button
@@ -21,8 +20,8 @@ const Button = ({ label, size, color, onClick }) => {
 };
 Button.propTypes = {
   label: PropTypes.string.isRequired,
-  size: PropTypes.oneOf(['small', 'medium', 'large']),
-  color: PropTypes.oneOf(['primary', 'secondary', 'danger']),
+  size: PropTypes.oneOf(['small', 'medium']),
+  color: PropTypes.oneOf(['primary']),
   onClick: PropTypes.func,
 };
 Button.defaultProps = {
