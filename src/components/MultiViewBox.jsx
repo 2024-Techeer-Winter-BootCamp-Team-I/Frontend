@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import line from '../assets/image/line.svg';
 
 const MultiViewBox = () => {
     const [Tab, setTab] = useState('image'); // 기본 활성화 탭: 'image'
@@ -8,26 +9,26 @@ const MultiViewBox = () => {
     };
 
     return (
-        <div
-            className="
-                w-[50rem] h-[28rem] bg-[#D9D9D9] rounded-[1.875rem]
-                absolute top-[13.2rem] left-[28.06rem] right-[30.6rem] flex-shrink-0 z-[20]  // Increase z-index to 20
-            "
-        >
+        <div className="flex h-screen w-full items-center justify-center bg-black relative">
+            {/* 아래에 깔린 그라데이션 사각형 */}
+            <div className="relative h-[28rem] w-[57rem] flex-shrink-0 rounded-[1.875rem] bg-[linear-gradient(310deg,_rgba(255,_255,_255,_0.55)_55%,_#7885E9_76%,_#485CF3_100%)]">
+                <img src={line} alt="line" className="ml-20 mt-0" />
+
+                {/* 위에 올려진 내부 상자 */}
+                <div className="absolute left-[0.125rem] top-[0.125rem] z-[20] h-[27.75rem] w-[56.70rem] rounded-[1.875rem] bg-[#141414]" />
+            </div>
+
             {/* 이미지보기 버튼 */}
             <div
                 onClick={() => TabClick('image')}
                 className={`
-                    w-[6rem] h-[2rem] flex flex-col justify-center items-center absolute 
-                    bottom-full right-[7.5rem] rounded-t-full cursor-pointer z-[30]  // Increase z-index to 30
-                    flex-shrink-0
+                    w-[6rem] h-[2rem] flex flex-col justify-center items-center 
+                    absolute top-[7.15rem] left-[55rem] rounded-t-lg cursor-pointer z-[30]
                     transition-all duration-300 ease-in-out
-                    ${Tab === 'image' ? 'bg-[#D9D9D9] text-black' : 'bg-blue-main text-white'}
+                    ${Tab === 'image' ? 'bg-[#141414] text-white' : 'bg-[#1488FC] text-black'}
                 `}
             >
-                <span
-                    className="text-center font-sans text-[0.7rem] font-bold leading-normal"
-                >
+                <span className="text-center font-sans text-[0.7rem] font-bold leading-normal">
                     이미지보기
                 </span>
             </div>
@@ -35,17 +36,14 @@ const MultiViewBox = () => {
             {/* 코드보기 버튼 */}
             <div
                 onClick={() => TabClick('code')}
-                className={`
-                    w-[6rem] h-[2rem] flex flex-col justify-center items-center absolute 
-                    bottom-full right-[1.5rem] rounded-t-full cursor-pointer z-[30]  // Increase z-index to 30
-                    flex-shrink-0
+                className={` 
+                    w-[6rem] h-[2rem] flex flex-col justify-center items-center 
+                    absolute top-[7.15rem] left-[61rem] rounded-t-lg cursor-pointer z-[30]
                     transition-all duration-300 ease-in-out
-                    ${Tab === 'code' ? 'bg-[#D9D9D9] text-black' : 'bg-blue-main text-white'}
+                    ${Tab === 'code' ? 'bg-[#141414] text-white' : 'bg-[#1488FC] text-black'}
                 `}
             >
-                <span
-                    className="text-center font-sans text-[0.7rem] font-bold leading-normal"
-                >
+                <span className="text-center font-sans text-[0.7rem] font-bold leading-normal">
                     코드보기
                 </span>
             </div>

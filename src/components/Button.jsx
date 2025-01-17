@@ -17,11 +17,11 @@ const Button = () => {
             <button
                 onClick={handleClick}
                 className="
-                    w-[8rem] h-[2rem] bg-blue-main text-white border-none
-                    rounded-full text-lg font-bold cursor-pointer
+                    w-[10rem] h-[2.3rem] bg-[#1488FC] text-white border-none
+                    rounded-lg text-lg font-bold cursor-pointer
                     flex items-center justify-center transition-all
                     duration-300 ease-in-out
-                    absolute top-[42rem] left-[75rem] right-[30rem] flex-shrink-0 z-[0]
+                    absolute top-[40rem] left-[72rem] right-[30rem] flex-shrink-0 z-[0]
                 "
             >
                 {isSaved ? "저장 완료" : "저장"}
