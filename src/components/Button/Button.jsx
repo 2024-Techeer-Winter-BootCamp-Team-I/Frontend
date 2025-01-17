@@ -2,16 +2,16 @@ import PropTypes from 'prop-types';
 const Button = ({ label, size, color, onClick }) => {
   const sizeClass = {
     small:
-      'flex items-center justify-center px-2 py-1 text-[14px] font-semibold font-sans w-[100px] h-[30px]',
+      'flex items-center justify-center px-2 py-1 text-[14px] font-medium font-sans w-[100px] h-[30px]',
     medium:
       'flex items-center justify-center font-sans font-semibold text-[22px] px-4 py-2  w-[250px] h-[50px] ',
   };
   const colorClass = {
-    primary: 'bg-blue-500 text-white hover:bg-blue-700',
+    primary: 'bg-blue-main text-white hover:bg-blue-700',
   };
   return (
     <button
-      className={`rounded font-bold focus:outline-none ${sizeClass[size]} ${colorClass[color]}`}
+      className={`rounded font-bold font-sans focus:outline-none ${sizeClass[size]} ${colorClass[color]}`}
       onClick={onClick}
     >
       {label}

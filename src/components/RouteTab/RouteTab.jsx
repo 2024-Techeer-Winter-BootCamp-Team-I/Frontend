@@ -13,7 +13,7 @@ const RouteTab = () => {
   const activeStyle = "bg-[#1488FC]";
 
   return (
-    <div className="absolute left-[10rem] top-[5rem] z-[100]">
+    <div className="absolute right-[5rem] top-[5rem] z-[100]">
       <button
         className={`${tabStyle} ${isActive('api') ? activeStyle : ''}`}
         onClick={() => navigate('/api')}
