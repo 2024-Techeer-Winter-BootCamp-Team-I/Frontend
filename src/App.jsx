@@ -8,10 +8,15 @@ import FrontLanguage from './pages/FrontLangauge';
 import BackFramework from './pages/BackFramework';
 import BackDatabase from './pages/BackDatabase';
 
+import Main from './pages/Main';
+import Design from './pages/Design';
+
+
 function App() {
   return (
     <Router>
       <Routes>
+
         <Route path="/setting" element={<SettingPage />} />
         <Route path="/front-package" element={<FrontPackage />} />
         <Route path="/front-build" element={<FrontBuild />} />
@@ -19,6 +24,10 @@ function App() {
         <Route path="/front-language" element={<FrontLanguage />} />
         <Route path="/back-framework" element={<BackFramework />} />
         <Route path="/back-database" element={<BackDatabase />} />
+
+        <Route path="/" element={<Main />} />
+        <Route path="/design" element={<Design />} />
+
       </Routes>
     </Router>
   );
