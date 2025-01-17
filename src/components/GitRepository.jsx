@@ -21,7 +21,7 @@ const GitRepository = () => {
   };
 
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-black">
+    <div className="flex pt-14 items-center justify-center">
       <div>
         {/* 제목 텍스트 */}
         <div className="relative left-[8rem] text-white text-[1.1rem] font-sans font-[100rem] break-words mb-[1rem]">
