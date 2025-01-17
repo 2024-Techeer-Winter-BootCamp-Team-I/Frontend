@@ -1,30 +1,4 @@
-import { useState } from 'react';
 import github from '../../assets/image/github.svg'; // GitHub 아이콘
-
-const Navbar = () => {
-  const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
-
-  const handleLoginClick = () => {
-    setIsLoginModalVisible(true);
-  };
-
-  return (
-    <nav className="flex items-center justify-between p-6">
-      <div className="bg-gradient-to-r from-[#FFFFFF] via-[#9BB6CC] to-[#01457E] bg-clip-text text-[2rem] font-bold text-transparent">
-        DevSketch
-      </div>
-      <div
-        className="cursor-pointer text-[1rem] font-medium text-[#FFFFFF]"
-        onClick={handleLoginClick}
-      >
-        로그인
-      </div>
-      {isLoginModalVisible && (
-        <LoginModal onClose={() => setIsLoginModalVisible(false)} />
-      )}
-    </nav>
-  );
-};
 
 const LoginModal = ({ onClose }) => {
   return (
@@ -65,4 +39,4 @@ const LoginModal = ({ onClose }) => {
   );
 };
 
-export default Navbar;
+export default LoginModal;
