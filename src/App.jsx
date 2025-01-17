@@ -11,6 +11,7 @@ import SettingCheck from './pages/SettingCheck';
 
 import Mypage from './pages/Mypage';
 import InputPage from './pages/InputPage';
+import Specific from './pages/Specific';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/input" element={<InputPage />} />
 
         <Route path="/mypage" element={<Mypage />} />
+        <Route path="/specific" element={<Specific />} />
       </Routes>
     </Router>
   );

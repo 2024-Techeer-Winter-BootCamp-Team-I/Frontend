@@ -8,6 +8,7 @@ const Button = ({ label, size, color, onClick }) => {
   };
   const colorClass = {
     primary: 'bg-blue-500 text-white hover:bg-blue-700',
+    secondary: 'bg-gray-500 text-black hover:bg-gray-300',
   };
   return (
     <button
