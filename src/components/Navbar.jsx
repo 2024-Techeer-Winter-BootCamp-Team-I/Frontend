@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import GithubIcon from "../assets/image/github.svg"; // GitHub 아이콘
 import LeftBarIcon from "../assets/image/leftbar.svg"; // LeftBar 아이콘
-import RouteTab from "./RouteTabs"; // RouteTab 컴포넌트 import
+import Leftbar from "./Leftbar"; // Leftbar 컴포넌트 import
 import LoginModal from "./LoginModal"; // LoginModal 컴포넌트 import
 
-const Frame = ({ children }) => {
-  const [isRouteTabVisible, setIsRouteTabVisible] = useState(false); // RouteTab 표시 상태
+const Navbar = ({ children }) => {
+  const [isLeftbarVisible, setIsLeftbarVisible] = useState(false); // Leftbar 표시 상태
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false); // LoginModal 표시 상태
 
   return (
@@ -28,19 +28,19 @@ const Frame = ({ children }) => {
         {children}
       </div>
 
-      {/* 왼쪽 하단 아이콘들 및 RouteTab */}
+      {/* 왼쪽 하단 아이콘들 및 Leftbar */}
       <div
         className="flex flex-col justify-end items-start p-6 space-y-4 relative"
-        onMouseEnter={() => setIsRouteTabVisible(true)} // 마우스 호버 시 RouteTab 표시
-        onMouseLeave={() => setIsRouteTabVisible(false)} // 마우스 떠날 때 RouteTab 숨김
+        onMouseEnter={() => setIsLeftbarbVisible(true)} // 마우스 호버 시 Leftbar 표시
+        onMouseLeave={() => setIsLeftbarVisible(false)} // 마우스 떠날 때 RLeftbar 숨김
       >
         <img src={GithubIcon} alt="GitHub" className="w-[2.5rem] h-[2.5rem]" /> {/* GitHub 아이콘 */}
         <img src={LeftBarIcon} alt="LeftBar" className="w-[2.5rem] h-[2.5rem] cursor-pointer" /> {/* LeftBar 아이콘 */}
 
-        {/* RouteTab 조건부 렌더링 */}
-        {isRouteTabVisible && (
+        {/* Leftbar 조건부 렌더링 */}
+        {isLeftbarVisible && (
           <div className="absolute left-0 bottom-0 z-50"> {/* z-index 추가 및 위치 조정 */}
-            <RouteTab />
+            <Leftbar />
           </div>
         )}
       </div>
@@ -53,4 +53,4 @@ const Frame = ({ children }) => {
   );
 };
 
-export default Frame;
+export default Navbar;

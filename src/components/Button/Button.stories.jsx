@@ -6,19 +6,13 @@ export default {
 const Template = (args) => <Button {...args} />;
 export const Default = Template.bind({});
 Default.args = {
-  label: 'Default Button',
+  label: 'Default',
   size: 'medium',
   color: 'primary',
 };
 export const Small = Template.bind({});
 Small.args = {
-  label: 'Small Button',
+  label: 'Small ',
   size: 'small',
-  color: 'secondary',
-};
-export const Large = Template.bind({});
-Large.args = {
-  label: 'Large Button',
-  size: 'large',
-  color: 'danger',
+  color: 'primary',
 };
