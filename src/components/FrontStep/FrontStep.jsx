@@ -25,20 +25,20 @@ const FrontStep = () => {
   };
 
   return (
-    <div className="relative mb-10 ml-0 flex h-[130px] w-full items-center justify-center">
+    <div className="relative mb-5 ml-0 flex h-[130px] w-full items-center justify-center">
       {/* Background line */}
       <div className="absolute left-1/2 top-1/2 h-[5px] w-full -translate-x-1/2 -translate-y-1/2 transform bg-gray-800"></div>
 
       {/* 첫 번째 원 */}
       <div
-        className={`absolute top-1/2 flex h-[70px] w-[70px] -translate-y-1/2 transform items-center justify-center rounded-full border border-gray-700 ${getCircleBackground('/front-package')}`}
+        className={`absolute top-1/2 flex h-[50px] w-[50px] -translate-y-1/2 transform items-center justify-center rounded-full border border-gray-700 ${getCircleBackground('/front-package')}`}
         style={{ left: '0%' }}
       >
         <p className="-translate-y-[2px] text-[1.2rem] text-white">1</p>
         {location.pathname === '/front-package' && (
           <p
             className="absolute top-full mt-2 text-[1rem] text-white"
-            style={{ left: '0%', transform: 'translateX(0%)' }}
+            style={{ left: '0%', transform: 'translateX(-10%)' }}
           >
             {getTextForPath('/front-package')}
           </p>
@@ -47,14 +47,14 @@ const FrontStep = () => {
 
       {/* 두 번째 원 */}
       <div
-        className={`absolute top-1/2 flex h-[70px] w-[70px] -translate-y-1/2 transform items-center justify-center rounded-full border border-gray-700 ${getCircleBackground('/front-build')}`}
-        style={{ left: '30%' }}
+        className={`absolute top-1/2 flex h-[50px] w-[50px] -translate-y-1/2 transform items-center justify-center rounded-full border border-gray-700 ${getCircleBackground('/front-build')}`}
+        style={{ left: '35%' }}
       >
         <p className="-translate-y-[2px] text-[1.2rem] text-white">2</p>
         {location.pathname === '/front-build' && (
           <p
             className="absolute top-full mt-2 text-[1rem] text-white"
-            style={{ left: '0%', transform: 'translateX(50%)' }}
+            style={{ left: '0%', transform: 'translateX(10%)' }}
           >
             {getTextForPath('/front-build')}
           </p>
@@ -63,8 +63,8 @@ const FrontStep = () => {
 
       {/* 세 번째 원 */}
       <div
-        className={`absolute top-1/2 flex h-[70px] w-[70px] -translate-y-1/2 transform items-center justify-center rounded-full border border-gray-700 ${getCircleBackground('/front-framework')}`}
-        style={{ left: '60%' }}
+        className={`absolute top-1/2 flex h-[50px] w-[50px] -translate-y-1/2 transform items-center justify-center rounded-full border border-gray-700 ${getCircleBackground('/front-framework')}`}
+        style={{ left: '65%' }}
       >
         <p className="-translate-y-[2px] text-[1.2rem] text-white">3</p>
         {location.pathname === '/front-framework' && (
@@ -79,8 +79,8 @@ const FrontStep = () => {
 
       {/* 네 번째 원 */}
       <div
-        className={`absolute top-1/2 flex h-[70px] w-[70px] -translate-y-1/2 transform items-center justify-center rounded-full border border-gray-700 ${getCircleBackground('/front-language')}`}
-        style={{ left: '90%' }}
+        className={`absolute top-1/2 flex h-[50px] w-[50px] -translate-y-1/2 transform items-center justify-center rounded-full border border-gray-700 ${getCircleBackground('/front-language')}`}
+        style={{ left: '100%' }}
       >
         <p className="-translate-y-[2px] text-[1.2rem] text-white">4</p>
         {location.pathname === '/front-language' && (

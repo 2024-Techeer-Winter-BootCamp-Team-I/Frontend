@@ -1,31 +1,31 @@
-
-import { useState } from 'react';
-
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ChooseBox from '../components/ChooseBox/ChooseBox';
 import FrontStep from '../components/FrontStep/FrontStep';
 import Layout from './Layout';
 
-import vite from '../assets/image/vite.svg';
-import webpack from '../assets/image/webpack.svg';
+import javascript from '../assets/image/javascript.svg';
+import typescript from '../assets/image/typescript.svg';
 
 import leftArrow from '../assets/image/leftArrow.svg';
 import rightArrow from '../assets/image/rightArrow.svg';
 
-const FrontBuild = () => {
+const FrontMODIFIED = () => {
   const navigate = useNavigate();
   const [selectedPosition, setSelectedPosition] = useState(null);
 
-  const GoFrontFramework = () => {
-    console.log('Navigating to /frontbuild');
-    navigate('/front-framework');
+  const GoFrontLanguage = () => {
+    navigate('/front-language');
   };
 
+  // ChooseBox 클릭 시 호출되는 함수
   const handleChooseBoxClick = (position) => {
     if (selectedPosition === position) {
+      // 이미 선택된 항목을 다시 클릭하면 선택 해제
       setSelectedPosition(null);
     } else {
+      // 새로운 항목 선택
       setSelectedPosition(position);
     }
   };
@@ -39,9 +39,9 @@ const FrontBuild = () => {
           </div>
         </div>
 
-        <div className="ml-auto mr-auto flex h-full max-w-2xl flex-col items-center justify-center rounded-lg p-6">
+        <div className="ml-auto mr-auto flex h-full flex-col items-center justify-center rounded-lg p-6">
           <div className="mb-0 w-full">
-            <div className="mt-6 flex w-full items-center justify-center gap-8">
+            <div className="mt-6 flex w-full max-w-2xl items-center justify-center gap-8">
               {/* 왼쪽 화살표 */}
               <img
                 src={leftArrow}
@@ -51,31 +51,32 @@ const FrontBuild = () => {
                 title="Previous Page"
               />
 
+              {/* JavaScript */}
               <ChooseBox
-                label="Vite"
-                imageUrl={vite}
-                isSelected={selectedPosition === 'Vite'}
-                onClick={() => handleChooseBoxClick('Vite')}
+                label="JavaScript"
+                imageUrl={javascript}
+                isSelected={selectedPosition === 'JavaScript'}
+                onClick={() => handleChooseBoxClick('JavaScript')}
                 description={
-                  '빠른 개발 서버와 모듈 번들링을 제공하며, 최신 브라우저 기능을 활용해 효율적으로 동작'
+                  '웹과 서버에서 사용하는 동적 타이핑 기반의 유연한 스크립트 언어'
                 }
               />
-
+              {/* TypeScript */}
               <ChooseBox
-                label="Webpack"
-                imageUrl={webpack}
-                isSelected={selectedPosition === 'Webpack'}
-                onClick={() => handleChooseBoxClick('Webpack')}
+                label="TypeScript"
+                imageUrl={typescript}
+                isSelected={selectedPosition === 'TypeScript'}
+                onClick={() => handleChooseBoxClick('TypeScript')}
                 description={
-                  '다양한 플러그인과 설정으로 유연한 번들링 옵션을 제공하는 강력한 빌드 도구'
+                  '정적 타이핑과 추가 기능으로 코드 안정성을 강화한 JavaScript의 확장 언어'
                 }
               />
               {/* 오른쪽 화살표 */}
               <img
                 src={rightArrow}
                 alt="Next"
-                className="h-12 w-12 cursor-pointer"
-                onClick={GoFrontFramework}
+                className="ml-auto mr-auto h-12 w-12 cursor-pointer"
+                onClick={GoFrontLanguage}
                 title="Next Page"
               />
             </div>
@@ -86,4 +87,4 @@ const FrontBuild = () => {
   );
 };
 
-export default FrontBuild;
+export default FrontMODIFIED;
