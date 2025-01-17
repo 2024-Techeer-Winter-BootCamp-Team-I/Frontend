@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import ChooseBox from '../components/ChooseBox';
 
 import FrontendStepper from '../components/FrontendStepper';
-import greenSnake from '../assets/image/greenSnake.svg';
 import react from '../assets/image/react.svg';
 import vue from '../assets/image/vue.svg';
 import svelt from '../assets/image/svelt.svg';

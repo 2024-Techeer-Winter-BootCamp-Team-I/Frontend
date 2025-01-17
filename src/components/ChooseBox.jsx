@@ -32,8 +32,8 @@ const ChooseBox = ({
 
       {/* 이미지와 설명을 감싸는 컨테이너 */}
       <div className="mt-8 flex h-full flex-col items-center justify-center">
-        {/* 이미지 */}
-        {imageUrl && (
+        {/* 이미지 */} {/*조건부 렌더링*/}
+        {imageUrl && (  
           <img
             src={imageUrl} // 이미지 URL
             alt={title} // 이미지 대체 텍스트

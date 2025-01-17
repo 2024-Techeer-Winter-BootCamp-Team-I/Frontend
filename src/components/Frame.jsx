@@ -1,92 +1,54 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import logo from '../assets/image/logo.svg';
-import rowLine from '../assets/image/rowLine.svg';
-import columnLine from '../assets/image/columnLine.svg';
+import React, { useState } from "react";
+import GithubIcon from "../assets/image/github.svg"; // GitHub 아이콘
+import LeftBarIcon from "../assets/image/leftbar.svg"; // LeftBar 아이콘
+import RouteTab from "./RouteTabs"; // RouteTab 컴포넌트 import
+import LoginModal from "./LoginModal"; // LoginModal 컴포넌트 import
 
-const Frame = () => {
-  const navigate = useNavigate();
-  const moveMainPage = () => {
-    navigate('/');
-  };
-
-  // 클릭된 내비게이션 아이템을 저장하는 state
-  const [activeNav, setActiveNav] = useState('');
-
-  // 각 메뉴별 path 등을 배열로 관리
-  const navItems = [
-    { label: '기능명세', path: '/spec' },
-    { label: '설계', path: '/design' },
-    { label: '세팅', path: '/setup' },
-  ];
-
-  // 버튼 클릭 시 state를 업데이트하고, 필요한 경우 페이지 이동
-  const handleClick = (item) => {
-    setActiveNav(item.label);
-    // 필요 시 페이지 이동 가능
-    // navigate(item.path);
-  };
+const Frame = ({ children }) => {
+  const [isRouteTabVisible, setIsRouteTabVisible] = useState(false); // RouteTab 표시 상태
+  const [isLoginModalVisible, setIsLoginModalVisible] = useState(false); // LoginModal 표시 상태
 
   return (
-    <div className="flex h-[150px] bg-black-background font-sans text-white">
-      {/* 로고 클릭 시 메인 페이지 이동 */}
-      <img
-        src={logo}
-        alt="logo"
-        className="over:cursor-pointer ml-[50px] mt-[35px] h-[80px] w-[250px]"
-        onClick={moveMainPage}
-      />
-
-      <div className="container mb-[15px] ml-[82px] mr-[50px] flex w-full items-end justify-between py-4 text-[18px]">
-        {/* 왼쪽 메뉴들 */}
-        <div className="flex gap-[32px]">
-          {navItems.map((item) => (
-            <button
-              key={item.label}
-              onClick={() => handleClick(item)}
-              className={`ease-ou transition-colors duration-100 ${
-                activeNav === item.label ? 'text-green-main' : ''
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
+    <div className="flex flex-col h-screen w-full bg-[#000000] font-sfpro">
+      {/* 상단 Navbar */}
+      <nav className="flex justify-between items-center p-6">
+        {/* DevSketch 로고 */}
+        <div className="text-[1.5rem] text-[#FFFFFF] font-medium">DevSketch</div> {/* 40px -> 2.5rem */}
+        {/* 로그인 버튼 */}
+        <div
+          className="text-[1rem] text-[#FFFFFF] font-medium cursor-pointer"
+          onClick={() => setIsLoginModalVisible(true)} // 로그인 버튼 클릭 시 모달 표시
+        >
+          로그인
         </div>
+      </nav>
 
-        {/* 오른쪽 끝에 추가할 메뉴들(로그인, 마이페이지) */}
-        <div className="mr-[50px] flex gap-8 text-[18px]">
-          <button
-            onClick={() => handleClick({ label: '로그인', path: '/login' })}
-            className={`transition-colors duration-100 ease-out ${
-              activeNav === '로그인' ? 'text-green-main' : ''
-            }`}
-          >
-            로그인
-          </button>
-          <button
-            onClick={() =>
-              handleClick({ label: '마이페이지', path: '/mypage' })
-            }
-            className={`transition-colors duration-100 ease-out ${
-              activeNav === '마이페이지' ? 'text-green-main' : ''
-            }`}
-          >
-            마이페이지
-          </button>
-          <img
-            src={columnLine}
-            alt="columnLine"
-            className="absolute left-[300px] top-1/2 h-[90%] -translate-y-1/2"
-          />
-
-          {/* 가로줄 (rowLine) */}
-          <img
-            src={rowLine}
-            alt="rowLine"
-            className="absolute left-1/2 top-[150px] w-[90%] -translate-x-1/2"
-          />
-        </div>
+      {/* 중간에 Layout 컴포넌트 렌더링 */}
+      <div className="flex-grow flex items-center justify-center">
+        {children}
       </div>
+
+      {/* 왼쪽 하단 아이콘들 및 RouteTab */}
+      <div
+        className="flex flex-col justify-end items-start p-6 space-y-4 relative"
+        onMouseEnter={() => setIsRouteTabVisible(true)} // 마우스 호버 시 RouteTab 표시
+        onMouseLeave={() => setIsRouteTabVisible(false)} // 마우스 떠날 때 RouteTab 숨김
+      >
+        <img src={GithubIcon} alt="GitHub" className="w-[2.5rem] h-[2.5rem]" /> {/* GitHub 아이콘 */}
+        <img src={LeftBarIcon} alt="LeftBar" className="w-[2.5rem] h-[2.5rem] cursor-pointer" /> {/* LeftBar 아이콘 */}
+
+        {/* RouteTab 조건부 렌더링 */}
+        {isRouteTabVisible && (
+          <div className="absolute left-0 bottom-0 z-50"> {/* z-index 추가 및 위치 조정 */}
+            <RouteTab />
+          </div>
+        )}
+      </div>
+
+      {/* LoginModal 조건부 렌더링 */}
+      {isLoginModalVisible && (
+        <LoginModal onClose={() => setIsLoginModalVisible(false)} /> // 모달 닫기 함수 전달
+      )}
     </div>
   );
 };
