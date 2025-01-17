@@ -10,7 +10,7 @@ import Diagram from './pages/Diagram';
 import SettingCheck from './pages/SettingCheck';
 
 import Mypage from './pages/Mypage';
-
+import InputPage from './pages/InputPage';
 
 function App() {
   return (
@@ -23,9 +23,9 @@ function App() {
         <Route path="/erd" element={<Erd />} />
         <Route path="/diagram" element={<Diagram />} />
         <Route path="/settingcheck" element={<SettingCheck />} />
+        <Route path="/input" element={<InputPage />} />
 
         <Route path="/mypage" element={<Mypage />} />
-
       </Routes>
     </Router>
   );
