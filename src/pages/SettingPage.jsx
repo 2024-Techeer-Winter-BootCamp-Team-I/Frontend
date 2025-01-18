@@ -8,6 +8,7 @@ import front from '../assets/image/front.svg';
 import back from '../assets/image/back.svg';
 
 import rightArrow from '../assets/image/rightArrow.svg';
+import leftArrow from '../assets/image/leftArrow.svg';
 
 const SettingPage = () => {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const SettingPage = () => {
 
   return (
     <Layout>
-      <div className="mt-0 flex h-full w-full flex-col overflow-hidden">
+      <div className="mt-0 flex h-full w-full flex-col">
         {/* 오른쪽 컨테이너 */}
         <div className="ml-auto mr-auto flex h-full flex-col rounded-lg p-6">
           <div className="w-full">
@@ -52,6 +53,13 @@ const SettingPage = () => {
             </p>
 
             <div className="mt-3 flex w-full max-w-2xl justify-center gap-8">
+              <div className="mb-auto ml-auto mr-auto mt-auto flex w-full max-w-2xl">
+                <img
+                  src={leftArrow}
+                  alt="Previous"
+                  className="h-12 w-12 cursor-pointer opacity-0"
+                />
+              </div>
               {/* 프론트엔드 선택 박스 */}
               <ChooseBox
                 label="Frontend"

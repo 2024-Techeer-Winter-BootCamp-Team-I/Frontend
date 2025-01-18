@@ -27,7 +27,7 @@ const FrontStep = () => {
   return (
     <div className="relative mb-5 ml-0 flex h-[130px] w-full items-center justify-center">
       {/* 선과 원들을 그룹으로 묶기 */}
-      <div className="absolute left-1/2 top-1/2 h-[5px] w-3/4 -translate-x-1/2 -translate-y-1/2 transform bg-gray-800">
+      <div className="absolute left-1/2 top-1/2 h-[5px] w-3/4 -translate-x-1/2 -translate-y-1/2 transform bg-gray-600">
         {/* 첫 번째 원 */}
         <div
           className={`absolute top-1/2 flex h-[50px] w-[50px] -translate-y-1/2 transform items-center justify-center rounded-full border border-gray-700 ${getCircleBackground('/frontpackage')}`}

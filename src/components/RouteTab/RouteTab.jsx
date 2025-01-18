@@ -9,11 +9,11 @@ const RouteTab = () => {
   const isActive = (path) => location.pathname === `/${path}`;
 
   const tabStyle =
-    "w-[9rem] h-[2rem] bg-[#0A0A0A] text-white font-bold text-[0.8rem] rounded-[0.3rem] cursor-pointer block z-30";
-  const activeStyle = "bg-[#1488FC]";
+    'w-[9rem] h-[2rem] bg-[#0A0A0A] text-white font-bold text-[0.8rem] rounded-[0.3rem] cursor-pointer block z-30';
+  const activeStyle = 'bg-[#1488FC]';
 
   return (
-    <div className="absolute right-[5rem] top-[5rem] z-[100]">
+    <div className="right-[5rem] top-[5rem] z-[100]">
       <button
         className={`${tabStyle} ${isActive('api') ? activeStyle : ''}`}
         onClick={() => navigate('/api')}
