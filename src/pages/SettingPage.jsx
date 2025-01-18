@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ChooseBox from '../components/ChooseBox/ChooseBox';
 
@@ -16,9 +16,9 @@ const SettingPage = () => {
   // 세팅 페이지로 이동하는 함수
   const GoSetting = () => {
     if (selectedPosition === 'Frontend') {
-      navigate('/front-package'); // 프론트엔드 선택 시 이동
+      navigate('/frontpackage'); // 프론트엔드 선택 시 이동
     } else if (selectedPosition === 'Backend') {
-      navigate('/back-framework'); // 백엔드 선택 시 이동
+      navigate('/backframework'); // 백엔드 선택 시 이동
     } else {
       alert('프론트엔드 또는 백엔드를 선택해주세요.'); // 선택되지 않은 경우 경고
     }
@@ -41,9 +41,9 @@ const SettingPage = () => {
         {/* 오른쪽 컨테이너 */}
         <div className="ml-auto mr-auto flex h-full flex-col rounded-lg p-6">
           <div className="w-full">
-            <p className="font-sans text-lg text-white">프로젝트 입력창</p>
+            <p className="mb-3 font-sans text-lg text-white">프로젝트 입력창</p>
             <input
-              className="flex h-12 w-full items-center justify-center rounded-sm bg-gray-800 bg-opacity-50 text-white"
+              className="flex h-12 w-full items-center justify-center rounded-lg bg-gray-800 bg-opacity-50 p-3 text-white"
               placeholder="Ex. DevSketch"
             />
 
@@ -51,7 +51,7 @@ const SettingPage = () => {
               프로젝트 세팅할 포지션(중복불가)
             </p>
 
-            <div className="mt-6 flex w-full max-w-2xl justify-center gap-8">
+            <div className="mt-3 flex w-full max-w-2xl justify-center gap-8">
               {/* 프론트엔드 선택 박스 */}
               <ChooseBox
                 label="Frontend"
