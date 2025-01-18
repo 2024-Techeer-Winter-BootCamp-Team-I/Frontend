@@ -11,6 +11,7 @@ import SettingCheck from './pages/SettingCheck';
 
 import Mypage from './pages/Mypage';
 import InputPage from './pages/InputPage';
+import Specific from './pages/Specific';
 
 import FrontPackage from './pages/FrontPackage';
 import FrontBuild from './pages/FrontBuild';
@@ -35,6 +36,9 @@ function App() {
 
         <Route path="/mypage" element={<Mypage />} />
 
+        <Route path="/specific" element={<Specific />} />
+
+
         <Route path="/frontpackage" element={<FrontPackage />} />
         <Route path="/frontbuild" element={<FrontBuild />} />
         <Route path="/frontframework" element={<FrontFramework />} />
@@ -42,6 +46,7 @@ function App() {
         <Route path="/backframework" element={<BackFramework />} />
         <Route path="/backdatabase" element={<BackDatabase />} />
         <Route path="/setting" element={<SettingPage />} />
+
       </Routes>
     </Router>
   );

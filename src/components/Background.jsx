@@ -4,7 +4,7 @@ import gradationBackground from '../assets/image/gradationBackground.svg';
 // eslint-disable-next-line react/prop-types
 const Background = ({ children }) => {
   return (
-    <div className="relative h-auto bg-black">
+    <div className="relative min-h-screen bg-black">
       {/* 배경 이미지를 화면 전체에 고정 */}
       <img
         src={gradationBackground}

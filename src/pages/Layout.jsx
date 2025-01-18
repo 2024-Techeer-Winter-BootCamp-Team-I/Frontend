@@ -23,7 +23,7 @@ const Layout = ({ children }) => {
       </div>
 
       {/* 자식 컴포넌트들 */}
-      <div className="relative z-10 mt-16">{children}</div>
+      <div className="relative z-10 mt-16 min-h-screen">{children}</div>
     </Background>
   );
 };
