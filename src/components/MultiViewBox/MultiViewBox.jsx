@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import line from '../../assets/image/line.svg';
 
 const MultiViewBox = () => {
-    const [Tab, setTab] = useState('image'); // 기본 활성화 탭: 'image'
+  const [Tab, setTab] = useState('image'); // 기본 활성화 탭: 'image'
 
-    const TabClick = (tab) => {
-        setTab(tab);
-    };
+  const TabClick = (tab) => {
+    setTab(tab);
+  };
 
     return (
         <div className="flex h-screen w-full items-center  ml-[16rem] relative">
@@ -14,9 +14,11 @@ const MultiViewBox = () => {
             <div className="relative h-[28rem] w-[52rem] flex-shrink-0 rounded-[1.875rem] bg-[linear-gradient(310deg,_rgba(255,_255,_255,_0.55)_55%,_#7885E9_76%,_#485CF3_100%)] top-[-9rem]">
                 <img src={line} alt="line" className="ml-20 mt-0" />
 
-                {/* 위에 올려진 내부 상자 */}
-                <div className="absolute left-[0.125rem] top-[0.125rem] z-[20] h-[27.75rem] w-[51.8rem] rounded-[1.875rem] bg-[#141414]" />
-            </div>
+
+        {/* 위에 올려진 내부 상자 */}
+        <div className="absolute left-[0.125rem] top-[0.125rem] z-[20] h-[27.75rem] w-[51.8rem] rounded-[1.875rem] bg-[#141414]" />
+      </div>
+
 
             {/* 이미지보기 버튼 */}
             <div
@@ -49,6 +51,7 @@ const MultiViewBox = () => {
             </div>
         </div>
     );
+
 };
 
 export default MultiViewBox;

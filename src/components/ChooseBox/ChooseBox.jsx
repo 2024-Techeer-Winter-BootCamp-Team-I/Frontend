@@ -1,5 +1,4 @@
 import React from 'react';
-import line_short from '../../assets/image/line_short.svg';
 import PropTypes from 'prop-types';
 
 const ChooseBox = ({
@@ -12,10 +11,7 @@ const ChooseBox = ({
 }) => {
   return (
     // 그라데이션 사각형
-    <div className="[rgba(255,255,255,0.55)] relative h-[20rem] w-[13rem] flex-shrink-0 items-center justify-center rounded-[1.5rem] bg-gradient-to-br from-[#485CF3] to-[#848181]">
-      {/* line 이미지 */}
-      <img src={line_short} className="ml-10 mt-0 w-1/2" alt="line" />
-
+    <div className="[rgba(255,255,255,0.55)] relative h-[20rem] w-[13rem] flex-shrink-0 items-center justify-center rounded-[1.5rem] bg-gradient-to-br from-[#495DF3] via-[#848181] to-[#848181]">
       {/* 내부 상자 */}
       <div
         className={`absolute left-[0.125rem] top-[0.1rem] z-[20] h-[19.8rem] w-[12.8rem] rounded-[1.4rem] ${

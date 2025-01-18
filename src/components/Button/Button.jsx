@@ -7,7 +7,10 @@ const Button = ({ label, size, color, onClick }) => {
       'flex items-center justify-center font-sans font-semibold text-[22px] px-4 py-2  w-[250px] h-[50px] ',
   };
   const colorClass = {
-    primary: 'bg-blue-main text-white hover:bg-blue-700',
+
+    primary: 'bg-blue-500 text-white hover:bg-blue-700',
+    secondary: 'bg-gray-500 text-black hover:bg-gray-300',
+
   };
   return (
     <button
