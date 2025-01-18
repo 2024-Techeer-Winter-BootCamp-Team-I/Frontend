@@ -2,22 +2,22 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ChooseBox from '../components/ChooseBox/ChooseBox';
-import Layout from './Layout';
 import BackStep from '../components/BackStep/BackStep';
+import Layout from './Layout';
 
 import mysql from '../assets/image/mySql.svg';
 import postgresql from '../assets/image/postgreSql.svg';
 
-import leftArrow from '../assets/image/leftArrow.svg';
 import rightArrow from '../assets/image/rightArrow.svg';
+import leftArrow from '../assets/image/leftArrow.svg';
 
 const BackDatabase = () => {
   const navigate = useNavigate();
   const [selectedPosition, setSelectedPosition] = useState(null);
 
-  // 수정
   const GoBackMODIFIED = () => {
-    navigate('/back-database');
+    console.log('To direct Navigating');
+    navigate('/backdatabase');
   };
 
   // ChooseBox 클릭 시 호출되는 함수
@@ -33,13 +33,12 @@ const BackDatabase = () => {
 
   return (
     <Layout>
-      <div className="flex h-full w-full flex-col justify-start">
-        <div className="w-full py-6">
-          <div className="ml-auto mr-auto max-w-2xl px-6">
+      <div className="mr-8 flex h-full w-full flex-col">
+        <div className="w-full">
+          <div className="ml-6 mr-6 px-6">
             <BackStep />
           </div>
         </div>
-
         <div className="ml-auto mr-auto flex h-full flex-col items-center justify-center rounded-lg p-6">
           <div className="mb-0 w-full">
             <div className="mt-6 flex w-full max-w-2xl items-center justify-center gap-8">
@@ -76,7 +75,7 @@ const BackDatabase = () => {
               <img
                 src={rightArrow}
                 alt="Next"
-                className="ml-auto mr-auto h-12 w-12 cursor-pointer"
+                className="h-12 w-12 cursor-pointer opacity-0"
                 onClick={GoBackMODIFIED}
                 title="Next Page"
               />

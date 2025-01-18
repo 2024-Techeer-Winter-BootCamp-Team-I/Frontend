@@ -15,8 +15,9 @@ const FrontMODIFIED = () => {
   const navigate = useNavigate();
   const [selectedPosition, setSelectedPosition] = useState(null);
 
-  const GoFrontLanguage = () => {
-    navigate('/front-language');
+  // 이후 수정해야할 경로
+  const GoFrontMODIFIED = () => {
+    navigate('/frontlanguage');
   };
 
   // ChooseBox 클릭 시 호출되는 함수
@@ -32,9 +33,9 @@ const FrontMODIFIED = () => {
 
   return (
     <Layout>
-      <div className="flex h-full w-full flex-col justify-start">
+      <div className="mr-8 flex h-full w-full flex-col">
         <div className="w-full">
-          <div className="ml-auto mr-auto max-w-2xl px-6">
+          <div className="ml-6 mr-6 px-6">
             <FrontStep />
           </div>
         </div>
@@ -75,8 +76,8 @@ const FrontMODIFIED = () => {
               <img
                 src={rightArrow}
                 alt="Next"
-                className="ml-auto mr-auto h-12 w-12 cursor-pointer"
-                onClick={GoFrontLanguage}
+                className="h-12 w-12 cursor-pointer opacity-0"
+                onClick={GoFrontMODIFIED}
                 title="Next Page"
               />
             </div>

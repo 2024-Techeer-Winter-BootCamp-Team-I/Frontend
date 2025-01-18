@@ -16,9 +16,9 @@ const SettingPage = () => {
   // 세팅 페이지로 이동하는 함수
   const GoSetting = () => {
     if (selectedPosition === 'Frontend') {
-      navigate('/front-package'); // 프론트엔드 선택 시 이동
+      navigate('/frontpackage'); // 프론트엔드 선택 시 이동
     } else if (selectedPosition === 'Backend') {
-      navigate('/back-framework'); // 백엔드 선택 시 이동
+      navigate('/backframework'); // 백엔드 선택 시 이동
     } else {
       alert('프론트엔드 또는 백엔드를 선택해주세요.'); // 선택되지 않은 경우 경고
     }

@@ -16,8 +16,8 @@ const BackFramework = () => {
   const [selectedPosition, setSelectedPosition] = useState(null);
 
   const GoBackDatabase = () => {
-    console.log('Navigating to /frontbuild');
-    navigate('/back-database');
+    console.log('To direct Navigating');
+    navigate('/backdatabase');
   };
 
   // ChooseBox 클릭 시 호출되는 함수
@@ -33,9 +33,9 @@ const BackFramework = () => {
 
   return (
     <Layout>
-      <div className="flex h-full w-full flex-col justify-start">
-        <div className="w-full py-6">
-          <div className="ml-auto mr-auto max-w-2xl px-6">
+      <div className="mr-8 flex h-full w-full flex-col">
+        <div className="w-full">
+          <div className="ml-6 mr-6 px-6">
             <BackStep />
           </div>
         </div>

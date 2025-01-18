@@ -17,7 +17,7 @@ const FrontPackage = () => {
   const [selectedPosition, setSelectedPosition] = useState(null);
 
   const GoFrontBuild = () => {
-    navigate('/front-build');
+    navigate('/frontbuild');
   };
 
   const handleChooseBoxClick = (position) => {
@@ -30,10 +30,10 @@ const FrontPackage = () => {
 
   return (
     <Layout>
-      <div className="flex h-full w-full flex-col justify-start">
+      <div className="mr-8 flex h-full w-full flex-col">
         {/* 상단 단계 표시 */}
         <div className="w-full">
-          <div className="ml-auto mr-auto max-w-2xl px-6">
+          <div className="ml-6 mr-6 px-6">
             <FrontStep />
           </div>
         </div>
