@@ -1,7 +1,14 @@
+import { useState } from 'react';
 import Layout from './Layout';
 import Button from '../components/Button/Button';
+import EditModal from '../components/EditModal';
 
 const Specific = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태 관리
+
+  const openModal = () => setIsModalOpen(true); // 모달 열기
+  const closeModal = () => setIsModalOpen(false); // 모달 닫기
+
   return (
     <Layout>
       <div className="flex min-h-screen flex-col items-center justify-center">
@@ -68,7 +75,7 @@ const Specific = () => {
             label="수정하기"
             size="medium"
             color="secondary"
-            onClick={() => alert('수정이 시작됩니다!')}
+            onClick={openModal} // 모달 열기
           />
           <Button
             label="설계하기"
@@ -78,6 +85,12 @@ const Specific = () => {
           />
         </div>
       </div>
+      {/* 모달 렌더링 */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <EditModal onClose={closeModal} />
+        </div>
+      )}
     </Layout>
   );
 };
