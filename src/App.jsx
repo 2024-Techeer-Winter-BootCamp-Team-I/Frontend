@@ -13,12 +13,12 @@ import Mypage from './pages/Mypage';
 import InputPage from './pages/InputPage';
 import Specific from './pages/Specific';
 
-import FrontPackage from './pages/FrontPackage';
-import FrontBuild from './pages/FrontBuild';
-import FrontFramework from './pages/FrontFramework';
-import FrontLanguage from './pages/FrontLangauge';
-import BackFramework from './pages/BackFramework';
-import BackDatabase from './pages/BackDatabase';
+import FrontPackage from './pages/FrontSetting/FrontPackage';
+import FrontBuild from './pages/FrontSetting/FrontBuild';
+import FrontFramework from './pages/FrontSetting/FrontFramework';
+import FrontLanguage from './pages/FrontSetting/FrontLangauge';
+import BackFramework from './pages/BackendSetting/BackFramework';
+import BackDatabase from './pages/BackendSetting/BackDatabase';
 import SettingPage from './pages/SettingPage';
 
 function App() {
@@ -38,7 +38,6 @@ function App() {
 
         <Route path="/specific" element={<Specific />} />
 
-
         <Route path="/frontpackage" element={<FrontPackage />} />
         <Route path="/frontbuild" element={<FrontBuild />} />
         <Route path="/frontframework" element={<FrontFramework />} />
@@ -46,7 +45,6 @@ function App() {
         <Route path="/backframework" element={<BackFramework />} />
         <Route path="/backdatabase" element={<BackDatabase />} />
         <Route path="/setting" element={<SettingPage />} />
-
       </Routes>
     </Router>
   );

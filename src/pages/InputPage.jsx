@@ -5,7 +5,7 @@ import Layout from './Layout';
 const InputPage = () => {
   return (
     <Layout>
-      <div className="flex min-h-screen flex-col items-center justify-center">
+      <div className="flex min-h-screen flex-col items-center">
         <h1 className="mb-3 text-[40px] font-bold text-white">
           What do you want to Create?
         </h1>

@@ -2,15 +2,15 @@ import { useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
-import ChooseBox from '../components/ChooseBox/ChooseBox';
-import FrontStep from '../components/FrontStep/FrontStep';
-import Layout from './Layout';
+import ChooseBox from '../../components/ChooseBox/ChooseBox';
+import FrontStep from '../../components/FrontStep/FrontStep';
+import Layout from '../Layout';
 
-import vite from '../assets/image/vite.svg';
-import webpack from '../assets/image/webpack.svg';
+import vite from '../../assets/image/vite.svg';
+import webpack from '../../assets/image/webpack.svg';
 
-import leftArrow from '../assets/image/leftArrow.svg';
-import rightArrow from '../assets/image/rightArrow.svg';
+import leftArrow from '../../assets/image/leftArrow.svg';
+import rightArrow from '../../assets/image/rightArrow.svg';
 
 const FrontBuild = () => {
   const navigate = useNavigate();

@@ -1,23 +1,23 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import ChooseBox from '../components/ChooseBox/ChooseBox';
-import BackStep from '../components/BackStep/BackStep';
-import Layout from './Layout';
+import ChooseBox from '../../components/ChooseBox/ChooseBox';
+import FrontStep from '../../components/FrontStep/FrontStep';
+import Layout from '../Layout';
 
-import mysql from '../assets/image/mySql.svg';
-import postgresql from '../assets/image/postgreSql.svg';
+import javascript from '../../assets/image/javascript.svg';
+import typescript from '../../assets/image/typescript.svg';
 
-import rightArrow from '../assets/image/rightArrow.svg';
-import leftArrow from '../assets/image/leftArrow.svg';
+import leftArrow from '../../assets/image/leftArrow.svg';
+import rightArrow from '../../assets/image/rightArrow.svg';
 
-const BackDatabase = () => {
+const FrontMODIFIED = () => {
   const navigate = useNavigate();
   const [selectedPosition, setSelectedPosition] = useState(null);
 
-  const GoBackMODIFIED = () => {
-    console.log('To direct Navigating');
-    navigate('/backdatabase');
+  // 이후 수정해야할 경로
+  const GoFrontMODIFIED = () => {
+    navigate('/frontlanguage');
   };
 
   // ChooseBox 클릭 시 호출되는 함수
@@ -36,9 +36,10 @@ const BackDatabase = () => {
       <div className="mr-8 flex h-full w-full flex-col">
         <div className="w-full">
           <div className="ml-6 mr-6 px-6">
-            <BackStep />
+            <FrontStep />
           </div>
         </div>
+
         <div className="ml-auto mr-auto flex h-full flex-col items-center justify-center rounded-lg p-6">
           <div className="mb-0 w-full">
             <div className="mt-6 flex w-full max-w-2xl items-center justify-center gap-8">
@@ -50,25 +51,25 @@ const BackDatabase = () => {
                 onClick={() => navigate(-1)} // 이전 페이지로 이동
                 title="Previous Page"
               />
-              {/* MySQL */}
+
+              {/* JavaScript */}
               <ChooseBox
-                label="MySQL"
-                imageUrl={mysql}
-                isSelected={selectedPosition === 'MySQL'}
-                onClick={() => handleChooseBoxClick('MySQL')}
+                label="JavaScript"
+                imageUrl={javascript}
+                isSelected={selectedPosition === 'JavaScript'}
+                onClick={() => handleChooseBoxClick('JavaScript')}
                 description={
-                  '오픈 소스 관계형 데이터베이스로, 속도와 단순함을 중시하며 웹 애플리케이션에 자주 사용'
+                  '웹과 서버에서 사용하는 동적 타이핑 기반의 유연한 스크립트 언어'
                 }
               />
-
-              {/* PostgreSQL */}
+              {/* TypeScript */}
               <ChooseBox
-                label="PostgreSQL"
-                imageUrl={postgresql}
-                isSelected={selectedPosition === 'PostgreSQL'}
-                onClick={() => handleChooseBoxClick('PostgreSQL')}
+                label="TypeScript"
+                imageUrl={typescript}
+                isSelected={selectedPosition === 'TypeScript'}
+                onClick={() => handleChooseBoxClick('TypeScript')}
                 description={
-                  '오픈 소스 객체-관계형 데이터베이스로, 높은 확장성과 표준 준수, 복잡한 쿼리 및 데이터 무결성을 지원'
+                  '정적 타이핑과 추가 기능으로 코드 안정성을 강화한 JavaScript의 확장 언어'
                 }
               />
               {/* 오른쪽 화살표 */}
@@ -76,7 +77,7 @@ const BackDatabase = () => {
                 src={rightArrow}
                 alt="Next"
                 className="h-12 w-12 cursor-pointer opacity-0"
-                onClick={GoBackMODIFIED}
+                onClick={GoFrontMODIFIED}
                 title="Next Page"
               />
             </div>
@@ -87,4 +88,4 @@ const BackDatabase = () => {
   );
 };
 
-export default BackDatabase;
+export default FrontMODIFIED;

@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import ChooseBox from '../components/ChooseBox/ChooseBox';
-import BackStep from '../components/BackStep/BackStep';
-import Layout from './Layout';
+import ChooseBox from '../../components/ChooseBox/ChooseBox';
+import BackStep from '../../components/BackStep/BackStep';
+import Layout from '../Layout';
 
-import django from '../assets/image/django.svg';
-import springboot from '../assets/image/springboot.svg';
+import django from '../../assets/image/django.svg';
+import springboot from '../../assets/image/springboot.svg';
 
-import rightArrow from '../assets/image/rightArrow.svg';
-import leftArrow from '../assets/image/leftArrow.svg';
+import rightArrow from '../../assets/image/rightArrow.svg';
+import leftArrow from '../../assets/image/leftArrow.svg';
 
 const BackFramework = () => {
   const navigate = useNavigate();
