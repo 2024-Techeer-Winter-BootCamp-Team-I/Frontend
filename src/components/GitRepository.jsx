@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import GithubIcon from "../assets/image/Github.svg"; // SVG 파일 import
+import Button from "./Button/Button"
 
 const GitRepository = () => {
   const [activeButton, setActiveButton] = useState(null); // 현재 활성화된 버튼 상태
   const [innerCircleActive, setInnerCircleActive] = useState(false); // 내부 원(circle) 활성화 상태
+  const handleClick = () => { alert('Button clicked!'); };
+
 
   // 버튼 클릭 시 호출되는 함수
   const handleButtonClick = (buttonName) => {
@@ -36,7 +39,7 @@ const GitRepository = () => {
           </div>
 
           {/* 메인 컴포넌트 */}
-          <div className="w-[46rem] h-[9rem] bg-[#F1EDED] rounded-[1.25rem] flex">
+          <div className="w-[46rem] h-[9rem] bg-[#F1EDED] rounded-[0.75rem] flex">
             {/* 왼쪽 섹션 */}
             <div className="w-[10rem] flex flex-col justify-center items-start pl-[2rem] space-y-[0.75rem]">
               {["REPOSITORY", "PUSH", "IDE"].map((buttonName) => (
@@ -90,13 +93,10 @@ const GitRepository = () => {
               </div>
 
               {/* "CREATE" 버튼 */}
-              <div className="flex justify-end pr-[1rem]"> {/* 오른쪽 패딩 추가 */}
-                <button
-                  onClick={handleCreateClick}
-                  className="w-[6rem] h-[1.8rem] bg-[#1488FC] text-white rounded-md"
-                >
-                  CREATE
-                </button>
+              <div className="flex justify-end pr-[2rem]"> {/* 오른쪽 패딩 추가 */}
+
+                <Button size="small" label="create" color="primary" onclick={handleClick}/>              
+
               </div>
             </div>
           </div>

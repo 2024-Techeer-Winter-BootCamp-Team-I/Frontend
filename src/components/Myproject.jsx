@@ -11,6 +11,7 @@ const Myproject = () => {
   return (
     <div className="relative top-[-7rem] flex h-screen w-full items-center justify-center">
       {/*하늘늘색 테두리 네모박스 */}
+
       <div className="relative h-[35rem] w-[40rem] rounded-[3.125rem] border-[0.125rem] border-[#80B9E8] bg-[#030303]">
         {/* GitHub 아이콘과 이메일 */}
         <div className="ml-[5rem] mt-[1.2rem] flex items-center">
