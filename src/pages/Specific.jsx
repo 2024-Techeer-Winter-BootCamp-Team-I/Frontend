@@ -1,17 +1,22 @@
 import Layout from './Layout';
 import Button from '../components/Button/Button';
-import line from '../assets/image/line.svg';
 
 const Specific = () => {
   return (
     <Layout>
-      <div className="flex min-h-screen flex-col items-center justify-center bg-[#141414]">
+      <div className="flex min-h-screen flex-col items-center justify-center">
         {/* 박스 외부 영역 */}
-        <div className="relative top-[-9rem] flex h-[28rem] w-[52rem] flex-shrink-0 rounded-[1.875rem] bg-[linear-gradient(310deg,_rgba(255,_255,_255,_0.55)_55%,_#7885E9_76%,_#485CF3_100%)] shadow-lg">
-          {/* 선 이미지 */}
-          <img src={line} alt="line" className="absolute left-10 top-0 z-10" />
+        <div className="relative flex h-[28rem] w-[52rem] flex-shrink-0 items-center justify-center rounded-[1.875rem] bg-[#141414] p-[0.125rem] shadow-lg">
+          {/* 그라데이션 테두리 */}
+          <div
+            className="absolute inset-0 rounded-[1.875rem] bg-gradient-to-r from-white/55 via-[#7885E9] to-[#485CF3]"
+            style={{
+              zIndex: 0,
+              padding: '2px', // 테두리 두께 설정
+            }}
+          ></div>
           {/* 스크롤 가능한 내용 박스 */}
-          <div className="absolute left-[0.125rem] top-[0.125rem] z-[20] h-[27.75rem] w-[51.8rem] overflow-y-auto rounded-[1.875rem] bg-[#141414] p-6 text-white">
+          <div className="scrollbar-custom relative z-10 h-[27.75rem] w-[55rem] overflow-y-auto rounded-[1.875rem] bg-[#141414] p-6 text-white shadow-lg">
             <h1 className="mb-4 text-3xl font-bold">Dev Sketch</h1>
             <div className="space-y-4 text-sm leading-relaxed">
               <p>
