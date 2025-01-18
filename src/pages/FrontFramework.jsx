@@ -17,7 +17,7 @@ const FrontFramework = () => {
   const [selectedPosition, setSelectedPosition] = useState(null);
 
   const GoFrontLanguage = () => {
-    navigate('/front-language');
+    navigate('/frontlanguage');
   };
 
   // ChooseBox 클릭 시 호출되는 함수
@@ -33,9 +33,9 @@ const FrontFramework = () => {
 
   return (
     <Layout>
-      <div className="flex h-full w-full flex-col justify-start">
+      <div className="mr-8 flex h-full w-full flex-col">
         <div className="w-full">
-          <div className="ml-auto mr-auto max-w-2xl px-6">
+          <div className="ml-6 mr-6 px-6">
             <FrontStep />
           </div>
         </div>
