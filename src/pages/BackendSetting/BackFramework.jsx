@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ChooseBox from '../../components/ChooseBox/ChooseBox';
@@ -14,6 +14,12 @@ import leftArrow from '../../assets/image/leftArrow.svg';
 const BackFramework = () => {
   const navigate = useNavigate();
   const [selectedPosition, setSelectedPosition] = useState(null);
+  const [isVisible, setIsVisible] = useState(false); // 애니메이션 상태
+
+  useEffect(() => {
+    // 컴포넌트가 마운트되면 애니메이션 시작
+    setIsVisible(true);
+  }, []);
 
   const GoBackDatabase = () => {
     console.log('To direct Navigating');
@@ -33,7 +39,12 @@ const BackFramework = () => {
 
   return (
     <Layout>
-      <div className="mr-8 flex h-full w-full flex-col">
+      {/* 애니메이션 적용 */}
+      <div
+        className={`mr-8 flex h-full w-full transform flex-col transition-all duration-500 ease-out ${
+          isVisible ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'
+        }`}
+      >
         <div className="w-full">
           <div className="ml-6 mr-6 px-6">
             <BackStep />

@@ -1,8 +1,18 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import InputBox from '../components/InputBox/InputBox';
 import Button from '../components/Button/Button';
 import Layout from './Layout';
 
 const InputPage = () => {
+  const navigate = useNavigate();
+
+  const handleDesignClick = () => {
+    alert('설계가 시작됩니다!');
+    // /specific 페이지로 이동
+    navigate('/specific');
+  };
+
   return (
     <Layout>
       <div className="flex min-h-screen flex-col items-center">
@@ -52,10 +62,10 @@ const InputPage = () => {
         {/* 설계하기 버튼 */}
         <div className="mt-10">
           <Button
-            label="설계하기"
+            label="설계하러가기"
             size="medium"
             color="primary"
-            onClick={() => alert('설계가 시작됩니다!')}
+            onClick={handleDesignClick}
           />
         </div>
       </div>

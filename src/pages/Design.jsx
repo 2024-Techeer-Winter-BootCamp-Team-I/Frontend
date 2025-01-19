@@ -2,7 +2,7 @@ import Layout from './Layout';
 import RouteTab from '../components/RouteTab/RouteTab';
 import MultiViewBox from '../components/MultiViewBox/MultiViewBox';
 
-const SettingCheck = () => {
+const Design = () => {
   return (
     <Layout>
       {/* 전체 컨테이너 */}
@@ -19,4 +19,4 @@ const SettingCheck = () => {
   );
 };
 
-export default SettingCheck;
+export default Design;
