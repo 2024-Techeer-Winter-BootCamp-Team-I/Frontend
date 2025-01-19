@@ -1,18 +1,28 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // useNavigate 훅 추가
 import LoginModal from '../LoginModal/LoginModal';
 
 const Navbar = () => {
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false); // LoginModal 표시 상태
+  const navigate = useNavigate(); // useNavigate 훅 사용
 
   // 로그인 버튼 클릭 시 모달 토글
   const handleLoginClick = () => {
     setIsLoginModalVisible((prevState) => !prevState); // 현재 상태의 반대로 설정
   };
 
+  // 로고 클릭 시 홈 페이지로 이동
+  const handleLogoClick = () => {
+    navigate('/'); // 홈 페이지로 이동
+  };
+
   return (
     <nav className="flex items-center justify-between p-6">
       {/* DevSketch 로고 */}
-      <div className="bg-gradient-to-r from-[#FFFFFF] via-[#9BB6CC] to-[#01457E] bg-clip-text text-[2rem] font-bold text-transparent">
+      <div
+        className="cursor-pointer bg-gradient-to-r from-[#FFFFFF] via-[#9BB6CC] to-[#01457E] bg-clip-text text-[2rem] font-bold text-transparent"
+        onClick={handleLogoClick} // 로고 클릭 시 handleLogoClick 함수 실행
+      >
         DevSketch
       </div>
       <div

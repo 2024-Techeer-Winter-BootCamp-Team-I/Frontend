@@ -1,13 +1,21 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // useNavigate 추가
 import Layout from './Layout';
 import Button from '../components/Button/Button';
 import EditModal from '../components/EditModal';
 
 const Specific = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림 상태 관리
+  const navigate = useNavigate(); // useNavigate 훅 사용
 
   const openModal = () => setIsModalOpen(true); // 모달 열기
   const closeModal = () => setIsModalOpen(false); // 모달 닫기
+
+  const handleSpecificClick = () => {
+    alert('API, ERD, 다이어그램을 제작합니다');
+    // /Design 페이지로 이동
+    navigate('/design');
+  };
 
   return (
     <Layout>
@@ -81,7 +89,7 @@ const Specific = () => {
             label="설계하기"
             size="medium"
             color="primary"
-            onClick={() => alert('설계가 시작됩니다!')}
+            onClick={handleSpecificClick}
           />
         </div>
       </div>

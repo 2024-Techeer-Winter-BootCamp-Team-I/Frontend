@@ -14,16 +14,14 @@ const ChooseBox = ({
     <div className="[rgba(255,255,255,0.55)] relative h-[20rem] w-[13rem] flex-shrink-0 items-center justify-center rounded-[1.5rem] bg-gradient-to-br from-[#495DF3] via-[#848181] to-[#848181]">
       {/* 내부 상자 */}
       <div
-        className={`absolute left-[0.125rem] top-[0.1rem] z-[20] h-[19.8rem] w-[12.8rem] rounded-[1.4rem] ${
-          isSelected ? 'bg-gray-700' : backColor
+        className={`absolute left-[0.125rem] top-[0.1rem] z-[20] h-[19.8rem] w-[12.8rem] rounded-[1.4rem] transition-colors duration-200 hover:bg-gray-600 ${
+          isSelected ? 'bg-gray-800' : backColor
         }`} // 선택 상태에 따라 배경색 변경
         onClick={onClick} // 클릭 이벤트 전달
       >
         {/* 기술스택 이름 */}
         <label
-          className={`absolute left-7 top-6 font-sans text-[1.5rem] text-lg ${
-            isSelected ? 'text-black' : 'text-white'
-          }`} // 선택 상태에 따라 글자색 변경
+          className={`absolute left-7 top-6 font-sans text-[1.5rem] text-lg font-bold text-white`} // 선택 상태에 따라 글자색 변경
         >
           {label}
         </label>
