@@ -1,16 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputBox from '../components/InputBox/InputBox';
 import Button from '../components/Button/Button';
 import Layout from './Layout';
+import { createDocument } from '../api/documentsApi'; // api 함수 임포트
 
 const InputPage = () => {
+  const [projectName, setProjectName] = useState('');
+  const [projectDescription, setProjectDescription] = useState('');
+  const [projectFeatures, setProjectFeatures] = useState('');
   const navigate = useNavigate();
 
-  const handleDesignClick = () => {
-    alert('설계가 시작됩니다!');
-    // /specific 페이지로 이동
-    navigate('/specific');
+  const handleDesignClick = async () => {
+    const documentData = {
+      name: projectName,
+      description: projectDescription,
+      features: projectFeatures,
+    };
+
+    try {
+      const newDocument = await createDocument(documentData);
+      alert('문서가 성공적으로 생성되었습니다!');
+      console.log('새로 생성된 문서:', newDocument);
+
+      // 설계 페이지로 이동 (필요한 경우)
+      navigate('/specific');
+    } catch (error) {
+      alert('문서 생성에 실패했습니다. 다시 시도해주세요.');
+      console.error(error);
+    }
   };
 
   return (
@@ -33,7 +51,12 @@ const InputPage = () => {
             >
               프로젝트 이름
             </label>
-            <InputBox size="small" placeholder="프로젝트 이름을 입력하세요" />
+            <InputBox
+              size="small"
+              placeholder="프로젝트 이름을 입력하세요"
+              value={projectName}
+              onChange={(e) => setProjectName(e.target.value)}
+            />
           </div>
 
           {/* 프로젝트 설명 */}
@@ -44,7 +67,12 @@ const InputPage = () => {
             >
               프로젝트 설명
             </label>
-            <InputBox size="medium" placeholder="프로젝트 설명을 입력하세요" />
+            <InputBox
+              size="medium"
+              placeholder="프로젝트 설명을 입력하세요"
+              value={projectDescription}
+              onChange={(e) => setProjectDescription(e.target.value)}
+            />
           </div>
 
           {/* 주요 기능 */}
@@ -55,7 +83,12 @@ const InputPage = () => {
             >
               주요 기능
             </label>
-            <InputBox size="large" placeholder="주요 기능을 입력하세요" />
+            <InputBox
+              size="large"
+              placeholder="주요 기능을 입력하세요"
+              value={projectFeatures}
+              onChange={(e) => setProjectFeatures(e.target.value)}
+            />
           </div>
         </div>
 
