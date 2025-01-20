@@ -72,10 +72,10 @@ const MultiViewBox = () => {
         {/* 확인 버튼 (오른쪽 끝) */}
         <div className="absolute right-0 top-[31rem] transform -translate-y-1/2 mr-4 z-20">
           <Button
-            label="확인"
+            label="세팅"
             size="small"
             color="primary"
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/setting')}
           />
         </div>
       </div>

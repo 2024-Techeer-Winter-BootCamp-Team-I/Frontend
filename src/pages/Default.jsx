@@ -53,7 +53,7 @@ const Default = () => {
         </p>
 
         {/* 선택박스 컨테이너 */}
-        <div className="my-1 flex items-center justify-center gap-16">
+        <div className="flex items-center justify-center gap-16">
           {/* 설계 페이지 선택 */}
           <ChooseBox
             label="설계"
@@ -74,7 +74,7 @@ const Default = () => {
         </div>
 
         {/* 마지막 텍스트 섹션 */}
-        <div className="mt-10 flex flex-col items-center space-y-4 text-center">
+        <div className="mt-8 flex flex-col items-center space-y-4 text-center">
           <p className="text-[1rem] text-[#D9D9D9]">
             We help setting using with many Tech Stacks
           </p>
