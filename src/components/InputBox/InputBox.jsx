@@ -4,7 +4,7 @@ const InputBox = ({ size, placeholder }) => {
   const sizeClass = {
     small: 'w-[600px] h-[40px]',
     medium: 'w-[600px] h-[80px]',
-    large: 'w-[600px] h-[120px]',
+    large: 'w-[600px] h-[130px]',
   };
 
   return (

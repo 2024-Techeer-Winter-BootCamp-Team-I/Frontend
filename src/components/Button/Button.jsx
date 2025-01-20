@@ -5,7 +5,7 @@ const Button = ({ label, size, color, onClick }) => {
     small:
       'flex items-center justify-center px-2 py-1 text-[14px] font-medium font-sans w-[100px] h-[30px]',
     medium:
-      'flex items-center justify-center font-sans font-semibold text-[22px] px-4 py-2  w-[250px] h-[50px] ',
+      'flex items-center justify-center font-sans font-semibold text-[18px] px-4 py-2  w-[230px] h-[45px] ',
   };
   const colorClass = {
     primary: 'bg-blue-500 text-white hover:bg-blue-700',

@@ -11,7 +11,7 @@ const Myproject = () => {
   return (
     <div className="mt-0 flex h-full w-full flex-col">
       <div className="flex h-[35rem] w-full items-center justify-center">
-        {/*하늘늘색 테두리 네모박스 */}
+        {/*하늘색 테두리 네모박스 */}
         <div className="h-[35rem] w-[40rem] rounded-[3.125rem] border-[0.125rem] border-[#80B9E8] bg-[#030303]">
           {/* GitHub 아이콘과 이메일 */}
           <div className="ml-[5rem] mt-[2.5rem] flex items-center">
