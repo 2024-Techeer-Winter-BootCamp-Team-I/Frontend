@@ -1,4 +1,4 @@
-import jsonAxios from './axios.config';
+import { jsonAxios } from './axios.config'; // jsonAxios를 명시적으로 가져옴
 
 export const getDocuments = async () => {
   const response = await jsonAxios.get('/documents/');

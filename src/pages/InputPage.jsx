@@ -12,24 +12,24 @@ const InputPage = () => {
   const navigate = useNavigate();
 
   const handleDesignClick = async () => {
-    const documentData = {
-      name: projectName,
-      description: projectDescription,
-      features: projectFeatures,
-    };
-
-    try {
-      const newDocument = await createDocument(documentData);
-      alert('문서가 성공적으로 생성되었습니다!');
-      console.log('새로 생성된 문서:', newDocument);
-
-      // 설계 페이지로 이동 (필요한 경우)
-      navigate('/specific');
-    } catch (error) {
-      alert('문서 생성에 실패했습니다. 다시 시도해주세요.');
-      console.error(error);
-    }
+  const documentData = {
+    title: projectName, // 프로젝트 이름
+    content: projectDescription, // 프로젝트 설명
+    discription: projectFeatures, // 주요 기능 (API 테스트에서는 'discription' 필드 사용)
   };
+
+  try {
+    const newDocument = await createDocument(documentData);
+    alert('문서가 성공적으로 생성되었습니다!');
+    console.log('새로 생성된 문서:', newDocument);
+
+    // 설계 페이지로 이동 (필요한 경우)
+    navigate('/specific');
+  } catch (error) {
+    alert('문서 생성에 실패했습니다. 다시 시도해주세요.');
+    console.error('Error:', error.response ? error.response.data : error.message);
+  }
+};
 
   return (
     <Layout>
