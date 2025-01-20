@@ -11,7 +11,7 @@ const InputPage = () => {
   const [projectFeatures, setProjectFeatures] = useState('');
   const navigate = useNavigate();
 
-  const handleDesignClick = async () => {
+ const handleDesignClick = async () => {
   const documentData = {
     title: projectName, // 프로젝트 이름
     content: projectDescription, // 프로젝트 설명
