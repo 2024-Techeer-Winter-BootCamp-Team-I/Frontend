@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FrontStacksContext } from '../../context/frontStacksContext'; // Context 임포트
 
 import ChooseBox from '../../components/ChooseBox/ChooseBox';
 import FrontStep from '../../components/FrontStep/FrontStep';
@@ -14,9 +15,29 @@ import rightArrow from '../../assets/image/rightArrow.svg';
 
 const FrontFramework = () => {
   const navigate = useNavigate();
-  const [selectedPosition, setSelectedPosition] = useState(null);
+  const { front, addFront, removeFront } = useContext(FrontStacksContext); // 전역 상태 사용
+  const [selectedPosition, setSelectedPosition] = useState(null); // 선택된 프레임워크
+
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때, 이미 선택된 프레임워크가 있다면 selectedPosition 상태를 설정
+    const framework = front.find((item) =>
+      ['React', 'Vue', 'Svelt'].includes(item),
+    );
+    if (framework) {
+      setSelectedPosition(framework); // 선택된 프레임워크 설정
+    }
+  }, [front]);
+
+  // front 배열이 변경될 때마다 콘솔에 출력
+  useEffect(() => {
+    console.log('Front Stacks (Framework):', front);
+  }, [front]);
 
   const GoFrontLanguage = () => {
+    if (!selectedPosition) {
+      alert('프레임워크를 선택해주세요.');
+      return;
+    }
     navigate('/frontlanguage');
   };
 
@@ -25,9 +46,19 @@ const FrontFramework = () => {
     if (selectedPosition === position) {
       // 이미 선택된 항목을 다시 클릭하면 선택 해제
       setSelectedPosition(null);
+      removeFront(position); // 전역 상태에서 제거
     } else {
       // 새로운 항목 선택
       setSelectedPosition(position);
+
+      // 기존 프레임워크를 제거하고 새로운 프레임워크 추가
+      const existingFramework = front.find((item) =>
+        ['React', 'Vue', 'Svelt'].includes(item),
+      );
+      if (existingFramework) {
+        removeFront(existingFramework); // 기존 프레임워크 제거
+      }
+      addFront(position); // 새로운 프레임워크 추가
     }
   };
 

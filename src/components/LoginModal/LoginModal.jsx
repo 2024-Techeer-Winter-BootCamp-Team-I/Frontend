@@ -2,7 +2,7 @@ import github from '../../assets/image/github.svg'; // GitHub 아이콘
 
 const LoginModal = ({ onClose }) => {
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="relative h-[40rem] w-[30rem] rounded-lg border border-[#6F6F6F] bg-[#0E1216] p-6 shadow-lg">
         <button
           className="absolute right-2 top-2 text-2xl text-gray-200 hover:text-gray-800"

@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BackStacksContext } from '../../context/backStacksContext'; // Context 임포트
 
 import ChooseBox from '../../components/ChooseBox/ChooseBox';
 import BackStep from '../../components/BackStep/BackStep';
@@ -13,27 +14,51 @@ import leftArrow from '../../assets/image/leftArrow.svg';
 
 const BackFramework = () => {
   const navigate = useNavigate();
-  const [selectedPosition, setSelectedPosition] = useState(null);
+  const { back, setBack, addBack, removeBack } = useContext(BackStacksContext); // setBackStacks -> setBack로 수정
+  const [selectedPosition, setSelectedPosition] = useState(null); // 선택된 프레임워크
   const [isVisible, setIsVisible] = useState(false); // 애니메이션 상태
 
   useEffect(() => {
-    // 컴포넌트가 마운트되면 애니메이션 시작
-    setIsVisible(true);
+    // 컴포넌트가 마운트될 때, 이미 선택된 프레임워크가 있다면 selectedPosition 상태를 설정
+    if (back.length > 0) {
+      setSelectedPosition(back[0]); // 예: 첫 번째 항목을 선택
+    }
+  }, [back]);
+
+  useEffect(() => {
+    // 컴포넌트가 마운트되면 100ms 후에 애니메이션 시작
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 100);
+    return () => clearTimeout(timer); // 컴포넌트 언마운트 시 타이머 클리어
   }, []);
 
+  // back 배열이 변경될 때마다 콘솔에 출력
+  useEffect(() => {
+    console.log('Back Stacks:', back);
+  }, [back]);
+
   const GoBackDatabase = () => {
-    console.log('To direct Navigating');
+    if (!selectedPosition) {
+      alert('프레임워크를 선택해주세요.');
+      return;
+    }
     navigate('/backdatabase');
   };
 
   // ChooseBox 클릭 시 호출되는 함수
-  const handleChooseBoxClick = (position) => {
-    if (selectedPosition === position) {
+  const handleChooseBoxClick = (framework) => {
+    if (selectedPosition === framework) {
       // 이미 선택된 항목을 다시 클릭하면 선택 해제
       setSelectedPosition(null);
+      removeBack(framework); // 전역 상태에서 제거
     } else {
       // 새로운 항목 선택
-      setSelectedPosition(position);
+      setSelectedPosition(framework);
+
+      // 기존 항목을 모두 제거하고 새로운 항목만 추가
+      setBack([]); // 배열 비우기 (setBackStacks -> setBack로 수정)
+      addBack(framework); // 새로운 항목 추가
     }
   };
 
