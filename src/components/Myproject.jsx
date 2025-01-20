@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import GithubIcon from '../assets/image/Github.svg';
+import TrashcanIcon from '../assets/image/trashcan.svg'; // trashcan 아이콘 추가
 
 const Myproject = () => {
   const navigate = useNavigate();
@@ -29,13 +30,22 @@ const Myproject = () => {
               'Third Project',
               'Fourth Project',
             ].map((project, index) => (
-              <button
-                key={index}
-                onClick={() => handleProjectClick(project)}
-                className="flex h-[3.9rem] w-[30rem] items-center rounded-[0.625rem] bg-[#171717] px-[1.25rem] text-left transition hover:bg-[#4B4B4B] group-hover:text-blue-main"
-              >
-                <p className="text-[1rem] font-medium text-white">{project}</p>
-              </button>
+              <div className="flex items-center gap-4" key={index}>
+                <button
+                  onClick={() => handleProjectClick(project)}
+                  className="flex h-[3.9rem] w-[30rem] items-center rounded-[0.625rem] bg-[#171717] px-[1.25rem] text-left transition hover:bg-[#4B4B4B]"
+                >
+                  <p className="text-[1rem] font-medium text-white">{project}</p>
+                </button>
+
+                {/* trashcan 아이콘 추가 */}
+                <img
+                  src={TrashcanIcon}
+                  alt="Delete"
+                  className="h-[2rem] w-[2rem] cursor-pointer hover:opacity-70"
+                  onClick={() => console.log(`${project} 삭제`)} // 아이콘 클릭 시 삭제 로직 추가
+                />
+              </div>
             ))}
           </div>
         </div>
