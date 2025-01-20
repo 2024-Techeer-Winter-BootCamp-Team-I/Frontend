@@ -45,15 +45,15 @@ const Default = () => {
         transition={{ duration: 0.5 }} // 애니메이션 지속 시간
         className="flex min-h-screen flex-col items-center"
       >
-        <h1 className="mb-3 text-[40px] font-bold text-white">
+        <h1 className="mb-5 text-[40px] font-bold text-white">
           What do you want to Create?
         </h1>
-        <p className="mb-10 text-sm text-gray-400">
+        <p className="mb-12 text-sm text-gray-400">
           Make API, ERD, DIAGRAM and Setting
         </p>
 
         {/* 선택박스 컨테이너 */}
-        <div className="my-5 flex items-center justify-center gap-16">
+        <div className="my-1 flex items-center justify-center gap-16">
           {/* 설계 페이지 선택 */}
           <ChooseBox
             label="설계"

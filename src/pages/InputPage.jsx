@@ -19,7 +19,7 @@ const InputPage = () => {
         <h1 className="mb-3 text-[40px] font-bold text-white">
           What do you want to Create?
         </h1>
-        <p className="mb-10 text-sm text-gray-400">
+        <p className="mb-15 text-sm text-gray-400">
           Make API, ERD, DIAGRAM and Setting
         </p>
 
