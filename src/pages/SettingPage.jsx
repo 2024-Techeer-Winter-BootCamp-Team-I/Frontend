@@ -1,25 +1,41 @@
-import { useState } from 'react';
+// SettingPage.jsx
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ChooseBox from '../components/ChooseBox/ChooseBox';
+import useSettingStore from '../store/useSettingStore'; // zustand 스토어 import
 
 import Layout from './Layout';
 
 import front from '../assets/image/front.svg';
 import back from '../assets/image/back.svg';
+import leftArrow from '../assets/image/leftArrow.svg';
+import rightArrow from '../assets/image/rightArrow.svg';
 
 const SettingPage = () => {
   const navigate = useNavigate();
-  const [selectedPosition, setSelectedPosition] = useState(null);
+  const { selectedPositions, togglePosition } = useSettingStore();
+  // zustand 스토어에서 상태와 함수 가져오기
 
-  // ChooseBox 클릭 시 호출되는 함수
-  const handleChooseBoxClick = (position) => {
-    setSelectedPosition(position);
+  // selectedPositions가 변경될 때마다 콘솔에 출력
+  useEffect(() => {
+    console.log('Selected Positions:', selectedPositions);
+  }, [selectedPositions]);
+
+  // rightArrow 클릭 시 호출되는 함수
+  const handleRightArrowClick = () => {
+    if (selectedPositions.length === 0) {
+      // 선택된 포지션이 없으면 경고 메시지 표시
+      alert('포지션을 선택해주세요.');
+      return;
+    }
 
     // 선택된 포지션에 따라 페이지 이동
-    if (position === 'Frontend') {
-      navigate('/frontpackage'); // 프론트엔드 선택 시 이동
-    } else if (position === 'Backend') {
-      navigate('/backframework'); // 백엔드 선택 시 이동
+    if (selectedPositions.includes('Frontend')) {
+      // 프론트엔드가 선택된 경우
+      navigate('/frontpackage');
+    } else if (selectedPositions.includes('Backend')) {
+      // 백엔드만 선택된 경우
+      navigate('/backframework');
     }
   };
 
@@ -36,25 +52,35 @@ const SettingPage = () => {
             />
 
             <p className="mt-10 font-sans text-lg text-white">
-              프로젝트 세팅할 포지션(중복불가)
+              프로젝트 세팅할 포지션(중복가능)
             </p>
 
             <div className="mt-3 flex w-full max-w-2xl justify-center gap-8">
+              <div className="opacity-0 focus:outline-none">
+                <img src={leftArrow} alt="Left Arrow" className="h-12 w-12" />
+              </div>
               {/* 프론트엔드 선택 박스 */}
               <ChooseBox
                 label="Frontend"
                 imageUrl={front}
-                isSelected={selectedPosition === 'Frontend'}
-                onClick={() => handleChooseBoxClick('Frontend')}
+                isSelected={selectedPositions.includes('Frontend')}
+                onClick={() => togglePosition('Frontend')} // zustand 스토어의 togglePosition 사용
               />
 
               {/* 백엔드 선택 박스 */}
               <ChooseBox
                 label="Backend"
                 imageUrl={back}
-                isSelected={selectedPosition === 'Backend'}
-                onClick={() => handleChooseBoxClick('Backend')}
+                isSelected={selectedPositions.includes('Backend')}
+                onClick={() => togglePosition('Backend')} // zustand 스토어의 togglePosition 사용
               />
+              {/* rightArrow */}
+              <button
+                onClick={handleRightArrowClick}
+                className="focus:outline-none"
+              >
+                <img src={rightArrow} alt="Right Arrow" className="h-12 w-12" />
+              </button>
             </div>
           </div>
         </div>
