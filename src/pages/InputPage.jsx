@@ -3,7 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import InputBox from '../components/InputBox/InputBox';
 import Button from '../components/Button/Button';
 import Layout from './Layout';
-import { createDocument } from '../api/documentsApi'; // api 함수 임포트
+import { createDocument } from '../api/documentsApi';
+import { jsonAxios } from '../api/axios.config'; // jsonAxios 임포트
+
+// access token 가져오는 함수
+const fetchAccessToken = async () => {
+  try {
+    const codeResponse = await jsonAxios.get('/login/code/view'); // 수정된 경로
+    const code = codeResponse.data.code;
+    const tokenResponse = await jsonAxios.get(`/login/github/callback?code=${code}`);
+    return tokenResponse.data.access;
+  } catch (error) {
+    console.error('Error fetching access token:', error);
+    throw error;
+  }
+};
 
 const InputPage = () => {
   const [projectName, setProjectName] = useState('');
@@ -11,18 +25,19 @@ const InputPage = () => {
   const [projectFeatures, setProjectFeatures] = useState('');
   const navigate = useNavigate();
 
-  // 문서 생성 클릭 시 처리
   const handleDesignClick = async () => {
-    const documentData = {
-      title: projectName,
-      content: projectDescription,
-      discription: projectFeatures,
-    };
-
     try {
-      const newDocument = await createDocument(documentData); // 토큰은 axios.config.js에서 자동 처리
+      const accessToken = await fetchAccessToken();
+
+      const documentData = {
+        title: projectName,
+        content: projectDescription,
+        requirements: projectFeatures,
+      };
+
+      const response = await createDocument(documentData, accessToken);
       alert('문서가 성공적으로 생성되었습니다!');
-      console.log('새로 생성된 문서:', newDocument);
+      console.log('새로 생성된 문서:', response);
       navigate('/specific');
     } catch (error) {
       alert('문서 생성에 실패했습니다. 다시 시도해주세요.');

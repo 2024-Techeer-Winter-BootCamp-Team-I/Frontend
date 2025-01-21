@@ -1,16 +1,12 @@
 import axios from 'axios';
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-// 고정된 토큰
-const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM3NDQ4ODMyLCJpYXQiOjE3Mzc0NDcwMzIsImp0aSI6IjNhNmM5MGQ1ZmFiMDRkY2Q5ZjNjMzBmMTJmZjgwMzNkIiwidXNlcl9pZCI6MX0.C33HFAYVPLLwiKBi_xHk_1YdsLQ-KoI6-ndRhxS3eUE';
-
 // jsonAxios 인스턴스 설정
 export const jsonAxios = axios.create({
   baseURL: BASE_URL,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${accessToken}`, // 고정된 토큰 추가
   },
 });
 
@@ -18,24 +14,18 @@ export const jsonAxios = axios.create({
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,
   timeout: 10000,
-  withCredentials: true, // 필요에 따라 설정
+  withCredentials: true,
 });
 
 // 요청 인터셉터: 인증 토큰 자동 첨부
 axiosInstance.interceptors.request.use(
   async (config) => {
     try {
-      // 1. code 값을 가져오기
-      const codeResponse = await jsonAxios.get('/api/v1/login/code/view');
-      const code = codeResponse.data.code;
+      // 1. code를 백엔드에서 처리 후 accessToken을 가져옴
+      const tokenResponse = await jsonAxios.get('/auth/github/token');
+      const accessToken = tokenResponse.data.accessToken;
 
-      // 2. code를 사용해 access 토큰 가져오기
-      const tokenResponse = await jsonAxios.get(
-        `/login/github/callback?code=${code}`,
-      );
-      const accessToken = tokenResponse.data.access;
-
-      // 3. Authorization 헤더에 access 토큰 추가
+      // 2. accessToken을 Authorization 헤더에 추가
       if (accessToken && config.headers) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
@@ -44,11 +34,6 @@ axiosInstance.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error),
-);
-// 응답 인터셉터
-axiosInstance.interceptors.response.use(
-  (response) => response,
   (error) => Promise.reject(error),
 );
 

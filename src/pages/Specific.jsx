@@ -28,7 +28,7 @@ const Specific = () => {
           <div className="relative z-10 h-[27.75rem] w-[51.75rem] overflow-y-auto rounded-[1.875rem] bg-[#141414] p-6 text-white shadow-lg">
             <h1 className="mb-4 text-3xl font-bold">Dev Sketch</h1>
             <div className="space-y-4 text-sm leading-relaxed">
-            <p>
+              <p>
                 <strong>1. 시스템 목적</strong>
                 <br />
                 Dev Sketch는 개발자의 초기 프로젝트 설계와 세팅 단계를
