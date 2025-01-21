@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ChooseBox from '../../components/ChooseBox/ChooseBox';
 import FrontStep from '../../components/FrontStep/FrontStep';
 import Layout from '../Layout';
+import useSettingStore from '../../store/useSettingStore'; // zustand 스토어 import
+import useFrontStore from '../../store/useFrontStore'; // zustand 스토어 import
 
 import javascript from '../../assets/image/javascript.svg';
 import typescript from '../../assets/image/typescript.svg';
@@ -11,23 +13,59 @@ import typescript from '../../assets/image/typescript.svg';
 import leftArrow from '../../assets/image/leftArrow.svg';
 import rightArrow from '../../assets/image/rightArrow.svg';
 
-const FrontMODIFIED = () => {
-  const navigate = useNavigate();
-  const [selectedPosition, setSelectedPosition] = useState(null);
+import FrontSettingModal from '../../components/SettingModal/FrontSettingModal'; // 올바른 경로로 수정
 
-  // 이후 수정해야할 경로
-  const GoFrontMODIFIED = () => {
-    navigate('/frontlanguage');
+const FrontLanguage = () => {
+  const navigate = useNavigate();
+  const { selectedPositions } = useSettingStore(); // zustand 스토어에서 상태 가져오기
+  const { selectedLanguage, setSelectedLanguage } = useFrontStore(); // zustand 스토어에서 상태와 함수 가져오기
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // selectedLanguage가 변경될 때마다 전체 상태를 콘솔에 출력
+  useEffect(() => {
+    const currentState = useFrontStore.getState(); // 스토어의 전체 상태 가져오기
+    console.log('Current State:', currentState);
+  }, [selectedLanguage]);
+
+  // 다음 페이지로 이동하는 함수
+  const GoNextPage = () => {
+    // 선택된 언어가 없으면 경고 메시지 표시
+    if (!selectedLanguage) {
+      alert('언어를 선택해주세요.');
+      return;
+    }
+
+    // 무조건 모달창 띄우기
+    setIsModalOpen(true);
+  };
+
+  // 모달에서 확인 버튼을 눌렀을 때 실행되는 함수
+  const handleConfirm = () => {
+    // 백엔드와 프론트엔드가 모두 선택된 경우
+    if (
+      selectedPositions.includes('Frontend') &&
+      selectedPositions.includes('Backend')
+    ) {
+      navigate('/backframework'); // 백엔드 프레임워크 선택 페이지로 이동
+    }
+    // 그 외의 경우
+    else {
+      navigate('/settingcheck'); // 세팅 확인 페이지로 이동
+    }
   };
 
   // ChooseBox 클릭 시 호출되는 함수
-  const handleChooseBoxClick = (position) => {
-    if (selectedPosition === position) {
+  const handleChooseBoxClick = (language) => {
+    if (selectedLanguage === language) {
       // 이미 선택된 항목을 다시 클릭하면 선택 해제
-      setSelectedPosition(null);
+      setSelectedLanguage(null);
     } else {
       // 새로운 항목 선택
-      setSelectedPosition(position);
+      setSelectedLanguage(language);
     }
   };
 
@@ -52,40 +90,49 @@ const FrontMODIFIED = () => {
                 title="Previous Page"
               />
 
-              {/* JavaScript */}
+              {/* JavaScript 선택 박스 */}
               <ChooseBox
                 label="JavaScript"
                 imageUrl={javascript}
-                isSelected={selectedPosition === 'JavaScript'}
-                onClick={() => handleChooseBoxClick('JavaScript')}
+                isSelected={selectedLanguage === 'JavaScript'}
+                onClick={() => handleChooseBoxClick('JavaScript')} // zustand 스토어의 setSelectedLanguage 사용
                 description={
                   '웹과 서버에서 사용하는 동적 타이핑 기반의 유연한 스크립트 언어'
                 }
               />
-              {/* TypeScript */}
+
+              {/* TypeScript 선택 박스 */}
               <ChooseBox
                 label="TypeScript"
                 imageUrl={typescript}
-                isSelected={selectedPosition === 'TypeScript'}
-                onClick={() => handleChooseBoxClick('TypeScript')}
+                isSelected={selectedLanguage === 'TypeScript'}
+                onClick={() => handleChooseBoxClick('TypeScript')} // zustand 스토어의 setSelectedLanguage 사용
                 description={
                   '정적 타이핑과 추가 기능으로 코드 안정성을 강화한 JavaScript의 확장 언어'
                 }
               />
+
               {/* 오른쪽 화살표 */}
               <img
                 src={rightArrow}
                 alt="Next"
-                className="h-12 w-12 cursor-pointer opacity-0"
-                onClick={GoFrontMODIFIED}
+                className="h-12 w-12 cursor-pointer"
+                onClick={GoNextPage}
                 title="Next Page"
               />
             </div>
           </div>
         </div>
       </div>
+
+      {/* FrontStackModal 컴포넌트 */}
+      <FrontSettingModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirm} // 확인 버튼 클릭 시 handleConfirm 실행
+      />
     </Layout>
   );
 };
 
-export default FrontMODIFIED;
+export default FrontLanguage;
