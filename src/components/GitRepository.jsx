@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import GithubIcon from '../assets/image/Github.svg'; // SVG 파일 import
 import Button from './Button/Button';
-import createRepository from '../api/reposApi';
 
 const GitRepository = () => {
   const [activeButton, setActiveButton] = useState(null); // 현재 활성화된 버튼 상태
