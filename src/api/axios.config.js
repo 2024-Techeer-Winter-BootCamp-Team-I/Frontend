@@ -21,8 +21,17 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   async (config) => {
     try {
-      const response = await jsonAxios.get('/api/v1/login/code/view'); // 토큰 요청
-      const accessToken = response.data.code;
+      // 1. code 값을 가져오기
+      const codeResponse = await jsonAxios.get('/api/v1/login/code/view');
+      const code = codeResponse.data.code;
+
+      // 2. code를 사용해 access 토큰 가져오기
+      const tokenResponse = await jsonAxios.get(
+        `/login/github/callback?code=${code}`,
+      );
+      const accessToken = tokenResponse.data.access;
+
+      // 3. Authorization 헤더에 access 토큰 추가
       if (accessToken && config.headers) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
@@ -33,7 +42,6 @@ axiosInstance.interceptors.request.use(
   },
   (error) => Promise.reject(error),
 );
-
 // 응답 인터셉터
 axiosInstance.interceptors.response.use(
   (response) => response,
