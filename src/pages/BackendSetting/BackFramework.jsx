@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import ChooseBox from '../../components/ChooseBox/ChooseBox';
 import BackStep from '../../components/BackStep/BackStep';
 import Layout from '../Layout';
+import useBackStore from '../../store/useBackStore'; // Zustand 스토어 import
 
 import django from '../../assets/image/django.svg';
 import springboot from '../../assets/image/springboot.svg';
@@ -13,28 +14,29 @@ import leftArrow from '../../assets/image/leftArrow.svg';
 
 const BackFramework = () => {
   const navigate = useNavigate();
-  const [selectedPosition, setSelectedPosition] = useState(null);
-  const [isVisible, setIsVisible] = useState(false); // 애니메이션 상태
+  const { selectedFramework, setSelectedFramework } = useBackStore(); // Zustand 스토어에서 상태와 함수 가져오기
+  const [isVisible, setIsVisible] = useState(false);
 
+  // 컴포넌트가 마운트되면 애니메이션 시작
   useEffect(() => {
-    // 컴포넌트가 마운트되면 애니메이션 시작
     setIsVisible(true);
   }, []);
 
-  const GoBackDatabase = () => {
-    console.log('To direct Navigating');
-    navigate('/backdatabase');
-  };
+  // selectedFramework가 변경될 때마다 전체 상태를 콘솔에 출력
+  useEffect(() => {
+    const currentState = useBackStore.getState(); // 스토어의 전체 상태 가져오기
+    console.log('Current State:', currentState);
+  }, [selectedFramework]);
 
-  // ChooseBox 클릭 시 호출되는 함수
-  const handleChooseBoxClick = (position) => {
-    if (selectedPosition === position) {
-      // 이미 선택된 항목을 다시 클릭하면 선택 해제
-      setSelectedPosition(null);
-    } else {
-      // 새로운 항목 선택
-      setSelectedPosition(position);
+  const GoBackDatabase = () => {
+    // 선택된 프레임워크가 없으면 경고 메시지 표시
+    if (!selectedFramework) {
+      alert('프레임워크를 선택해주세요.');
+      return;
     }
+
+    // 다음 페이지로 이동
+    navigate('/backdatabase');
   };
 
   return (
@@ -45,11 +47,13 @@ const BackFramework = () => {
           isVisible ? 'translate-x-0 opacity-100' : '-translate-x-10 opacity-0'
         }`}
       >
+        {/* 상단 단계 표시 */}
         <div className="w-full">
           <div className="ml-6 mr-6 px-6">
             <BackStep />
           </div>
         </div>
+
         <div className="ml-auto mr-auto flex h-full flex-col items-center justify-center rounded-lg p-6">
           <div className="mb-0 w-full">
             <div className="mt-6 flex w-full max-w-2xl items-center justify-center gap-8">
@@ -59,32 +63,33 @@ const BackFramework = () => {
                 className="h-12 w-12 cursor-pointer opacity-0"
               />
 
-              {/* Django */}
+              {/* Django 선택 박스 */}
               <ChooseBox
                 label="Django"
                 imageUrl={django}
-                isSelected={selectedPosition === 'Django'}
-                onClick={() => handleChooseBoxClick('Django')}
+                isSelected={selectedFramework === 'Django'}
+                onClick={() => setSelectedFramework('Django')} // Zustand 스토어의 setSelectedFramework 사용
                 description={
                   'Python 기반 웹 프레임워크로, 빠른 개발과 단순함을 지향하며 ORM, 인증, 관리자 패널 등 다양한 기능을 기본 제공'
                 }
               />
 
-              {/* Springboot */}
+              {/* Springboot 선택 박스 */}
               <ChooseBox
                 label="Springboot"
                 imageUrl={springboot}
-                isSelected={selectedPosition === 'Springboot'}
-                onClick={() => handleChooseBoxClick('Springboot')}
+                isSelected={selectedFramework === 'Springboot'}
+                onClick={() => setSelectedFramework('Springboot')} // Zustand 스토어의 setSelectedFramework 사용
                 description={
                   'Java 기반 프레임워크 Spring의 확장판으로, 설정을 간소화하고 빠른 애플리케이션 개발을 지원하며 REST API, 마이크로서비스 등에 적합'
                 }
               />
+
               {/* 오른쪽 화살표 */}
               <img
                 src={rightArrow}
                 alt="Next"
-                className="ml-auto mr-auto h-12 w-12 cursor-pointer"
+                className="h-12 w-12 cursor-pointer"
                 onClick={GoBackDatabase}
                 title="Next Page"
               />
