@@ -11,6 +11,6 @@ export const createDocument = async (documentData) => {
 
 /*// 문서 목록 가져오기
 export const getDocuments = async () => {
-  const response = await axiosInstance.get('/documents/');
+  const response = await jsonAxios.get('/documents/');
   return response.data;
-};*/
+}
