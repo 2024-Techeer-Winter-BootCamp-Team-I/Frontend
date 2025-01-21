@@ -1,19 +1,16 @@
 import { axiosInstance } from './axios.config'; // axiosInstance를 가져옴
 
-export const getDocuments = async (token) => {
-  const response = await axiosInstance.get('/documents/', {
-    headers: {
-      Authorization: `Bearer ${token}`, // 토큰을 헤더에 추가
-    },
-  });
+// 문서 생성하기
+export const createDocument = async (documentData) => {
+  const response = await axiosInstance.post('/documents/', documentData);
   return response.data;
 };
 
-export const createDocument = async (documentData, token) => {
-  const response = await axiosInstance.post('/documents/', documentData, {
-    headers: {
-      Authorization: `Bearer ${token}`, // 토큰을 헤더에 추가
-    },
-  });
+
+
+
+/*// 문서 목록 가져오기
+export const getDocuments = async () => {
+  const response = await axiosInstance.get('/documents/');
   return response.data;
-};
+};*/

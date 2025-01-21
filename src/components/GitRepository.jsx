@@ -5,7 +5,7 @@ import Button from "./Button/Button"
 const GitRepository = () => {
   const [activeButton, setActiveButton] = useState(null); // 현재 활성화된 버튼 상태
   const [innerCircleActive, setInnerCircleActive] = useState(false); // 내부 원(circle) 활성화 상태
-  const handleClick = () => { alert('Button clicked!'); };
+
 
 
   // 버튼 클릭 시 호출되는 함수
