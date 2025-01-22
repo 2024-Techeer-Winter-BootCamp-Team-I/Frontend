@@ -1,3 +1,5 @@
+// 예시: githubCallback.jsx
+
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { setToken } from '../utils/cookies';

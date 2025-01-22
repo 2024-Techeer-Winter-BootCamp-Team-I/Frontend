@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getToken } from '../utils/cookies.jsx';
+import { getToken } from '../utils/cookies';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -46,7 +46,6 @@ export const axiosInstance = axios.create({
   timeout: 10000,
   withCredentials: true,
 });
-
 
 export default {
   jsonAxios,
