@@ -36,7 +36,11 @@ function App() {
 
         <Route path="/mypage" element={<Mypage />} />
 
-        <Route path="/specific" element={<Specific />} />
+        {/* 기존 /specific 라우트는 삭제하거나 유지할 수 있습니다. */}
+        {/* <Route path="/specific" element={<Specific />} /> */}
+
+        {/* 문서 ID를 URL 파라미터로 전달하는 라우트 추가 */}
+        <Route path="/specific/:id" element={<Specific />} />
 
         <Route path="/frontpackage" element={<FrontPackage />} />
         <Route path="/frontbuild" element={<FrontBuild />} />

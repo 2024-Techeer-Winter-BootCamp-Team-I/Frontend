@@ -1,32 +1,36 @@
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { createDocument } from '../api/documentsApi'; // 문서 생성 API 함수 불러오기
 import InputBox from '../components/InputBox/InputBox';
 import Button from '../components/Button/Button';
 import Layout from './Layout';
-import { createDocument } from '../api/documentsApi';
-import { useState } from 'react';
-
 
 const InputPage = () => {
-  const [projectName, setProjectName] = useState('');
-  const [projectDescription, setProjectDescription] = useState('');
-  const [projectFeatures, setProjectFeatures] = useState('');
   const navigate = useNavigate();
+
+  // 입력값을 상태로 관리
+  const [title, setTitle] = useState(''); // 프로젝트 이름
+  const [content, setContent] = useState(''); // 프로젝트 설명
+  const [requirements, setRequirements] = useState(''); // 주요 기능
+  const [loading, setLoading] = useState(false); // 로딩 상태 관리
 
   const handleDesignClick = async () => {
     try {
-      const documentData = {
-        title: projectName,
-        content: projectDescription,
-        requirements: projectFeatures,
-      };
-
-      const response = await createDocument(documentData);
-      alert('문서가 성공적으로 생성되었습니다!');
-      console.log('새로 생성된 문서:', response);
-      navigate('/specific');
+      // 요청 보내기
+      const response = await createDocument({
+        title,
+        content,
+        requirements,
+      });
+  
+      // 응답 데이터 확인
+      console.log('응답 데이터:', response); // 서버에서 반환된 JSON 데이터
+  
+      // 페이지 이동
+      navigate(`/specific/${response.id}`);
     } catch (error) {
-      alert('문서 생성에 실패했습니다. 다시 시도해주세요.');
-      console.error('Error:', error.response ? error.response.data : error.message);
+      console.error('오류 발생:', error.response || error);
+      alert('문서를 생성하는 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
 
@@ -53,8 +57,9 @@ const InputPage = () => {
             <InputBox
               size="small"
               placeholder="프로젝트 이름을 입력하세요"
-              value={projectName}
-              onChange={(e) => setProjectName(e.target.value)}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)} // 입력값 업데이트
+              disabled={loading}
             />
           </div>
 
@@ -69,8 +74,9 @@ const InputPage = () => {
             <InputBox
               size="medium"
               placeholder="프로젝트 설명을 입력하세요"
-              value={projectDescription}
-              onChange={(e) => setProjectDescription(e.target.value)}
+              value={content}
+              onChange={(e) => setContent(e.target.value)} // 입력값 업데이트
+              disabled={loading}
             />
           </div>
 
@@ -85,8 +91,9 @@ const InputPage = () => {
             <InputBox
               size="large"
               placeholder="주요 기능을 입력하세요"
-              value={projectFeatures}
-              onChange={(e) => setProjectFeatures(e.target.value)}
+              value={requirements}
+              onChange={(e) => setRequirements(e.target.value)} // 입력값 업데이트
+              disabled={loading}
             />
           </div>
         </div>
@@ -94,10 +101,11 @@ const InputPage = () => {
         {/* 설계하기 버튼 */}
         <div className="mt-10">
           <Button
-            label="설계하러가기"
+            label={loading ? '생성 중...' : '설계하러가기'}
             size="medium"
             color="primary"
-            onClick={handleDesignClick}
+            onClick={handleDesignClick} // 버튼 클릭 시 handleDesignClick 실행
+            disabled={loading} // 로딩 중 버튼 비활성화
           />
         </div>
       </div>
