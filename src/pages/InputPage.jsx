@@ -3,20 +3,8 @@ import InputBox from '../components/InputBox/InputBox';
 import Button from '../components/Button/Button';
 import Layout from './Layout';
 import { createDocument } from '../api/documentsApi';
-import { jsonAxios } from '../api/axios.config'; // jsonAxios 임포트
+import { useState } from 'react';
 
-// access token 가져오는 함수
-const fetchAccessToken = async () => {
-  try {
-    const codeResponse = await jsonAxios.get('/login/code/view'); // 수정된 경로
-    const code = codeResponse.data.code;
-    const tokenResponse = await jsonAxios.get(`/login/github/callback?code=${code}`);
-    return tokenResponse.data.access;
-  } catch (error) {
-    console.error('Error fetching access token:', error);
-    throw error;
-  }
-};
 
 const InputPage = () => {
   const [projectName, setProjectName] = useState('');
@@ -26,15 +14,13 @@ const InputPage = () => {
 
   const handleDesignClick = async () => {
     try {
-      const accessToken = await fetchAccessToken();
-
       const documentData = {
         title: projectName,
         content: projectDescription,
         requirements: projectFeatures,
       };
 
-      const response = await createDocument(documentData, accessToken);
+      const response = await createDocument(documentData);
       alert('문서가 성공적으로 생성되었습니다!');
       console.log('새로 생성된 문서:', response);
       navigate('/specific');

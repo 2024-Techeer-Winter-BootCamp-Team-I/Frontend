@@ -42,4 +42,5 @@ const LoginModal = ({ onClose }) => {
     </div>
   );
 };
+
 export default LoginModal;
