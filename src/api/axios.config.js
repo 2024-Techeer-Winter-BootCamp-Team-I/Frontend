@@ -5,7 +5,7 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 /**
  * 공통(일반) Axios 인스턴스
  */
-export const axiosInstance = axios.create({
+const axiosInstance = axios.create({
   baseURL: BASE_URL,
   timeout: 10000,
   withCredentials: true, // 쿠키 전송 허용
@@ -14,7 +14,7 @@ export const axiosInstance = axios.create({
 /**
  * JSON 전송용 Axios 인스턴스
  */
-export const jsonAxios = axios.create({
+const jsonAxios = axios.create({
   baseURL: BASE_URL,
   withCredentials: true, // 쿠키 전송 허용
   headers: {
@@ -28,26 +28,17 @@ export const jsonAxios = axios.create({
  */
 const refreshAccessToken = async () => {
   try {
-    const response = await jsonAxios.post(
-      '/login/refresh',
-      {}, // 요청 본문 비워둠
-      {
-        withCredentials: true, // httpOnly 쿠키 포함
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
+    const response = await jsonAxios.post('/login/refresh');
 
     if (response.status === 200) {
-      const newAccessToken = response.data;
+
+      const { access_token: newAccessToken } = response.data;
       console.log('새 액세스 토큰 발급 완료:', newAccessToken);
 
       // 새 토큰을 Axios 기본 헤더에 설정
-      axiosInstance.defaults.headers.common['Authorization'] =
-        `Bearer ${newAccessToken}`;
-      jsonAxios.defaults.headers.common['Authorization'] =
-        `Bearer ${newAccessToken}`;
+      axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
+      jsonAxios.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
+
 
       return newAccessToken; // 새 토큰 반환
     } else {
@@ -56,24 +47,46 @@ const refreshAccessToken = async () => {
     }
   } catch (error) {
     console.error('리프레시 토큰 요청 실패:', error);
+    // 필요 시 사용자 로그아웃 또는 로그인 페이지로 리다이렉트
     throw error;
   }
 };
 
-// 토큰 갱신 상태 및 대기열 관리
-let isRefreshing = false;
-const failedQueue = [];
-
 /**
- * 대기 중인 요청들을 처리하는 함수
+ * 토큰 갱신 상태 및 대기열 관리
  */
-const processQueue = (error = null) => {
-  failedQueue.forEach(({ resolve, reject }) => {
-    if (error) reject(error);
-    else resolve();
-  });
-  failedQueue.length = 0; // 대기열 초기화
+const createTokenRefreshManager = () => {
+  let isRefreshing = false;
+  const failedQueue = [];
+
+  const processQueue = (error = null, token = null) => {
+    failedQueue.forEach(({ resolve, reject }) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(token);
+      }
+    });
+    failedQueue.length = 0; // 대기열 초기화
+  };
+
+  return {
+    enqueue: () =>
+      new Promise((resolve, reject) => {
+        failedQueue.push({ resolve, reject });
+      }),
+    onRefreshStart: () => {
+      isRefreshing = true;
+    },
+    onRefreshEnd: (error, token) => {
+      isRefreshing = false;
+      processQueue(error, token);
+    },
+    getRefreshingStatus: () => isRefreshing,
+  };
 };
+
+const tokenRefreshManager = createTokenRefreshManager();
 
 /**
  * 응답 인터셉터: 401 오류 시 토큰 갱신 후 재요청
@@ -83,41 +96,34 @@ jsonAxios.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // 401 오류이고, 재시도하지 않은 요청일 경우
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      !originalRequest._retry
-    ) {
-      if (isRefreshing) {
-        // 이미 토큰 갱신 중이라면 대기열에 요청 추가
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        })
-          .then(() => jsonAxios(originalRequest))
-          .catch((err) => Promise.reject(err));
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      if (tokenRefreshManager.getRefreshingStatus()) {
+        try {
+          await tokenRefreshManager.enqueue();
+          return jsonAxios(originalRequest);
+        } catch (err) {
+          return Promise.reject(err);
+        }
       }
 
       originalRequest._retry = true;
-      isRefreshing = true;
+      tokenRefreshManager.onRefreshStart();
 
       try {
-        const newAccessToken = await refreshAccessToken();
-        processQueue(); // 대기열 처리
 
-        // 원래 요청 헤더에 새 토큰 적용
-        originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
-        return jsonAxios(originalRequest); // 원래 요청 재시도
+        const newToken = await refreshAccessToken();
+        tokenRefreshManager.onRefreshEnd(null, newToken);
+        return jsonAxios(originalRequest);
       } catch (refreshError) {
-        processQueue(refreshError); // 실패 시 대기열 처리
-        return Promise.reject(refreshError); // 에러 전달
-      } finally {
-        isRefreshing = false; // 갱신 상태 초기화
+        tokenRefreshManager.onRefreshEnd(refreshError, null);
+        // 필요 시 사용자 로그아웃 또는 로그인 페이지로 리다이렉트
+        return Promise.reject(refreshError);
+
       }
     }
 
     return Promise.reject(error); // 다른 오류는 그대로 반환
-  },
+  }
 );
 
 /**
