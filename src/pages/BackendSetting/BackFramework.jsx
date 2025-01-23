@@ -7,7 +7,7 @@ import Layout from '../Layout';
 import useBackStore from '../../store/useBackStore'; // Zustand 스토어 import
 
 import django from '../../assets/image/django.svg';
-import springboot from '../../assets/image/springboot.svg';
+import nodeJs from '../../assets/image/nodeJs.svg';
 
 import rightArrow from '../../assets/image/rightArrow.svg';
 import leftArrow from '../../assets/image/leftArrow.svg';
@@ -74,14 +74,14 @@ const BackFramework = () => {
                 }
               />
 
-              {/* Springboot 선택 박스 */}
+              {/* Node.js 선택 박스 */}
               <ChooseBox
-                label="Springboot"
-                imageUrl={springboot}
-                isSelected={selectedFramework === 'Springboot'}
-                onClick={() => setSelectedFramework('Springboot')} // Zustand 스토어의 setSelectedFramework 사용
+                label="Node.js"
+                imageUrl={nodeJs}
+                isSelected={selectedFramework === 'Node.js'}
+                onClick={() => setSelectedFramework('Node.js')} // Zustand 스토어의 setSelectedFramework 사용
                 description={
-                  'Java 기반 프레임워크 Spring의 확장판으로, 설정을 간소화하고 빠른 애플리케이션 개발을 지원하며 REST API, 마이크로서비스 등에 적합'
+                  '비동기 이벤트 기반 JavaScript 런타임으로, 서버 사이드 애플리케이션 개발에 주로 사용'
                 }
               />
 

@@ -1,36 +1,73 @@
-import React from 'react';
 import useBackStore from '../../store/useBackStore';
-import { useNavigate } from 'react-router-dom'; // useNavigate 추가
+import useFrontStore from '../../store/useFrontStore';
+import useSettingStore from '../../store/useSettingStore';
+import { useNavigate } from 'react-router-dom';
+import { techStackSetupApi } from '../../api/techStacksSetupApi';
+import PropTypes from 'prop-types';
 
-const BackSettingModal = ({ isOpen, onClose }) => {
-  const navigate = useNavigate(); // useNavigate 훅 사용
-  // Zustand 스토어에서 백엔드 상태만 가져오기 (단일 값 반환)
+const BackStackModal = ({ isOpen, onClose, onConfirm }) => {
+  const navigate = useNavigate();
   const selectedFramework = useBackStore((state) => state.selectedFramework);
   const selectedDatabase = useBackStore((state) => state.selectedDatabase);
 
-  // 모달이 열리지 않았으면 null 반환
+  const selectedPackage = useFrontStore((state) => state.selectedPackage);
+  const selectedBuildTool = useFrontStore((state) => state.selectedBuildTool);
+  const selectedLanguage = useFrontStore((state) => state.selectedLanguage);
+  const selectedFrameworkFront = useFrontStore(
+    (state) => state.selectedFramework,
+  );
+
+  const selectedPositions = useSettingStore((state) => state.selectedPositions);
+  const directoryName = useSettingStore((state) => state.directoryName);
+
   if (!isOpen) return null;
 
-  // 닫기 버튼 클릭 시 실행되는 함수
-  const handleClose = () => {
-    onClose(); // 모달 닫기
-    navigateToNextPage(); // 다음 페이지로 이동
+  const handleConfirm = async () => {
+    const documentId = 0;
+
+    const frontendTechStack = selectedPositions.includes('Frontend')
+      ? [
+          selectedPackage,
+          selectedBuildTool,
+          selectedFrameworkFront,
+          selectedLanguage,
+        ]
+      : ['', '', '', ''];
+
+    const backendTechStack = selectedPositions.includes('Backend')
+      ? [selectedFramework, selectedDatabase]
+      : ['', ''];
+
+    try {
+      await techStackSetupApi(
+        directoryName,
+        frontendTechStack,
+        backendTechStack,
+        documentId,
+      );
+
+      console.log('Front Request Body: ', frontendTechStack);
+      console.log('Back Request Body: ', backendTechStack);
+      console.log('directoryName: ', directoryName);
+
+      // /settingcheck 페이지로 이동
+      navigate('/settingcheck');
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
-  // 다음 페이지로 이동하는 함수
-  const navigateToNextPage = () => {
-    navigate('/settingcheck'); // 세팅 확인 페이지로 이동
+  const handleClose = () => {
+    onClose();
+    navigate('/settingcheck');
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      {/* 배경 오버레이 */}
       <div
         className="absolute inset-0 bg-black opacity-50"
-        onClick={handleClose} // handleClose로 변경
+        onClick={handleClose}
       ></div>
-
-      {/* 모달 내용 */}
       <div className="z-10 rounded-lg bg-white p-6 shadow-lg">
         <h2 className="mb-4 text-2xl font-bold">선택된 백엔드 기술 스택</h2>
         <ul className="space-y-2">
@@ -43,13 +80,19 @@ const BackSettingModal = ({ isOpen, onClose }) => {
         </ul>
         <button
           className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
-          onClick={handleClose} // handleClose로 변경
+          onClick={handleConfirm}
         >
-          닫기
+          확인
         </button>
       </div>
     </div>
   );
 };
 
-export default BackSettingModal;
+BackStackModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func,
+};
+
+export default BackStackModal;
