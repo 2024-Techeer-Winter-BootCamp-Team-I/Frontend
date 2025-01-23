@@ -41,8 +41,16 @@ const refreshAccessToken = async () => {
     );
 
     if (response.status === 200) {
-      console.log('새 액세스 토큰 발급 완료');
-      return response.data; // 필요 시 추가 데이터 반환
+      const newAccessToken = response.data.access_token;
+      console.log('새 액세스 토큰 발급 완료:', newAccessToken);
+
+      // 새 토큰을 Axios 기본 헤더에 설정
+      axiosInstance.defaults.headers.common['Authorization'] =
+        `Bearer ${newAccessToken}`;
+      jsonAxios.defaults.headers.common['Authorization'] =
+        `Bearer ${newAccessToken}`;
+
+      return newAccessToken; // 새 토큰 반환
     } else {
       console.error('리프레시 토큰 응답 상태 이상:', response.status);
       throw new Error('리프레시 토큰 응답 상태 이상');
