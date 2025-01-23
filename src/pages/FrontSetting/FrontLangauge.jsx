@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import ChooseBox from '../../components/ChooseBox/ChooseBox';
 import FrontStep from '../../components/FrontStep/FrontStep';
 import Layout from '../Layout';
-import useSettingStore from '../../store/useSettingStore'; // zustand 스토어 import
 import useFrontStore from '../../store/useFrontStore'; // zustand 스토어 import
 
 import javascript from '../../assets/image/javascript.svg';
@@ -17,8 +16,9 @@ import FrontSettingModal from '../../components/SettingModal/FrontSettingModal';
 
 const FrontLanguage = () => {
   const navigate = useNavigate();
-  const { selectedPositions } = useSettingStore(); // zustand 스토어에서 상태 가져오기
+
   const { selectedLanguage, setSelectedLanguage } = useFrontStore(); // zustand 스토어에서 상태와 함수 가져오기
+
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 관리
 
   const handleCloseModal = () => {
@@ -41,21 +41,6 @@ const FrontLanguage = () => {
 
     // 무조건 모달창 띄우기
     setIsModalOpen(true);
-  };
-
-  // 모달에서 확인 버튼을 눌렀을 때 실행되는 함수
-  const handleConfirm = () => {
-    // 백엔드와 프론트엔드가 모두 선택된 경우
-    if (
-      selectedPositions.includes('Frontend') &&
-      selectedPositions.includes('Backend')
-    ) {
-      navigate('/backframework'); // 백엔드 프레임워크 선택 페이지로 이동
-    }
-    // 그 외의 경우
-    else {
-      navigate('/settingcheck'); // 세팅 확인 페이지로 이동
-    }
   };
 
   // ChooseBox 클릭 시 호출되는 함수
@@ -126,11 +111,7 @@ const FrontLanguage = () => {
       </div>
 
       {/* FrontStackModal 컴포넌트 */}
-      <FrontSettingModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onConfirm={handleConfirm} // 확인 버튼 클릭 시 handleConfirm 실행
-      />
+      <FrontSettingModal isOpen={isModalOpen} onClose={handleCloseModal} />
     </Layout>
   );
 };

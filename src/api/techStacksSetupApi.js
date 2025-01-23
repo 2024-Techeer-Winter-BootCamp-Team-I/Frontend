@@ -21,21 +21,19 @@ export const techStackSetupApi = async (directoryName) => {
   ];
   const backendTechStack = [backFramework, selectedDatabase];
 
+  const documentId = 0;
+
   const requestBody = {
     frontend_tech_stack: frontendTechStack,
     backend_tech_stack: backendTechStack,
     directory_name: directoryName || '',
-    document_id: 0,
+    document_id: documentId,
   };
 
   console.log('API Request Body:', requestBody); // API 요청 전 request body 출력
 
   try {
-    const response = await jsonAxios.post('/tech-stack/setup', requestBody, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await jsonAxios.post('/tech-stack/setup');
     console.log('API Response Body:', response.data); // responseBody 출력
     return response.data;
   } catch (error) {

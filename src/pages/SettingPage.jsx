@@ -13,19 +13,34 @@ import rightArrow from '../assets/image/rightArrow.svg';
 
 const SettingPage = () => {
   const navigate = useNavigate();
-  const { selectedPositions, togglePosition } = useSettingStore();
-  // zustand 스토어에서 상태와 함수 가져오기
+  const {
+    selectedPositions,
+    togglePosition,
+    directoryName,
+    setDirectoryName, // 디렉토리 이름 설정 함수 가져오기
+  } = useSettingStore();
 
   // selectedPositions가 변경될 때마다 콘솔에 출력
   useEffect(() => {
     console.log('Selected Positions:', selectedPositions);
   }, [selectedPositions]);
 
+  // 디렉토리 이름 입력 핸들러
+  const handleDirectoryNameChange = (e) => {
+    setDirectoryName(e.target.value); // 입력값을 전역 상태로 업데이트
+  };
+
   // rightArrow 클릭 시 호출되는 함수
   const handleRightArrowClick = () => {
     if (selectedPositions.length === 0) {
       // 선택된 포지션이 없으면 경고 메시지 표시
       alert('포지션을 선택해주세요.');
+      return;
+    }
+
+    // 디렉토리 이름이 비어있는 경우 경고 메시지 표시
+    if (!directoryName.trim()) {
+      alert('디렉토리 이름을 입력해주세요.');
       return;
     }
 
@@ -51,6 +66,8 @@ const SettingPage = () => {
             <input
               className="flex h-12 w-full items-center justify-center rounded-lg bg-gray-800 bg-opacity-50 p-3 text-white"
               placeholder="Ex. DevSketch"
+              value={directoryName} // 디렉토리 이름을 전역 상태와 바인딩
+              onChange={handleDirectoryNameChange} // 입력 변경 시 핸들러 호출
             />
 
             <p className="mt-10 font-sans text-lg text-white">
