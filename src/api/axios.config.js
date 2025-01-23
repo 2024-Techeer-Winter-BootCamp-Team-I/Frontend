@@ -5,7 +5,7 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 /**
  * 공통(일반) Axios 인스턴스
  */
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
   baseURL: BASE_URL,
   timeout: 10000,
   withCredentials: true, // 쿠키 전송 허용
@@ -14,7 +14,7 @@ const axiosInstance = axios.create({
 /**
  * JSON 전송용 Axios 인스턴스
  */
-const jsonAxios = axios.create({
+export const jsonAxios = axios.create({
   baseURL: BASE_URL,
   withCredentials: true, // 쿠키 전송 허용
   headers: {
@@ -31,14 +31,14 @@ const refreshAccessToken = async () => {
     const response = await jsonAxios.post('/login/refresh');
 
     if (response.status === 200) {
-
       const { access_token: newAccessToken } = response.data;
       console.log('새 액세스 토큰 발급 완료:', newAccessToken);
 
       // 새 토큰을 Axios 기본 헤더에 설정
-      axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
-      jsonAxios.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
-
+      axiosInstance.defaults.headers.common['Authorization'] =
+        `Bearer ${newAccessToken}`;
+      jsonAxios.defaults.headers.common['Authorization'] =
+        `Bearer ${newAccessToken}`;
 
       return newAccessToken; // 새 토큰 반환
     } else {
@@ -110,7 +110,6 @@ jsonAxios.interceptors.response.use(
       tokenRefreshManager.onRefreshStart();
 
       try {
-
         const newToken = await refreshAccessToken();
         tokenRefreshManager.onRefreshEnd(null, newToken);
         return jsonAxios(originalRequest);
@@ -118,12 +117,11 @@ jsonAxios.interceptors.response.use(
         tokenRefreshManager.onRefreshEnd(refreshError, null);
         // 필요 시 사용자 로그아웃 또는 로그인 페이지로 리다이렉트
         return Promise.reject(refreshError);
-
       }
     }
 
     return Promise.reject(error); // 다른 오류는 그대로 반환
-  }
+  },
 );
 
 /**
