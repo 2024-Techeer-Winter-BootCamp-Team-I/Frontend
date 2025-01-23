@@ -79,10 +79,10 @@ const FrontFramework = () => {
 
               {/* Svelt 선택 박스 */}
               <ChooseBox
-                label="Svelt"
+                label="Svelte"
                 imageUrl={svelt}
-                isSelected={selectedFramework === 'Svelt'}
-                onClick={() => setSelectedFramework('Svelt')} // zustand 스토어의 setSelectedFramework 사용
+                isSelected={selectedFramework === 'Svelte'}
+                onClick={() => setSelectedFramework('Svelte')} // zustand 스토어의 setSelectedFramework 사용
                 description={
                   '컴파일 단계에서 DOM 업데이트 코드를 생성하여 빠르고 간결한 개발 경험을 제공하는 차세대 UI 프레임워크'
                 }

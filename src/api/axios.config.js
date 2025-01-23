@@ -1,4 +1,3 @@
-// src/api/axios.config.js
 import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -41,8 +40,16 @@ const refreshAccessToken = async () => {
     );
 
     if (response.status === 200) {
-      console.log('새 액세스 토큰 발급 완료');
-      return response.data; // 필요 시 추가 데이터 반환
+      const newAccessToken = response.data;
+      console.log('새 액세스 토큰 발급 완료:', newAccessToken);
+
+      // 새 토큰을 Axios 기본 헤더에 설정
+      axiosInstance.defaults.headers.common['Authorization'] =
+        `Bearer ${newAccessToken}`;
+      jsonAxios.defaults.headers.common['Authorization'] =
+        `Bearer ${newAccessToken}`;
+
+      return newAccessToken; // 새 토큰 반환
     } else {
       console.error('리프레시 토큰 응답 상태 이상:', response.status);
       throw new Error('리프레시 토큰 응답 상태 이상');
@@ -73,7 +80,7 @@ const processQueue = (error = null) => {
  */
 jsonAxios.interceptors.response.use(
   (response) => response, // 성공적인 응답은 그대로 반환
-  (error) => {
+  async (error) => {
     const originalRequest = error.config;
 
     // 401 오류이고, 재시도하지 않은 요청일 경우
@@ -94,18 +101,19 @@ jsonAxios.interceptors.response.use(
       originalRequest._retry = true;
       isRefreshing = true;
 
-      return refreshAccessToken()
-        .then(() => {
-          processQueue(); // 대기열 처리
-          return jsonAxios(originalRequest); // 원래 요청 재시도
-        })
-        .catch((refreshError) => {
-          processQueue(refreshError); // 실패 시 대기열 처리
-          return Promise.reject(refreshError); // 에러 전달
-        })
-        .finally(() => {
-          isRefreshing = false; // 갱신 상태 초기화
-        });
+      try {
+        const newAccessToken = await refreshAccessToken();
+        processQueue(); // 대기열 처리
+
+        // 원래 요청 헤더에 새 토큰 적용
+        originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
+        return jsonAxios(originalRequest); // 원래 요청 재시도
+      } catch (refreshError) {
+        processQueue(refreshError); // 실패 시 대기열 처리
+        return Promise.reject(refreshError); // 에러 전달
+      } finally {
+        isRefreshing = false; // 갱신 상태 초기화
+      }
     }
 
     return Promise.reject(error); // 다른 오류는 그대로 반환

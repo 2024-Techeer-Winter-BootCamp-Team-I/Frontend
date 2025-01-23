@@ -13,6 +13,9 @@ const useSettingStore = create((set) => ({
       };
     }),
   clearPositions: () => set({ selectedPositions: [] }), // 선택 초기화
+
+  directoryName: '', // 디렉터리 이름
+  setDirectoryName: (dirName) => set({ directoryName: dirName }), // 디렉터리 이름 설정
 }));
 
 export default useSettingStore;
