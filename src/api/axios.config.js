@@ -1,4 +1,3 @@
-// src/api/axios.config.js
 import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -32,12 +31,14 @@ const refreshAccessToken = async () => {
     const response = await jsonAxios.post('/login/refresh');
 
     if (response.status === 200) {
+
       const { access_token: newAccessToken } = response.data;
       console.log('새 액세스 토큰 발급 완료:', newAccessToken);
 
       // 새 토큰을 Axios 기본 헤더에 설정
       axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
       jsonAxios.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`;
+
 
       return newAccessToken; // 새 토큰 반환
     } else {
@@ -109,6 +110,7 @@ jsonAxios.interceptors.response.use(
       tokenRefreshManager.onRefreshStart();
 
       try {
+
         const newToken = await refreshAccessToken();
         tokenRefreshManager.onRefreshEnd(null, newToken);
         return jsonAxios(originalRequest);
@@ -116,6 +118,7 @@ jsonAxios.interceptors.response.use(
         tokenRefreshManager.onRefreshEnd(refreshError, null);
         // 필요 시 사용자 로그아웃 또는 로그인 페이지로 리다이렉트
         return Promise.reject(refreshError);
+
       }
     }
 
