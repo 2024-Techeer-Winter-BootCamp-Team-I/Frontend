@@ -1,5 +1,5 @@
+// src/api/axios.config.js
 import axios from 'axios';
-import { getToken, setToken } from '../utils/cookies'; // 쿠키에서 토큰 가져오기/저장하기
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -24,94 +24,93 @@ export const jsonAxios = axios.create({
 });
 
 /**
- * [Request Interceptor] - axiosInstance
- * - 요청 보내기 전, 쿠키에서 'jwt_access' 가져와 Authorization 헤더로 설정
- */
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = getToken('jwt_access'); // 쿠키에서 jwt_access 가져오기
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
-
-/**
- * [Request Interceptor] - jsonAxios
- * - JSON 요청에서도 동일하게 쿠키 'jwt_access'를 Bearer 헤더로 설정
- */
-jsonAxios.interceptors.request.use(
-  (config) => {
-    const token = getToken('jwt_access');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
-
-/**
- * [Response Interceptor] - axiosInstance & jsonAxios
- * - 응답이 401 (Unauthorized)일 경우, 리프레시 토큰을 사용해 새 액세스 토큰 요청
- * - 원래 요청을 새 토큰으로 다시 시도
- */
-const handleResponseError = async (error) => {
-  const originalRequest = error.config;
-
-  if (error.response?.status === 401 && !originalRequest._retry) {
-    originalRequest._retry = true; // 무한 루프 방지
-
-    try {
-      // 리프레시 토큰으로 새 액세스 토큰 요청
-      const newToken = await refreshAccessToken();
-
-      // 새 토큰을 쿠키에 저장
-      setToken('jwt_access', newToken);
-
-      // Authorization 헤더에 새 토큰 설정
-      originalRequest.headers.Authorization = `Bearer ${newToken}`;
-
-      // 원래 요청 다시 시도
-      return axios(originalRequest);
-    } catch (refreshError) {
-      console.error('토큰 갱신 실패:', refreshError);
-      return Promise.reject(refreshError);
-    }
-  }
-
-  return Promise.reject(error);
-};
-
-// Response Interceptor 추가
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  handleResponseError,
-);
-
-jsonAxios.interceptors.response.use(
-  (response) => response,
-  handleResponseError,
-);
-
-/**
- * 새 액세스 토큰 요청 함수
+ * 액세스 토큰 갱신 함수
+ * httpOnly 쿠키를 사용하기 때문에 클라이언트에서 토큰을 직접 다루지 않습니다.
  */
 const refreshAccessToken = async () => {
   try {
-    const response = await axios.post(
-      `${BASE_URL}/login/refresh`,
-      {},
-      { withCredentials: true },
+    const response = await jsonAxios.post(
+      '/login/refresh',
+      {}, // 요청 본문 비워둠
+      {
+        withCredentials: true, // httpOnly 쿠키 포함
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
     );
-    return response.data.access_token; // 새 액세스 토큰 반환
+
+    if (response.status === 200) {
+      console.log('새 액세스 토큰 발급 완료');
+      return response.data; // 필요 시 추가 데이터 반환
+    } else {
+      console.error('리프레시 토큰 응답 상태 이상:', response.status);
+      throw new Error('리프레시 토큰 응답 상태 이상');
+    }
   } catch (error) {
     console.error('리프레시 토큰 요청 실패:', error);
     throw error;
   }
 };
+
+// 토큰 갱신 상태 및 대기열 관리
+let isRefreshing = false;
+const failedQueue = [];
+
+/**
+ * 대기 중인 요청들을 처리하는 함수
+ */
+const processQueue = (error = null) => {
+  failedQueue.forEach(({ resolve, reject }) => {
+    if (error) reject(error);
+    else resolve();
+  });
+  failedQueue.length = 0; // 대기열 초기화
+};
+
+/**
+ * 응답 인터셉터: 401 오류 시 토큰 갱신 후 재요청
+ */
+jsonAxios.interceptors.response.use(
+  (response) => response, // 성공적인 응답은 그대로 반환
+  (error) => {
+    const originalRequest = error.config;
+
+    // 401 오류이고, 재시도하지 않은 요청일 경우
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      !originalRequest._retry
+    ) {
+      if (isRefreshing) {
+        // 이미 토큰 갱신 중이라면 대기열에 요청 추가
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        })
+          .then(() => jsonAxios(originalRequest))
+          .catch((err) => Promise.reject(err));
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      return refreshAccessToken()
+        .then(() => {
+          processQueue(); // 대기열 처리
+          return jsonAxios(originalRequest); // 원래 요청 재시도
+        })
+        .catch((refreshError) => {
+          processQueue(refreshError); // 실패 시 대기열 처리
+          return Promise.reject(refreshError); // 에러 전달
+        })
+        .finally(() => {
+          isRefreshing = false; // 갱신 상태 초기화
+        });
+    }
+
+    return Promise.reject(error); // 다른 오류는 그대로 반환
+  },
+);
 
 /**
  * export default - 인스턴스들을 모아서 내보냄
