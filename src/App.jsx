@@ -20,6 +20,7 @@ import FrontLanguage from './pages/FrontSetting/FrontLangauge';
 import BackFramework from './pages/BackendSetting/BackFramework';
 import BackDatabase from './pages/BackendSetting/BackDatabase';
 import SettingPage from './pages/SettingPage';
+import Onboarding from './pages/Onboarding/Onboarding';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
         <Route path="/backframework" element={<BackFramework />} />
         <Route path="/backdatabase" element={<BackDatabase />} />
         <Route path="/setting" element={<SettingPage />} />
+        <Route path="/onboarding" element={<Onboarding />} />
       </Routes>
     </Router>
   );

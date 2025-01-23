@@ -1,5 +1,6 @@
 import gradationBackground from './gradationBackground.svg';
 
+// eslint-disable-next-line react/prop-types
 const Background = ({ children }) => {
   return (
     <div className="relative -z-10 h-screen bg-black">

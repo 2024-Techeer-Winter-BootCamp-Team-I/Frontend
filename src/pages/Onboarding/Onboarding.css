@@ -1,0 +1,34 @@
+/* onboarding.css */
+.onboarding-page {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background-color: #1e293b; /* Tailwind의 bg-gray-800에 해당 */
+  color: #ffffff;
+  text-align: center;
+}
+
+.section:nth-child(even) {
+  background-color: #374151; /* Tailwind의 bg-gray-700 */
+}
+
+.nav-button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 5px;
+  background-color: #d1d5db; /* Tailwind의 bg-gray-400 */
+  transition: background-color 0.3s;
+}
+
+.nav-button.active {
+  background-color: #ffffff; /* Tailwind의 bg-white */
+}
