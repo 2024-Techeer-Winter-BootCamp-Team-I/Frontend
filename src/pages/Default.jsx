@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'; // framer-motion 추가
 import ReactIcon from '../assets/image/react.svg'; // React 아이콘
 import ViteIcon from '../assets/image/vite.svg'; // MySQL 아이콘
 import NpmIcon from '../assets/image/npm.svg'; // NPM 아이콘
-import SpringBootIcon from '../assets/image/springBoot.svg'; // Spring Boot 아이콘
+import MySQL from '../assets/image/mySql.svg'; // MySQL 아이콘
 import PnpmIcon from '../assets/image/pnpm.svg'; // PNPM 아이콘
 import ChooseBox from '../components/ChooseBox/ChooseBox'; // ChooseBox 컴포넌트 불러오기
 
@@ -85,11 +85,7 @@ const Default = () => {
           <img src={ReactIcon} alt="React" className="h-[2.5rem] w-[2.5rem]" />
           <img src={ViteIcon} alt="Vite" className="h-[2.5rem] w-[2.5rem]" />
           <img src={NpmIcon} alt="NPM" className="h-[2.5rem] w-[2.5rem]" />
-          <img
-            src={SpringBootIcon}
-            alt="Spring Boot"
-            className="h-[2.5rem] w-[2.5rem]"
-          />
+          <img src={MySQL} alt="Svelte" className="h-[2.5rem] w-[2.5rem]" />
           <img src={PnpmIcon} alt="PNPM" className="h-[2.5rem] w-[2.5rem]" />
         </div>
       </motion.div>
