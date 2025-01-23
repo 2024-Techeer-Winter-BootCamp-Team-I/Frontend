@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axiosInstance from '../utils/axiosInstance'; // axiosInstance 불러오기
+import { jsonAxios } from '../api/axios.config';
 
 const EditModal = ({ onClose, document_id, onSave }) => {
   const [modifiedText, setModifiedText] = useState('');
@@ -17,24 +17,12 @@ const EditModal = ({ onClose, document_id, onSave }) => {
         const url = `/documents/${document_id}`; // 상대 경로
 
         // 요청 보내기
-        const response = await axiosInstance.put(url, {
+        const response = await jsonAxios.put(url, {
           prompt: modifiedText,
         });
 
-        // Chunked Response 처리
-        let description = '';
-        const reader = response.data.getReader();
-        const decoder = new TextDecoder('utf-8');
-        let done = false;
-
-        while (!done) {
-          const { value, done: readerDone } = await reader.read();
-          done = readerDone;
-          description += decoder.decode(value || new Uint8Array(), {
-            stream: !done,
-          });
-        }
-
+        // 응답 데이터 처리
+        const description = response.data.description;
         alert('수정이 완료되었습니다!');
         onSave(description); // 부모 컴포넌트에 수정된 결과 전달
         onClose(); // 모달 닫기
@@ -55,7 +43,7 @@ const EditModal = ({ onClose, document_id, onSave }) => {
       alert('남은 요청 횟수가 없습니다.');
     }
   };
-
+  
   return (
     <div className="relative w-[480px] rounded-lg bg-white p-6 shadow-lg">
       <button

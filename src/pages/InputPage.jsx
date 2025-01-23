@@ -15,25 +15,24 @@ const InputPage = () => {
   const [loading, setLoading] = useState(false); // 로딩 상태 관리
 
   const handleDesignClick = async () => {
+    console.log('handleDesignClick 실행');
+    if (!title.trim() || !content.trim() || !requirements.trim()) {
+      alert('모든 필드를 입력해주세요.');
+      return;
+    }
+  
+    setLoading(true);
     try {
-      // 요청 보내기
-      const response = await createDocument({
-        title,
-        content,
-        requirements,
-      });
+      const response = await createDocument({ title, content, requirements });
+      console.log('createDocument 응답 데이터:', response);
   
-      // 응답 데이터 확인
-      console.log('응답 데이터:', response); // 서버에서 반환된 JSON 데이터
-  
-      // 페이지 이동
-      navigate(`/specific/${response.id}`);
-    } catch (error) {
-      console.error('오류 발생:', error.response || error);
-      alert('문서를 생성하는 중 오류가 발생했습니다. 다시 시도해주세요.');
+      // 문서 생성이 성공했다면 Specific 페이지로 이동 (데이터 전달)
+      navigate('/specific', { state: { document: response.data } });
+    } finally {
+      setLoading(false);
     }
   };
-
+  
   return (
     <Layout>
       <div className="flex min-h-screen flex-col items-center">

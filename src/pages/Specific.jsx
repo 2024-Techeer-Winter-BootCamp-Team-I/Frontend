@@ -1,37 +1,25 @@
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // useParams 추가
-import { getDocumentById, updateDocument } from '../api/documentsApi'; // 문서 API 함수 불러오기
+import { useNavigate, useLocation } from 'react-router-dom';
 import Layout from './Layout';
 import Button from '../components/Button/Button';
 import EditModal from '../components/EditModal';
 
 const Specific = () => {
-  const { id } = useParams(); // URL에서 문서 ID 가져오기
-  const [document, setDocument] = useState(null);
+  const location = useLocation();
   const navigate = useNavigate();
+  const [document, setDocument] = useState(location.state?.document || null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [description, setDescription] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [description, setDescription] = useState(document?.description || '');
+  const [loading, setLoading] = useState(!document);
 
-  // 문서 상세 정보 불러오기
   useEffect(() => {
-    if (!id) {
-      console.error('문서 ID가 제공되지 않았습니다.');
-      return; // id가 없으면 API 호출 안 함
+    if (!document) {
+      // 문서 데이터가 없으면 로딩 상태 유지
+      setLoading(true);
+    } else {
+      setLoading(false);
     }
-
-    const fetchDocument = async () => {
-      try {
-        const fetchedDocument = await getDocumentById(id); // 문서 ID로 상세 정보 조회
-        setDocument(fetchedDocument); // 문서 데이터 저장
-      } catch (error) {
-        console.error('문서 조회 중 오류 발생:', error);
-      }
-    };
-
-    fetchDocument();
-  }, [id]); // id가 변경될 때마다 재호출
-
+  }, [document]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -44,8 +32,8 @@ const Specific = () => {
   // 모달에서 수정 완료 시 호출
   const handleUpdate = async (updatedPrompt) => {
     try {
-      const response = await updateDocument(id, { prompt: updatedPrompt }); // 수정 API 호출
-      setDescription(response.description); // 수정된 설명 업데이트
+      // 여기에 문서 수정 API 호출 로직 추가
+      setDescription(updatedPrompt); // 수정된 설명 업데이트
       closeModal();
     } catch (error) {
       console.error('문서 수정에 실패했습니다.', error);
@@ -67,6 +55,13 @@ const Specific = () => {
             ) : (
               <div className="space-y-4 text-sm leading-relaxed">
                 <p>{description || '데이터를 불러오지 못했습니다.'}</p>
+                {document && (
+                  <div>
+                    <h2>{document.title}</h2>
+                    <p>{document.content}</p>
+                    <p>{document.requirements}</p>
+                  </div>
+                )}
               </div>
             )}
           </div>
