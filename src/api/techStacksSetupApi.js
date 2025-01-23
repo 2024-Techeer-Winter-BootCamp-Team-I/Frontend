@@ -1,45 +1,26 @@
 import { jsonAxios } from './axios.config';
-import useFrontStore from '../store/useFrontStore';
-import useBackStore from '../store/useBackStore';
 
-export const techStackSetupApi = async (directoryName) => {
-  const {
-    selectedPackage,
-    selectedBuildTool,
-    selectedFramework: frontFramework,
-    selectedLanguage,
-  } = useFrontStore.getState();
-
-  const { selectedFramework: backFramework, selectedDatabase } =
-    useBackStore.getState();
-
-  const frontendTechStack = [
-    selectedPackage,
-    selectedBuildTool,
-    frontFramework,
-    selectedLanguage,
-  ];
-  const backendTechStack = [backFramework, selectedDatabase];
-
-  const documentId = 0;
-
+export const techStackSetupApi = async (
+  directoryName,
+  frontendTechStack,
+  backendTechStack,
+  documentId,
+) => {
   const requestBody = {
-    frontend_tech_stack: frontendTechStack,
-    backend_tech_stack: backendTechStack,
+    frontend_tech_stack: frontendTechStack || [],
+    backend_tech_stack: backendTechStack || [],
     directory_name: directoryName || '',
     document_id: documentId,
   };
 
-  console.log('API Request Body:', requestBody); // API 요청 전 request body 출력
+  console.log('API Request Body:', requestBody);
 
   try {
-    const response = await jsonAxios.post('/tech-stack/setup');
-    console.log('API Response Body:', response.data); // responseBody 출력
+    const response = await jsonAxios.post('/tech-stack/setup', requestBody);
+    console.log('API Response Body:', response.data);
     return response.data;
   } catch (error) {
     console.error('Error setting up tech stack:', error);
     throw error;
   }
 };
-
-export default techStackSetupApi;
