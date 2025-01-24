@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import GithubIcon from '../assets/image/Github.svg';
+import GithubIcon from '../assets/image/github.svg';
 
 const Myproject = () => {
   const navigate = useNavigate();
