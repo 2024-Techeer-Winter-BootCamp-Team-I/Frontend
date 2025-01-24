@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import GithubIcon from '../assets/image/Github.svg'; // SVG 파일 import
+import GithubIcon from '../assets/image/github.svg'; // SVG 파일 import
 import Button from './Button/Button';
 import { createRepository } from '../api/reposApi'; // createRepository 함수 import
 // import { fetchUserOrganizations } from '../api/user'; // 예시: Organization 목록 가져오는 함수
