@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import GithubIcon from '../assets/image/github.svg';
 
-const Myproject = () => {
+const MyProject = () => {
   const navigate = useNavigate();
 
   const handleProjectClick = (project) => {
@@ -44,4 +44,4 @@ const Myproject = () => {
   );
 };
 
-export default Myproject;
+export default MyProject;
