@@ -1,10 +1,11 @@
 import Layout from './Layout';
-import Myproject from '../components/MyProject';
+import MyProject from '@components/MyProject';
+
 
 const MyPage = () => {
   return (
     <Layout>
-      <Myproject />
+      <MyProject />
     </Layout>
   );
 };
