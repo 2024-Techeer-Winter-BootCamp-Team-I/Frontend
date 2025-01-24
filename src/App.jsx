@@ -34,10 +34,10 @@ function App() {
         <Route path="/diagram" element={<Diagram />} />
         <Route path="/settingcheck" element={<SettingCheck />} />
         <Route path="/input" element={<InputPage />} />
+        <Route path="/specific" element={<Specific />} />
 
         <Route path="/mypage" element={<Mypage />} />
-
-        <Route path="/specific" element={<Specific />} />
+      
 
         <Route path="/frontpackage" element={<FrontPackage />} />
         <Route path="/frontbuild" element={<FrontBuild />} />
