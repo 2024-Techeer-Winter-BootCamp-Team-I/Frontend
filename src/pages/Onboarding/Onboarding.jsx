@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import gsap from 'gsap';
-import BackgroundAnimation from '../BackgroundAnimation/BackgroundAnimation'; // BackgroundAnimation import
+import Spline from '@splinetool/react-spline'; // Spline import
 
 const OnboardingPage = () => {
   const sectionsRef = useRef([]); // 각 섹션 참조
@@ -52,22 +52,17 @@ const OnboardingPage = () => {
         />
       </Helmet>
 
-      {/* 배경 애니메이션 */}
-      <BackgroundAnimation />
-
       {/* 페이지 섹션 */}
       <div className="h-full snap-y snap-mandatory overflow-y-scroll">
         {[...Array(6)].map((_, index) => (
           <section
             key={index}
             ref={(el) => (sectionsRef.current[index] = el)}
-            className={`flex h-screen w-full items-center justify-center ${
-              index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-700'
-            } text-center text-white`}
+            className="flex h-screen w-full items-center justify-center"
           >
-            <div>
-              <h1 className="text-4xl font-bold">Section {index + 1}</h1>
-              <p className="text-lg">This is the content for section {index + 1}.</p>
+            {/* Spline 3D 장면 추가 */}
+            <div className="absolute inset-0 z-0">
+              <Spline scene="https://prod.spline.design/PhSvli-1CdxPi0KU/scene.splinecode" />
             </div>
           </section>
         ))}
