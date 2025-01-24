@@ -21,6 +21,8 @@ export const techStackSetupApi = async (
     return response.data;
   } catch (error) {
     console.error('Error setting up tech stack:', error);
+    console.log('Request Body:', requestBody);
+    console.error('Error details:', error.response?.data);
     throw error;
   }
 };
