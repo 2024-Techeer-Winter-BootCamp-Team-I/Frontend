@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import GithubIcon from '../assets/image/Github.svg'; // SVG 파일 import
+import GithubIcon from '../assets/image/github.svg'; // SVG 파일 import
 import Button from './Button/Button';
 
 const GitRepository = () => {
@@ -13,7 +13,7 @@ const GitRepository = () => {
     // 컴포넌트가 마운트될 때 사용자 Organization 목록을 가져옴
     const fetchOrganizations = async () => {
       try {
-        const orgs = await fetchUserOrganizations();
+        const orgs = await fetchOrganizations();
         setOrganizations(orgs);
       } catch (error) {
         console.error('Error fetching organizations:', error);

@@ -1,8 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import gsap from 'gsap';
-import BackgroundAnimation from '../BackgroundAnimation/BackgroundAnimation'; // BackgroundAnimation import
-import './onboarding.css'; // OnboardingPage 스타일 import
 
 const OnboardingPage = () => {
   const sectionsRef = useRef([]); // 각 섹션 참조
@@ -16,6 +14,7 @@ const OnboardingPage = () => {
   }, []);
 
   // 스크롤 이벤트 처리
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleScroll = (e) => {
     const direction = e.deltaY > 0 ? 1 : -1;
     const nextSection = currentSection + direction;
@@ -40,7 +39,7 @@ const OnboardingPage = () => {
   useEffect(() => {
     window.addEventListener('wheel', handleScroll);
     return () => window.removeEventListener('wheel', handleScroll);
-  }, [currentSection]);
+  }, [currentSection, handleScroll]);
 
   return (
     <div className="onboarding-page">
@@ -52,9 +51,6 @@ const OnboardingPage = () => {
           content="Welcome to our onboarding experience!"
         />
       </Helmet>
-
-      {/* 배경 애니메이션 */}
-      <BackgroundAnimation />
 
       {/* 페이지 섹션 */}
       <div className="h-full snap-y snap-mandatory overflow-y-scroll">

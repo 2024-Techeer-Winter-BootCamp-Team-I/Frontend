@@ -6,8 +6,9 @@ import ChooseBox from '../../components/ChooseBox/ChooseBox';
 import Layout from '../Layout';
 import BackStep from '../../components/BackStep/BackStep';
 
-import mysql from '../../assets/image/mysql.svg';
+import mysql from '../../assets/image/mySql.svg';ya
 import postgresql from '../../assets/image/postgreSql.svg';
+import sqLite3 from '../../assets/image/sqLite3.svg';
 
 import rightArrow from '../../assets/image/rightArrow.svg';
 import leftArrow from '../../assets/image/leftArrow.svg';
@@ -88,6 +89,15 @@ const BackDatabase = () => {
                 isSelected={selectedDatabase === 'PostgreSQL'}
                 onClick={() => handleChooseBoxClick('PostgreSQL')}
                 description={'오픈 소스 객체-관계형 데이터베이스 시스템'}
+              />
+              <ChooseBox
+                label="SQLite3"
+                imageUrl={sqLite3}
+                isSelected={selectedDatabase === 'SQLite3'}
+                onClick={() => handleChooseBoxClick('SQLite3')}
+                description={
+                  '경량의 파일 기반 데이터베이스로, 서버 없이도 사용 가능한 임베디드 DBMS'
+                }
               />
               <img
                 src={rightArrow}
