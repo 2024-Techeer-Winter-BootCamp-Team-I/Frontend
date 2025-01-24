@@ -6,7 +6,7 @@ import ChooseBox from '../../components/ChooseBox/ChooseBox';
 import Layout from '../Layout';
 import BackStep from '../../components/BackStep/BackStep';
 
-import mysql from '../../assets/image/mysql.svg';
+import mysql from '../../assets/image/mySql.svg';ya
 import postgresql from '../../assets/image/postgreSql.svg';
 import sqLite3 from '../../assets/image/sqLite3.svg';
 
