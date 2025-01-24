@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import mermaid from 'mermaid';
+
 import Button from '../Button/Button';
 import SaveIcon from '../../assets/image/save.svg';
 
@@ -55,7 +55,9 @@ const MultiViewBox = ({ type, imageContent, codeContent }) => {
         </div>
 
         {activeTab === 'image' && <div className="p-4">{imageContent}</div>}
-        {activeTab === 'code' && <div className="p-4 text-white">{codeContent}</div>}
+        {activeTab === 'code' && (
+          <div className="p-4 text-white">{codeContent}</div>
+        )}
 
         <div className="absolute left-0 top-[31rem] z-20 ml-4 -translate-y-1/2 transform">
           <Button

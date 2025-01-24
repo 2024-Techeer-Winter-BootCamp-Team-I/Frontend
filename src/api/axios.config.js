@@ -121,7 +121,6 @@ jsonAxios.interceptors.response.use(
       } catch (refreshError) {
         tokenRefreshManager.onRefreshEnd(refreshError, null);
         console.error('토큰 갱신 실패. 사용자 로그아웃 필요.');
-        window.location.href = '/login'; // 로그인 페이지로 리다이렉트
         return Promise.reject(refreshError);
       }
     }
