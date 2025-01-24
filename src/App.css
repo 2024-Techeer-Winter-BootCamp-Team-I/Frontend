@@ -1,0 +1,70 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+/* 커스텀 스크롤바 스타일 */
+.scrollbar-custom {
+  scrollbar-width: thin; /* Firefox용 얇은 스크롤바 */
+  scrollbar-color: #4a5568 transparent; /* 핸들 및 트랙 색상 */
+  padding-right: 12px; /* 스크롤바를 박스 안쪽으로 */
+}
+
+.scrollbar-custom::-webkit-scrollbar {
+  width: 8px; /* 세로 스크롤바 너비 */
+  height: 8px; /* 가로 스크롤바 높이 */
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: transparent; /* 트랙 배경 투명 */
+  border-radius: 8px; /* 트랙 둥글게 */
+  margin: 2px; /* 트랙을 박스 안쪽으로 이동 */
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background: rgba(72, 92, 243, 0.8); /* 핸들 색상 */
+  border-radius: 8px; /* 핸들을 둥글게 */
+  border: 2px solid transparent; /* 핸들의 테두리 */
+  background-clip: padding-box; /* 핸들 테두리를 트랙과 분리 */
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background: rgba(72, 92, 243, 1); /* 핸들 색상 강조 */
+}
