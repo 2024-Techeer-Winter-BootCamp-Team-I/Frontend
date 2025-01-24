@@ -32,7 +32,7 @@ const Myproject = () => {
               <button
                 key={index}
                 onClick={() => handleProjectClick(project)}
-                className="flex h-[3.9rem] w-[30rem] items-center rounded-[0.625rem] bg-[#171717] px-[1.25rem] text-left transition hover:bg-[#4B4B4B] group-hover:text-blue-main"
+                className="flex h-[3.9rem] w-[30rem] items-center rounded-[0.625rem] bg-[#171717] px-[1.25rem] text-left transition group-hover:text-blue-main hover:bg-[#4B4B4B]"
               >
                 <p className="text-[1rem] font-medium text-white">{project}</p>
               </button>
