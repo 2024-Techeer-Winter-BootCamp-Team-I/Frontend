@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { getToken, setToken } from '../utils/cookies'; // 쿠키에서 토큰 가져오기/저장하기
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -24,94 +23,106 @@ export const jsonAxios = axios.create({
 });
 
 /**
- * [Request Interceptor] - axiosInstance
- * - 요청 보내기 전, 쿠키에서 'jwt_access' 가져와 Authorization 헤더로 설정
- */
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = getToken('jwt_access'); // 쿠키에서 jwt_access 가져오기
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
-
-/**
- * [Request Interceptor] - jsonAxios
- * - JSON 요청에서도 동일하게 쿠키 'jwt_access'를 Bearer 헤더로 설정
- */
-jsonAxios.interceptors.request.use(
-  (config) => {
-    const token = getToken('jwt_access');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
-
-/**
- * [Response Interceptor] - axiosInstance & jsonAxios
- * - 응답이 401 (Unauthorized)일 경우, 리프레시 토큰을 사용해 새 액세스 토큰 요청
- * - 원래 요청을 새 토큰으로 다시 시도
- */
-const handleResponseError = async (error) => {
-  const originalRequest = error.config;
-
-  if (error.response?.status === 401 && !originalRequest._retry) {
-    originalRequest._retry = true; // 무한 루프 방지
-
-    try {
-      // 리프레시 토큰으로 새 액세스 토큰 요청
-      const newToken = await refreshAccessToken();
-
-      // 새 토큰을 쿠키에 저장
-      setToken('jwt_access', newToken);
-
-      // Authorization 헤더에 새 토큰 설정
-      originalRequest.headers.Authorization = `Bearer ${newToken}`;
-
-      // 원래 요청 다시 시도
-      return axios(originalRequest);
-    } catch (refreshError) {
-      console.error('토큰 갱신 실패:', refreshError);
-      return Promise.reject(refreshError);
-    }
-  }
-
-  return Promise.reject(error);
-};
-
-// Response Interceptor 추가
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  handleResponseError,
-);
-
-jsonAxios.interceptors.response.use(
-  (response) => response,
-  handleResponseError,
-);
-
-/**
- * 새 액세스 토큰 요청 함수
+ * 액세스 토큰 갱신 함수
+ * httpOnly 쿠키를 사용하기 때문에 클라이언트에서 토큰을 직접 다루지 않습니다.
  */
 const refreshAccessToken = async () => {
   try {
-    const response = await axios.post(
-      `${BASE_URL}/login/refresh`,
-      {},
-      { withCredentials: true },
-    );
-    return response.data.access_token; // 새 액세스 토큰 반환
+    const response = await jsonAxios.post('/login/refresh');
+
+    if (response.status === 200) {
+      const { access_token: newAccessToken } = response.data;
+      console.log('새 액세스 토큰 발급 완료:', newAccessToken);
+
+      // 새 토큰을 Axios 기본 헤더에 설정
+      axiosInstance.defaults.headers.common['Authorization'] =
+        `Bearer ${newAccessToken}`;
+      jsonAxios.defaults.headers.common['Authorization'] =
+        `Bearer ${newAccessToken}`;
+
+      return newAccessToken; // 새 토큰 반환
+    } else {
+      console.error('리프레시 토큰 응답 상태 이상:', response.status);
+      throw new Error('리프레시 토큰 응답 상태 이상');
+    }
   } catch (error) {
     console.error('리프레시 토큰 요청 실패:', error);
+    // 필요 시 사용자 로그아웃 또는 로그인 페이지로 리다이렉트
     throw error;
   }
 };
+
+/**
+ * 토큰 갱신 상태 및 대기열 관리
+ */
+const createTokenRefreshManager = () => {
+  let isRefreshing = false;
+  const failedQueue = [];
+
+  const processQueue = (error = null, token = null) => {
+    failedQueue.forEach(({ resolve, reject }) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(token);
+      }
+    });
+    failedQueue.length = 0; // 대기열 초기화
+  };
+
+  return {
+    enqueue: () =>
+      new Promise((resolve, reject) => {
+        failedQueue.push({ resolve, reject });
+      }),
+    onRefreshStart: () => {
+      isRefreshing = true;
+    },
+    onRefreshEnd: (error, token) => {
+      isRefreshing = false;
+      processQueue(error, token);
+    },
+    getRefreshingStatus: () => isRefreshing,
+  };
+};
+
+const tokenRefreshManager = createTokenRefreshManager();
+
+/**
+ * 응답 인터셉터: 401 오류 시 토큰 갱신 후 재요청
+ */
+jsonAxios.interceptors.response.use(
+  (response) => response, // 성공적인 응답은 그대로 반환
+  async (error) => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      if (tokenRefreshManager.getRefreshingStatus()) {
+        try {
+          await tokenRefreshManager.enqueue();
+          return jsonAxios(originalRequest);
+        } catch (err) {
+          return Promise.reject(err);
+        }
+      }
+
+      originalRequest._retry = true;
+      tokenRefreshManager.onRefreshStart();
+
+      try {
+        const newToken = await refreshAccessToken();
+        tokenRefreshManager.onRefreshEnd(null, newToken);
+        return jsonAxios(originalRequest);
+      } catch (refreshError) {
+        tokenRefreshManager.onRefreshEnd(refreshError, null);
+        // 필요 시 사용자 로그아웃 또는 로그인 페이지로 리다이렉트
+        return Promise.reject(refreshError);
+      }
+    }
+
+    return Promise.reject(error); // 다른 오류는 그대로 반환
+  },
+);
 
 /**
  * export default - 인스턴스들을 모아서 내보냄
