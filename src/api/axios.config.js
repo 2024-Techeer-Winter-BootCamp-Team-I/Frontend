@@ -24,23 +24,14 @@ export const jsonAxios = axios.create({
 
 /**
  * 액세스 토큰 갱신 함수
- * httpOnly 쿠키를 사용하기 때문에 클라이언트에서 토큰을 직접 다루지 않습니다.
+ * - 리프레시 토큰은 쿠키에서 전송되며, 새 액세스 토큰을 응답으로 받습니다.
  */
 const refreshAccessToken = async () => {
   try {
-    const response = await jsonAxios.post(
-      '/login/refresh',
-      {}, // 요청 본문 비워둠
-      {
-        withCredentials: true, // httpOnly 쿠키 포함
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
+    const response = await jsonAxios.post('/login/refresh'); // 쿠키 기반으로 리프레시 요청
 
     if (response.status === 200) {
-      const newAccessToken = response.data;
+      const { access_token: newAccessToken } = response.data;
       console.log('새 액세스 토큰 발급 완료:', newAccessToken);
 
       // 새 토큰을 Axios 기본 헤더에 설정
@@ -60,59 +51,77 @@ const refreshAccessToken = async () => {
   }
 };
 
-// 토큰 갱신 상태 및 대기열 관리
-let isRefreshing = false;
-const failedQueue = [];
-
 /**
- * 대기 중인 요청들을 처리하는 함수
+ * 토큰 갱신 상태 및 대기열 관리
+ * - 중복된 토큰 갱신 요청을 방지하고, 대기 중인 요청을 처리합니다.
  */
-const processQueue = (error = null) => {
-  failedQueue.forEach(({ resolve, reject }) => {
-    if (error) reject(error);
-    else resolve();
-  });
-  failedQueue.length = 0; // 대기열 초기화
+const createTokenRefreshManager = () => {
+  let isRefreshing = false;
+  const failedQueue = [];
+
+  const processQueue = (error = null, token = null) => {
+    failedQueue.forEach(({ resolve, reject }) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(token);
+      }
+    });
+    failedQueue.length = 0; // 대기열 초기화
+  };
+
+  return {
+    enqueue: () =>
+      new Promise((resolve, reject) => {
+        failedQueue.push({ resolve, reject });
+      }),
+    onRefreshStart: () => {
+      isRefreshing = true;
+    },
+    onRefreshEnd: (error, token) => {
+      isRefreshing = false;
+      processQueue(error, token);
+    },
+    getRefreshingStatus: () => isRefreshing,
+  };
 };
+
+const tokenRefreshManager = createTokenRefreshManager();
 
 /**
  * 응답 인터셉터: 401 오류 시 토큰 갱신 후 재요청
+ * - 모든 401 에러에서 새 토큰 발급을 시도하고, 성공 시 요청을 재시도합니다.
  */
 jsonAxios.interceptors.response.use(
   (response) => response, // 성공적인 응답은 그대로 반환
   async (error) => {
     const originalRequest = error.config;
 
-    // 401 오류이고, 재시도하지 않은 요청일 경우
-    if (
-      error.response &&
-      error.response.status === 401 &&
-      !originalRequest._retry
-    ) {
-      if (isRefreshing) {
-        // 이미 토큰 갱신 중이라면 대기열에 요청 추가
-        return new Promise((resolve, reject) => {
-          failedQueue.push({ resolve, reject });
-        })
-          .then(() => jsonAxios(originalRequest))
-          .catch((err) => Promise.reject(err));
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      if (tokenRefreshManager.getRefreshingStatus()) {
+        try {
+          await tokenRefreshManager.enqueue();
+          return jsonAxios(originalRequest);
+        } catch (err) {
+          return Promise.reject(err);
+        }
       }
 
-      originalRequest._retry = true;
-      isRefreshing = true;
+      tokenRefreshManager.onRefreshStart();
 
       try {
-        const newAccessToken = await refreshAccessToken();
-        processQueue(); // 대기열 처리
+        const newToken = await refreshAccessToken();
+        tokenRefreshManager.onRefreshEnd(null, newToken);
 
-        // 원래 요청 헤더에 새 토큰 적용
-        originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
-        return jsonAxios(originalRequest); // 원래 요청 재시도
+        // 재시도 요청에 새 토큰 반영
+        originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
+        return jsonAxios(originalRequest);
       } catch (refreshError) {
-        processQueue(refreshError); // 실패 시 대기열 처리
-        return Promise.reject(refreshError); // 에러 전달
-      } finally {
-        isRefreshing = false; // 갱신 상태 초기화
+        tokenRefreshManager.onRefreshEnd(refreshError, null);
+        console.error('토큰 갱신 실패. 사용자 로그아웃 필요.');
+        return Promise.reject(refreshError);
       }
     }
 
@@ -121,7 +130,8 @@ jsonAxios.interceptors.response.use(
 );
 
 /**
- * export default - 인스턴스들을 모아서 내보냄
+ * export default
+ * - axiosInstance와 jsonAxios를 포함하여 전체 export
  */
 export default {
   axiosInstance,

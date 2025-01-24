@@ -1,5 +1,7 @@
+<<
 import { useState } from 'react';
 import GithubIcon from '../assets/image/Github.svg'; // SVG 파일 import
+
 import Button from './Button/Button';
 import { createRepository } from '../api/reposApi'; // createRepository 함수 import
 // import { fetchUserOrganizations } from '../api/user'; // 예시: Organization 목록 가져오는 함수
@@ -12,7 +14,9 @@ const GitRepository = () => {
   const [selectedOrganization, setSelectedOrganization] = useState(''); // 선택된 Organization 상태
   const [repoName, setRepoName] = useState(''); // 레포지토리 이름 상태
 
+
   const projectDir = useSettingStore((state) => state.project_dir);
+
 
   // useEffect(() => {
   //   // 컴포넌트가 마운트될 때 사용자 Organization 목록을 가져옴
