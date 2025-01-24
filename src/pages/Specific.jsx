@@ -1,25 +1,40 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import Layout from './Layout';
 import Button from '../components/Button/Button';
 import EditModal from '../components/EditModal';
+import { getDocumentById } from '../api/documentsApi';
 
 const Specific = () => {
+  const { document_id } = useParams(); // URL에서 문서 ID 가져오기
   const location = useLocation();
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // useNavigate 훅 사용
   const [document, setDocument] = useState(location.state?.document || null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [description, setDescription] = useState(document?.description || '');
   const [loading, setLoading] = useState(!document);
 
+
+
   useEffect(() => {
     if (!document) {
-      // 문서 데이터가 없으면 로딩 상태 유지
-      setLoading(true);
+      const fetchDocument = async () => {
+        try {
+          const fetchedDocument = await getDocumentById(document_id);
+          setDocument(fetchedDocument);
+          setDescription(fetchedDocument.description);
+        } catch (error) {
+          console.error('문서 조회 중 오류 발생:', error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchDocument();
     } else {
       setLoading(false);
     }
-  }, [document]);
+  }, [document, document_id]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -90,6 +105,7 @@ const Specific = () => {
               onClose={closeModal}
               onSave={handleUpdate} // 수정 완료 시 호출될 함수
               currentDescription={description} // 현재 문서 설명 전달
+              document_id={document?.id} // 문서 ID 전달
             />
           </div>
         )}

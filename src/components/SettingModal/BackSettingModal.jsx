@@ -31,18 +31,20 @@ const BackSettingModal = ({ isOpen, onClose }) => {
       ></div>
 
       {/* 모달 내용 */}
-      <div className="z-10 rounded-lg bg-white p-6 shadow-lg">
-        <h2 className="mb-4 text-2xl font-bold">선택된 백엔드 기술 스택</h2>
-        <ul className="space-y-2">
-          <li>
-            <strong>프레임워크:</strong> {selectedFramework || '선택되지 않음'}
+      <div className="z-10 rounded-lg bg-[#161A23] shadow-lg w-[30rem] h-[20rem] mt-[12rem] border border-[#d9d9d9] border-[0.5px]">
+        <h2 className="mb-8 text-[1.4rem] mt-[1.5rem] font-semibold text-center text-[#EDEDED]">백엔드 기술 스택</h2>
+        <ul className="space-y-4">
+          <li className="mt-[4rem]">
+          <strong className="text-[#EDEDED] font-bold ml-[2rem]">프레임워크 :</strong>{' '}
+          <span className="text-gray-300 text-[1.1rem] font-medium">{selectedFramework || '선택되지 않음'}</span>
           </li>
           <li>
-            <strong>데이터베이스:</strong> {selectedDatabase || '선택되지 않음'}
+          <strong className="text-[#EDEDED] font-bold ml-[2rem]">데이터베이스 :</strong>{' '}
+          <span className="text-gray-300 text-[1.1rem] font-medium">{selectedDatabase || '선택되지 않음'}</span>
           </li>
         </ul>
         <button
-          className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
+          className="mt-16 ml-[24rem] w-[5.2rem] rounded-[0.25rem] bg-[#33598B] px-4 py-2 text-white font-medium hover:bg-[#78A0D4]"
           onClick={handleClose} // handleClose로 변경
         >
           닫기

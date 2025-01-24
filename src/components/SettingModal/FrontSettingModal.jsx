@@ -102,24 +102,28 @@ const FrontStackModal = ({ isOpen, onClose, onConfirm }) => {
       ></div>
 
       {/* 모달 내용 */}
-      <div className="z-10 rounded-lg bg-white p-6 shadow-lg">
-        <h2 className="mb-4 text-2xl font-bold">선택된 프론트엔드 기술 스택</h2>
-        <ul className="space-y-2">
+      <div className="z-10 rounded-lg bg-[#161A23] shadow-lg w-[30rem] h-[20rem] mt-[14rem] border border-[#d9d9d9] border-[0.5px]">
+        <h2 className="mb-8 text-[1.4rem] mt-[1.5rem] font-semibold text-center text-[#EDEDED]">프론트엔드 기술 스택</h2>
+        <ul className="space-y-4">
           <li>
-            <strong>패키지 매니저:</strong> {selectedPackage || '선택되지 않음'}
+            <strong className="text-[#EDEDED] font-bold ml-[2rem]">패키지 매니저   :</strong>{' '}
+            <span className="text-gray-300 text-[1.1rem] font-medium">{selectedPackage || '선택되지 않음'}</span>
           </li>
           <li>
-            <strong>빌드 도구:</strong> {selectedBuildTool || '선택되지 않음'}
+            <strong className="text-[#EDEDED] font-bold ml-[2rem]">빌드 도구   :</strong>{' '}
+            <span className="text-gray-300 text-[1.1rem] font-medium">{selectedBuildTool || '선택되지 않음'}</span>
           </li>
           <li>
-            <strong>프레임워크:</strong> {selectedFramework || '선택되지 않음'}
+            <strong className="text-[#EDEDED] font-bold ml-[2rem]">프레임워크   :</strong>{' '}
+            <span className="text-gray-300 text-[1.1rem] font-medium">{selectedFramework || '선택되지 않음'}</span>
           </li>
           <li>
-            <strong>언어:</strong> {selectedLanguage || '선택되지 않음'}
+            <strong className="text-[#EDEDED] font-bold ml-[2rem]">언어 :</strong>{' '}
+            <span className="text-gray-300 text-[1.1rem] font-medium">{selectedLanguage || '선택되지 않음'}</span>
           </li>
         </ul>
         <button
-          className="mt-4 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-700"
+          className="mt-7 ml-[24rem] w-[5.2rem] rounded-[0.25rem] bg-[#33598B] px-4 py-2 text-white font-medium hover:bg-[#78A0D4]"
           onClick={handleConfirm} // handleClose로 변경
         >
           확인

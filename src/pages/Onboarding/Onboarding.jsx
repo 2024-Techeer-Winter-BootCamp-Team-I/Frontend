@@ -2,7 +2,6 @@ import { useRef, useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import gsap from 'gsap';
 import BackgroundAnimation from '../BackgroundAnimation/BackgroundAnimation'; // BackgroundAnimation import
-import './onboarding.css'; // OnboardingPage 스타일 import
 
 const OnboardingPage = () => {
   const sectionsRef = useRef([]); // 각 섹션 참조
@@ -43,7 +42,7 @@ const OnboardingPage = () => {
   }, [currentSection]);
 
   return (
-    <div className="onboarding-page">
+    <div className="relative h-full overflow-hidden">
       {/* SEO 메타 태그 설정 */}
       <Helmet>
         <title>Onboarding Page</title>
@@ -62,25 +61,27 @@ const OnboardingPage = () => {
           <section
             key={index}
             ref={(el) => (sectionsRef.current[index] = el)}
-            className="section"
+            className={`flex h-screen w-full items-center justify-center ${
+              index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-700'
+            } text-center text-white`}
           >
             <div>
               <h1 className="text-4xl font-bold">Section {index + 1}</h1>
-              <p className="text-lg">
-                This is the content for section {index + 1}.
-              </p>
+              <p className="text-lg">This is the content for section {index + 1}.</p>
             </div>
           </section>
         ))}
       </div>
 
       {/* 페이지 내비게이션 */}
-      <div className="fixed right-4 top-1/2 flex -translate-y-1/2 transform flex-col">
+      <div className="fixed top-1/2 right-4 -translate-y-1/2 transform flex flex-col space-y-2">
         {[...Array(6)].map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSection(index)}
-            className={`nav-button ${currentSection === index ? 'active' : ''}`}
+            className={`w-3 h-3 rounded-full transition-colors ${
+              currentSection === index ? 'bg-white' : 'bg-gray-400'
+            }`}
           />
         ))}
       </div>
