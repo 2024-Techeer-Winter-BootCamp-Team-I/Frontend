@@ -4,11 +4,11 @@ import GithubIcon from '../assets/image/Github.svg';
 import useLoginStore from '../store/LoginStore'; // Zustand 스토어 import
 import { getProfile } from '../api/auth'; // 프로필 정보를 가져오는 API 함수
 
-const MyProject = () => {
+const Myproject = () => {
   const navigate = useNavigate();
   const {
     loginStatus,
-    userEmail,
+    userEmail, // userName 대신 userEmail 사용
     profileImage,
     setLoginStatus,
     setUserInfo,
@@ -18,13 +18,11 @@ const MyProject = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const profileData = await getProfile();
-        if (profileData) {
-          setLoginStatus(true);
-          setUserInfo(profileData.userName, profileData.profileImage, profileData.userEmail);
-        }
+        const profileData = await getProfile(); // getProfile을 사용하여 프로필 정보 가져오기
+        setLoginStatus(true);
+        setUserInfo(profileData.userEmail, profileData.profileImage); // userEmail 설정
       } catch (error) {
-        console.error('Failed to load user profile:', error);
+        console.error('사용자 정보 로드 실패:', error);
         setLoginStatus(false);
       }
     };
@@ -32,15 +30,11 @@ const MyProject = () => {
     fetchProfile();
   }, [setLoginStatus, setUserInfo]);
 
-  const handleProjectClick = (project) =>
+  const handleProjectClick = (project) => {
     navigate(`/${project.toLowerCase().replace(' ', '-')}`);
+  };
 
-  if (!loginStatus)
-    return (
-      <div className="flex h-screen items-center justify-center text-white">
-        <p>Loading your projects... Please wait!</p>
-      </div>
-    );
+  if (!loginStatus) return <div>Loading...</div>; // 로그인 상태가 로딩 중일 때 표시
 
   return (
     <div className="mt-0 flex h-full w-full flex-col">
@@ -52,26 +46,29 @@ const MyProject = () => {
             <img
               src={profileImage || GithubIcon} // 프로필 이미지가 없을 경우 기본 아이콘 사용
               alt="GitHub"
-              className="h-[4rem] w-[4rem] rounded-full"
+              className="h-[5rem] w-[5rem] rounded-full"
             />
             <p className="ml-[1rem] text-[1rem] font-medium text-white">
-              {userEmail || 'No email found'} {/* 사용자 이메일 표시 */}
+              {userEmail} {/* 사용자 이메일 표시 */}
             </p>
           </div>
 
           {/* 회색 네모박스 리스트 */}
           <div className="mt-[3rem] flex flex-col items-center justify-center space-y-[1.2rem]">
-            {['First Project', 'Second Project', 'Third Project', 'Fourth Project'].map(
-              (project, index) => (
-                <button
-                  key={index}
-                  onClick={() => handleProjectClick(project)}
-                  className="flex h-[3.9rem] w-[30rem] items-center rounded-[0.625rem] bg-[#171717] px-[1.25rem] text-left transition hover:bg-[#4B4B4B]"
-                >
-                  <p className="text-[1rem] font-medium text-white">{project}</p>
-                </button>
-              )
-            )}
+            {[
+              'First Project',
+              'Second Project',
+              'Third Project',
+              'Fourth Project',
+            ].map((project, index) => (
+              <button
+                key={index}
+                onClick={() => handleProjectClick(project)}
+                className="flex h-[3.9rem] w-[30rem] items-center rounded-[0.625rem] bg-[#171717] px-[1.25rem] text-left transition hover:bg-[#4B4B4B] group-hover:text-blue-main"
+              >
+                <p className="text-[1rem] font-medium text-white">{project}</p>
+              </button>
+            ))}
           </div>
         </div>
       </div>
@@ -79,4 +76,4 @@ const MyProject = () => {
   );
 };
 
-export default MyProject;
+export default Myproject;

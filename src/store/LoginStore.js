@@ -4,7 +4,7 @@ import { create } from 'zustand';
 const useLoginStore = create((set) => ({
   loginStatus: false,
   userName: '',
-  userEmail: '', // userName 대신 userEmail 사용
+  userEmail: '', 
   profileImage: '',
 
   setLoginStatus: (status) => set(() => ({ loginStatus: status })),
