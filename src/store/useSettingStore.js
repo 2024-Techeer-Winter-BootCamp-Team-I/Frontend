@@ -16,6 +16,9 @@ const useSettingStore = create((set) => ({
 
   directoryName: '', // 디렉터리 이름
   setDirectoryName: (dirName) => set({ directoryName: dirName }), // 디렉터리 이름 설정
+
+  setProjectDir: (project_dir) => set({ project_dir: project_dir }),
+  // techStackSetupApi의 response body 중 project_dir을 저장
 }));
 
 export default useSettingStore;
