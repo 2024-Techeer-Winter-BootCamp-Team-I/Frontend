@@ -128,12 +128,3 @@ jsonAxios.interceptors.response.use(
     return Promise.reject(error); // 다른 오류는 그대로 반환
   },
 );
-
-/**
- * export default
- * - axiosInstance와 jsonAxios를 포함하여 전체 export
- */
-export default {
-  axiosInstance,
-  jsonAxios,
-};

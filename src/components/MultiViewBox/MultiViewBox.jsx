@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import Button from '../Button/Button';
 import SaveIcon from '../../assets/image/save.svg';
 
@@ -9,17 +8,22 @@ const MultiViewBox = ({ type, imageContent, codeContent }) => {
   const [activeTab, setActiveTab] = useState('image'); // 기본 활성화 탭: 'image'
   const navigate = useNavigate();
 
+  // 탭 클릭 핸들러
   const handleTabClick = (tab) => setActiveTab(tab);
 
+  // 저장 버튼 핸들러
   const handleSaveClick = () => {
     console.log(`${type} 저장 클릭`);
   };
 
   return (
     <div className="relative ml-48 mt-14 flex flex-col">
+      {/* 다이어그램 및 코드 보기 영역 */}
       <div className="relative h-[28rem] w-3/4 rounded-[1.875rem] bg-gradient-to-br from-[rgba(255,255,255,0.55)] via-[#7885E9] to-[#485CF3]">
+        {/* 내부 컨테이너 */}
         <div className="absolute left-[0.125rem] top-[0.125rem] h-[calc(100%-0.25rem)] w-[calc(100%-0.25rem)] rounded-[1.875rem] bg-[#141414]" />
 
+        {/* 저장 버튼 */}
         <div
           className="absolute right-4 top-4 cursor-pointer"
           onClick={handleSaveClick}
@@ -27,6 +31,7 @@ const MultiViewBox = ({ type, imageContent, codeContent }) => {
           <img src={SaveIcon} alt="Save" className="h-6 w-6" />
         </div>
 
+        {/* 탭 버튼 */}
         <div className="absolute left-[0.125rem] top-[-2rem] z-[30] ml-5 flex gap-0">
           <div
             onClick={() => handleTabClick('image')}
@@ -54,11 +59,17 @@ const MultiViewBox = ({ type, imageContent, codeContent }) => {
           </div>
         </div>
 
-        {activeTab === 'image' && <div className="p-4">{imageContent}</div>}
-        {activeTab === 'code' && (
-          <div className="p-4 text-white">{codeContent}</div>
-        )}
+        {/* 콘텐츠 렌더링 */}
+        <div className="h-full overflow-auto p-4">
+          {activeTab === 'image' && (
+            <div className="h-full">{imageContent}</div>
+          )}
+          {activeTab === 'code' && (
+            <pre className="whitespace-pre-wrap text-white">{codeContent}</pre>
+          )}
+        </div>
 
+        {/* 이전/세팅 버튼 */}
         <div className="absolute left-0 top-[31rem] z-20 ml-4 -translate-y-1/2 transform">
           <Button
             label="이전으로"
