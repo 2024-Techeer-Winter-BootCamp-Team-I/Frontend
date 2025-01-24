@@ -1,7 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import gsap from 'gsap';
-import Spline from '@splinetool/react-spline'; // Spline import
 
 const OnboardingPage = () => {
   const sectionsRef = useRef([]); // 각 섹션 참조
@@ -15,6 +14,7 @@ const OnboardingPage = () => {
   }, []);
 
   // 스크롤 이벤트 처리
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleScroll = (e) => {
     const direction = e.deltaY > 0 ? 1 : -1;
     const nextSection = currentSection + direction;
@@ -39,10 +39,10 @@ const OnboardingPage = () => {
   useEffect(() => {
     window.addEventListener('wheel', handleScroll);
     return () => window.removeEventListener('wheel', handleScroll);
-  }, [currentSection]);
+  }, [currentSection, handleScroll]);
 
   return (
-    <div className="relative h-full overflow-hidden">
+    <div className="onboarding-page">
       {/* SEO 메타 태그 설정 */}
       <Helmet>
         <title>Onboarding Page</title>
@@ -58,25 +58,25 @@ const OnboardingPage = () => {
           <section
             key={index}
             ref={(el) => (sectionsRef.current[index] = el)}
-            className="flex h-screen w-full items-center justify-center"
+            className="section"
           >
-            {/* Spline 3D 장면 추가 */}
-            <div className="absolute inset-0 z-0">
-              <Spline scene="https://prod.spline.design/PhSvli-1CdxPi0KU/scene.splinecode" />
+            <div>
+              <h1 className="text-4xl font-bold">Section {index + 1}</h1>
+              <p className="text-lg">
+                This is the content for section {index + 1}.
+              </p>
             </div>
           </section>
         ))}
       </div>
 
       {/* 페이지 내비게이션 */}
-      <div className="fixed top-1/2 right-4 -translate-y-1/2 transform flex flex-col space-y-2">
+      <div className="fixed right-4 top-1/2 flex -translate-y-1/2 transform flex-col">
         {[...Array(6)].map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSection(index)}
-            className={`w-3 h-3 rounded-full transition-colors ${
-              currentSection === index ? 'bg-white' : 'bg-gray-400'
-            }`}
+            className={`nav-button ${currentSection === index ? 'active' : ''}`}
           />
         ))}
       </div>

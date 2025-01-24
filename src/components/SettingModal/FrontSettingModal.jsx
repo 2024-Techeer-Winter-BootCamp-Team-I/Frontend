@@ -102,7 +102,7 @@ const FrontStackModal = ({ isOpen, onClose, onConfirm }) => {
       ></div>
 
       {/* 모달 내용 */}
-      <div className="z-10 rounded-lg bg-[#161A23] shadow-lg w-[30rem] h-[20rem] mt-[14rem] border border-[#d9d9d9] border-[0.5px]">
+      <div className="z-10 rounded-lg bg-[#161A23] shadow-lg w-[30rem] h-[20rem] mt-[6rem] border border-[#d9d9d9] border-[0.5px]">
         <h2 className="mb-8 text-[1.4rem] mt-[1.5rem] font-semibold text-center text-[#EDEDED]">프론트엔드 기술 스택</h2>
         <ul className="space-y-4">
           <li>
