@@ -1,26 +1,24 @@
-import axiosInstance from './axios.config';
-import techStackSetupApi from './techStacksSetupApi';
+import { jsonAxios } from './axios.config';
 
-const ReposApi = async (organizationName, repoName, isPrivate) => {
+export const createRepository = async ({
+  organizationName,
+  repoName,
+  isPrivate,
+  projectDir,
+}) => {
   try {
-    // techStackSetupApi를 호출하여 project_dir을 가져옴
-    const projectDir = await techStackSetupApi(repoName);
-
-    // 요청 본문 생성
-    const requestBody = {
+    const response = await jsonAxios.post('/repos/', {
       organization_name: organizationName,
       repo_name: repoName,
       private: isPrivate,
       project_dir: projectDir,
-    };
-
-    // API 요청
-    const response = await axiosInstance.post('/api/v1/repos', requestBody);
-    return response.data;
+    });
+    console.log('Repository created successfully:', response.data);
   } catch (error) {
-    console.error('Error creating repository:', error);
+    console.error(
+      'Error creating repository:',
+      error.response?.data || error.message,
+    );
     throw error;
   }
 };
-
-export default ReposApi;

@@ -1,5 +1,7 @@
 import { jsonAxios, axiosInstance } from './axios.config';
 
+
+
 /**
  * 문서 생성 (POST /documents)
  * - JSON Body를 전송해야 하므로 jsonAxios 사용

@@ -46,14 +46,16 @@ export const postLogout = async () => {
   }
 };
 
+// 마이페이지 조회 API 추가
 export const getProfile = async () => {
   try {
     const response = await jsonAxios.get('/login/profile');
     const githubUsername = response.data.github_username;
+    const email = response.data.email;
     const projectNames = response.data.project_names;
 
     // 객체로 반환
-    return { githubUsername, projectNames };
+    return { githubUsername, email, projectNames };
   } catch (error) {
     console.error(
       '프로필 정보 조회 실패:',
