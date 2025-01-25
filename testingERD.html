@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mermaid ERD Test</title>
+
+    <!-- Mermaid.js CDN -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true });
+
+      // JSON 형식의 데이터를 받을 부분
+      const jsonResponse = {
+        status: 'success',
+        data: {
+          erd: '```mermaid\nerDiagram\n    USER ||--o{ POST : "1:N"\n    USER ||--o{ COMMENT : "1:N"\n    POST ||--o{ COMMENT : "1:N"\n    POST ||--o{ SEARCH : "1:N"\n\n    USER {\n        integer user_id PK\n        string username\n        string password\n        string email\n        datetime created_at\n    }\n\n    POST {\n        integer post_id PK\n        integer user_id FK\n        string title\n        string content\n        datetime created_at\n        datetime updated_at\n    }\n\n    COMMENT {\n        integer comment_id PK\n        integer post_id FK\n        integer user_id FK\n        string content\n        datetime created_at\n        datetime updated_at\n    }\n\n    SEARCH {\n        integer search_id PK\n        integer post_id FK\n        string keyword\n        datetime searched_at\n    }\n```',
+        },
+      };
+
+      // JSON 응답에서 mermaid 코드만 추출하여 HTML에 삽입
+      window.onload = function () {
+        const erdCode = jsonResponse.data.erd; // Mermaid 다이어그램 코드 추출
+
+        // Mermaid 코드에서 "```mermaid\n"과 "```"를 제거하고, 줄바꿈을 유지
+        // ```mermaid\n: ERD 다이어그램 시작 부분
+        // ```: ERD 다이어그램 끝 부분
+        const cleanErdCode = erdCode.replace(/```mermaid\n|```/g, '').trim();
+
+        // 다이어그램 코드로 Mermaid div 생성
+        // document.getElementById: id가 mermaid-container인 요소를 찾아서 erdContainer에 할당
+        const erdContainer = document.getElementById('mermaid-container');
+        erdContainer.innerHTML = `<div class="mermaid">${cleanErdCode}</div>`;
+        // class="mermaid" mermaid 라이브러리가 다이어그램으로 렌더링(변환)
+        // .innerHTML: HTML 콘텐츠를 설정하거나 반환
+        // ${cleanErdCode}: ERD 다이어그램 코드를 정리한 함수를 이용해 ERD를 그림(렌더링)
+
+        // Mermaid.js 코드 렌더링
+        mermaid.contentLoaded();
+      };
+    </script>
+  </head>
+  <body>
+    <h1>Mermaid.js ERD 테스트</h1>
+
+    <!-- 다이어그램을 렌더링할 영역 -->
+    <div id="mermaid-container"></div>
+  </body>
+</html>

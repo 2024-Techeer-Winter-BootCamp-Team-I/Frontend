@@ -1,11 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../Button/Button';
 import SaveIcon from '../../assets/image/save.svg'; // save.svg를 경로에 맞게 임포트
+import { designApi } from '../../api/designApi'; // designApi 임포트
 
 const MultiViewBox = () => {
   const [activeTab, setActiveTab] = useState('image'); // 기본 활성화 탭: 'image'
+  const [sequenceDiagramCode, setSequenceDiagramCode] = useState('');
+  const [erdCode, setErdCode] = useState('');
+  const [apiSpecCode, setApiSpecCode] = useState('');
   const navigate = useNavigate(); // useNavigate 훅 사용
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await designApi();
+      if (data) {
+        setSequenceDiagramCode(data.sequenceDiagramCode);
+        setErdCode(data.erdCode);
+        setApiSpecCode(data.apiSpecCode);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -24,8 +41,11 @@ const MultiViewBox = () => {
         <div className="absolute left-[0.125rem] top-[0.125rem] h-[calc(100%-0.25rem)] w-[calc(100%-0.25rem)] rounded-[1.875rem] bg-[#141414]" />
 
         {/* 오른쪽 상단 저장 아이콘 */}
-        <div className="absolute right-4 top-4 cursor-pointer" onClick={handleSaveClick}>
-          <img src={SaveIcon} alt="Save" className="w-6 h-6" />
+        <div
+          className="absolute right-4 top-4 cursor-pointer"
+          onClick={handleSaveClick}
+        >
+          <img src={SaveIcon} alt="Save" className="h-6 w-6" />
         </div>
 
         {/* 버튼 컨테이너 */}
@@ -59,8 +79,27 @@ const MultiViewBox = () => {
           </div>
         </div>
 
+        {/* 콘텐츠 영역 */}
+        <div className="absolute left-[0.125rem] top-[2rem] h-[calc(100%-2.25rem)] w-[calc(100%-0.25rem)] rounded-[1.875rem] bg-[#141414] p-4">
+          {activeTab === 'image' ? (
+            <div className="flex h-full items-center justify-center">
+              {/* 이미지 콘텐츠 */}
+              <img
+                src="/path/to/your/image.png"
+                alt="Diagram"
+                className="max-h-full max-w-full"
+              />
+            </div>
+          ) : (
+            <div className="flex h-full items-center justify-center">
+              {/* 코드 콘텐츠 */}
+              <pre className="text-white">{sequenceDiagramCode}</pre>
+            </div>
+          )}
+        </div>
+
         {/* 이전으로 버튼 (왼쪽 끝) */}
-        <div className="absolute left-0 top-[31rem] transform -translate-y-1/2 ml-4 z-20">
+        <div className="absolute left-0 top-[31rem] z-20 ml-4 -translate-y-1/2 transform">
           <Button
             label="이전으로"
             size="small"
@@ -70,7 +109,7 @@ const MultiViewBox = () => {
         </div>
 
         {/* 확인 버튼 (오른쪽 끝) */}
-        <div className="absolute right-0 top-[31rem] transform -translate-y-1/2 mr-4 z-20">
+        <div className="absolute right-0 top-[31rem] z-20 mr-4 -translate-y-1/2 transform">
           <Button
             label="세팅"
             size="small"
