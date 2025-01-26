@@ -13,6 +13,7 @@ const FrontStackModal = ({ isOpen, onClose, onConfirm }) => {
 
   const selectedPositions = useSettingStore((state) => state.selectedPositions);
   const directoryName = useSettingStore((state) => state.directoryName);
+  const setProjectDir = useSettingStore((state) => state.setProjectDir); // setProjectDir 가져오기
 
   if (!isOpen) return null;
 
@@ -32,12 +33,18 @@ const FrontStackModal = ({ isOpen, onClose, onConfirm }) => {
     try {
       // "Backend"가 선택되지 않은 경우, 프론트엔드 스택만 전송
       if (!selectedPositions.includes('Backend')) {
-        await techStackSetupApi(
+        const response = await techStackSetupApi(
           directoryName,
           frontendTechStack,
           backendTechStack,
           documentId,
         );
+        // 응답에서 project_dir 추출
+        const { project_dir } = response;
+
+        // project_dir을 Zustand 스토어에 저장
+        setProjectDir(project_dir);
+
         console.log('Front Request Body: ', frontendTechStack);
         console.log('directoryName: ', directoryName);
         console.log('Back Request Body: ', backendTechStack);
