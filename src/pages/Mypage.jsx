@@ -1,5 +1,5 @@
 import Layout from './Layout';
-import MyProject from '../components/MyProject';
+import MyProject from '../components/Myproject';
 
 const MyPage = () => {
   return (
