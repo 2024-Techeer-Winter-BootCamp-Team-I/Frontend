@@ -2,31 +2,14 @@ import { useState } from 'react';
 import GithubIcon from '../assets/image/github.svg'; // SVG 파일 import
 import Button from './Button/Button';
 import { createRepository } from '../api/reposApi'; // createRepository 함수 import
-// import { fetchUserOrganizations } from '../api/user'; // 예시: Organization 목록 가져오는 함수
 import useSettingStore from '../store/useSettingStore';
 
 const GitRepository = () => {
   const [activeButton, setActiveButton] = useState(null); // 현재 활성화된 버튼 상태
   const [isPrivate, setIsPrivate] = useState(false); // 레포지토리 비공개 여부 상태
-  const organizations = useState([]); // 사용자 Organization 목록 상태
-  const [selectedOrganization, setSelectedOrganization] = useState(''); // 선택된 Organization 상태
   const [repoName, setRepoName] = useState(''); // 레포지토리 이름 상태
 
   const projectDir = useSettingStore((state) => state.project_dir);
-
-  // useEffect(() => {
-  //   // 컴포넌트가 마운트될 때 사용자 Organization 목록을 가져옴
-  //   const fetchOrganizations = async () => {
-  //     try {
-  //       const orgs = await fetchUserOrganizations();
-  //       setOrganizations(orgs);
-  //     } catch (error) {
-  //       console.error('Error fetching organizations:', error);
-  //     }
-  //   };
-
-  //   fetchOrganizations();
-  // }, []);
 
   // 버튼 클릭 시 호출되는 함수
   const handleButtonClick = (buttonName) => {
@@ -36,14 +19,13 @@ const GitRepository = () => {
   // "CREATE" 버튼 클릭 시 동작
   const handleCreateClick = async () => {
     if (!repoName) {
-      alert('Organization과 Repository 이름을 모두 입력해주세요.');
+      alert('Repository 이름을 입력해주세요.');
       return;
     }
 
     try {
       // createRepository 함수 호출
       const response = await createRepository({
-        organizationName: selectedOrganization,
         repoName,
         isPrivate,
         projectDir, // 필요시 프로젝트 디렉토리 값 추가
@@ -65,7 +47,7 @@ const GitRepository = () => {
     <div className="flex items-center justify-center pt-14">
       <div>
         {/* 제목 텍스트 */}
-        <div className="absolute left-[25rem] mt-[6rem] break-words font-sans text-[1.3rem] font-[100rem] font-semibold text-white">
+        <div className="absolute left-[20rem] mt-[6rem] break-words font-sans text-[1.3rem] font-[100rem] font-semibold text-white">
           깃허브에 업로드하기
         </div>
 
@@ -124,19 +106,6 @@ const GitRepository = () => {
 
               {/* 입력 필드 */}
               <div className="flex gap-[1.2rem] pl-[1rem] pr-[1rem]">
-                {/* 오른쪽 패딩 추가 */}
-                <select
-                  className="h-[2.2rem] flex-1 rounded-md border border-gray-300 px-[0.5rem]"
-                  value={selectedOrganization}
-                  onChange={(e) => setSelectedOrganization(e.target.value)}
-                >
-                  <option value="">Organization Name</option>
-                  {organizations.map((org) => (
-                    <option key={org.id} value={org.login}>
-                      {org.login}
-                    </option>
-                  ))}
-                </select>
                 <input
                   type="text"
                   placeholder="Repository Name"
