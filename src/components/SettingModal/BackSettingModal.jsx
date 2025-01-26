@@ -19,6 +19,7 @@ const BackStackModal = ({ isOpen, onClose, onConfirm }) => {
 
   const selectedPositions = useSettingStore((state) => state.selectedPositions);
   const directoryName = useSettingStore((state) => state.directoryName);
+  const setProjectDir = useSettingStore((state) => state.setProjectDir); // setProjectDir 가져오기
 
   if (!isOpen) return null;
 
@@ -39,16 +40,24 @@ const BackStackModal = ({ isOpen, onClose, onConfirm }) => {
       : ['', ''];
 
     try {
-      await techStackSetupApi(
+      // API 호출
+      const response = await techStackSetupApi(
         directoryName,
         frontendTechStack,
         backendTechStack,
         documentId,
       );
 
+      // 응답에서 project_dir 추출
+      const { project_dir } = response;
+
+      // project_dir을 Zustand 스토어에 저장
+      setProjectDir(project_dir);
+
       console.log('Front Request Body: ', frontendTechStack);
       console.log('Back Request Body: ', backendTechStack);
       console.log('directoryName: ', directoryName);
+      console.log('project_dir: ', project_dir); // project_dir 로그 출력
 
       // /settingcheck 페이지로 이동
       navigate('/settingcheck');

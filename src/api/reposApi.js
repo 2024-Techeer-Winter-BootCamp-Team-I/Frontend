@@ -14,6 +14,7 @@ export const createRepository = async ({
       project_dir: projectDir,
     });
     console.log('Repository created successfully:', response.data);
+    return response.data;
   } catch (error) {
     console.error(
       'Error creating repository:',
