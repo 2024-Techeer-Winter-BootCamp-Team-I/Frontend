@@ -9,9 +9,9 @@ const MyProject = () => {
   const {
     userName,
     profileImage,
-    projectName,
+    documentTitle,
     setUserInfo,
-    addProjectName,
+    addDocumentTitleName,
     setEmail,
     email, // email 상태 추가
   } = useLoginStore();
@@ -19,9 +19,9 @@ const MyProject = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const { githubUsername, email, projectNames } = await getProfile();
-        setUserInfo(githubUsername, profileImage, email, projectNames);
-        projectNames.forEach((project) => addProjectName(project));
+        const { githubUsername, email, documentTitle } = await getProfile();
+        setUserInfo(githubUsername, profileImage);
+        documentTitle.forEach((document) => addDocumentTitleName(document));
         setEmail(email);
       } catch (error) {
         console.error('프로필 정보 조회 실패:', error);
@@ -29,11 +29,11 @@ const MyProject = () => {
     };
 
     fetchProfile();
-  }, [setUserInfo, addProjectName, setEmail]); // profileImage 제거
+  }, [setUserInfo, addDocumentTitleName, setEmail]); // profileImage 제거
 
-  const handleProjectClick = (project) => {
-    if (!project) return; // project가 undefined 또는 null인 경우 처리
-    navigate(`/${project.toLowerCase().replace(/ /g, '-')}`); // 공백을 하이픈으로 대체
+  const handleDocumentClick = (document) => {
+    if (!document) return; // Document가 undefined 또는 null인 경우 처리
+    navigate(`/${document.toLowerCase().replace(/ /g, '-')}`); // 공백을 하이픈으로 대체
   };
 
   return (
@@ -56,14 +56,14 @@ const MyProject = () => {
           {/* 회색 네모박스 리스트 */}
           <div className="mb-[2rem] flex h-[25rem] flex-col items-center justify-center space-y-[1.2rem]">
             <div className="flex h-[20rem] w-[30rem] flex-col items-center overflow-y-auto">
-              {projectName.map((project, index) => (
+              {documentTitle.map((document, index) => (
                 <button
                   key={index}
-                  onClick={() => handleProjectClick(project)}
+                  onClick={() => handleDocumentClick(document)}
                   className="mb-[1.2rem] flex h-[3.9rem] w-full flex-shrink-0 items-center rounded-[0.625rem] bg-[#171717] px-[1.25rem] text-left transition hover:bg-[#4B4B4B] hover:text-blue-main"
                 >
                   <p className="text-[1rem] font-medium text-white">
-                    {project}
+                    {document}
                   </p>
                 </button>
               ))}
