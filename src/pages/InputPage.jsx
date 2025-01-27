@@ -22,7 +22,12 @@ const InputPage = () => {
 
     try {
       // 문서 생성 요청
-      const { documentId } = await postDocument({ title, content, requirements });
+      const { documentId } = await postDocument({
+        title,
+        content,
+        requirements,
+      });
+      console.log('문서 생성 성공:', documentId);
       setDocumentId(String(documentId)); // Zustand로 document_id 저장
       navigate('/specific'); // Specific 페이지로 이동
     } catch (error) {

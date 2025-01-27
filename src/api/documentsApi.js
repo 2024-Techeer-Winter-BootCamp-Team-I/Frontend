@@ -37,9 +37,23 @@ export const getDocumentStream = (documentId) => {
     throw new Error('유효한 documentId가 필요합니다.');
   }
 
-  const streamUrl = `http://localhost:8000/api/v1/documents/${documentId}/stream`; // URL 생성
-  console.log('Stream URL:', streamUrl);
-  const eventSource = new EventSource(streamUrl); // EventSource 객체 반환
+  const streamUrl = `http://localhost:8000/api/v1/documents/${documentId}/stream?cacheBuster=${Date.now()}`;
+
+  // Fetch API로 SSE 요청
+  const eventSource = new EventSource(streamUrl, {
+    headers: {
+      Accept: 'text/event-stream; charset=utf-8', // 헤더 설정
+    },
+  });
+
+  eventSource.onmessage = (event) => {
+    console.log('Received message:', event.data); // 수신한 데이터 출력
+  };
+
+  eventSource.onerror = (error) => {
+    console.error('Stream error:', error); // 에러 처리
+  };
+
   return eventSource;
 };
 
@@ -60,12 +74,15 @@ export const putDocument = async ({ documentId, prompt }) => {
 
 export const postDesign = async (documentId) => {
   try {
-    const response = await jsonAxios.post(`/documents/${documentId}/design`, {
-      documentId,
-    });
+    console.log('postDesign 요청 데이터:', { documentId });
+    const response = await jsonAxios.post(`/documents/${documentId}/design`);
+    console.log('postDesign 응답 데이터:', response.data);
     return response.data; // 전체 데이터를 반환
   } catch (error) {
-    console.error('postDesign 요청 실패:', error);
+    console.error(
+      'postDesign 요청 실패:',
+      error.response?.data || error.message,
+    );
     throw error; // 에러를 호출한 곳으로 전달
   }
 };

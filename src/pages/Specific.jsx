@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import Layout from './Layout';
 import Button from '../components/Button/Button';
 import useDocumentStore from '../store/useDocumentStore';
-import { getDocumentStream } from '../api/documentsApi';
 import EditModal from '../components/EditModal';
 
 const Specific = () => {
@@ -22,27 +21,35 @@ const Specific = () => {
 
     const fetchStream = async () => {
       try {
-        const eventSource = getDocumentStream(documentId); // 스트림 요청
+        const response = await fetch(
+          `http://localhost:8000/api/v1/documents/${documentId}/stream`,
+          {
+            headers: {
+              Accept: 'text/event-stream', // 스트림 응답을 요청하는 헤더
+            },
+          },
+        );
 
-        eventSource.onopen = () => {
-          console.log('스트림 연결 성공');
-        };
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-        eventSource.onmessage = (event) => {
-          console.log('Received data:', event.data);
-          setDocumentContent((prev) => prev + event.data); // 데이터 추가
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder('utf-8');
+        let done = false;
 
-          // 첫 데이터 수신 시 로딩 상태 해제
-          if (isLoading) {
-            setIsLoading(false);
+        while (!done) {
+          const { value, done: readerDone } = await reader.read();
+          done = readerDone;
+
+          if (value) {
+            const chunk = decoder.decode(value, { stream: true });
+            console.log('Received chunk:', chunk); // 받은 데이터를 콘솔에 출력
+            setDocumentContent((prev) => prev + chunk); // 데이터 누적
           }
-        };
+        }
 
-        eventSource.onerror = (error) => {
-          console.error('스트림 에러:', error);
-          eventSource.close();
-          setIsLoading(false); // 에러 발생 시 로딩 상태 해제
-        };
+        setIsLoading(false); // 모든 데이터 수신 후 로딩 상태 해제
       } catch (error) {
         console.error('스트림 요청 실패:', error);
         setIsLoading(false); // 요청 실패 시 로딩 상태 해제
@@ -50,14 +57,14 @@ const Specific = () => {
     };
 
     fetchStream();
-  }, [documentId, isLoading]);
+  }, [documentId]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   const handleSpecificClick = () => {
     alert('API, ERD, 다이어그램을 제작합니다');
-    navigate('/erd');
+    navigate('/erdpage');
   };
 
   return (

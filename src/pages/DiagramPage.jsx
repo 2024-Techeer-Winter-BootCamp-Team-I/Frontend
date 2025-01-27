@@ -1,88 +1,120 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import mermaid from 'mermaid';
 import Layout from './Layout';
+import useDocumentStore from '../store/useDocumentStore';
 
 const DiagramPage = () => {
+  const navigate = useNavigate();
+  const { diagramCode } = useDocumentStore(); // 전역 상태에서 diagramCode 가져오기
+  const [activePage, setActivePage] = useState('DIAGRAM');
+  const [activeTab, setActiveTab] = useState('image');
+  const [cleanDiagramCode, setCleanDiagramCode] = useState('');
+
   useEffect(() => {
-    import(
-      'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'
-    ).then((mermaid) => {
-      mermaid.default.initialize({
-        startOnLoad: true,
-        theme: 'dark',
-      });
+    if (!diagramCode) {
+      console.error('Diagram 데이터가 없습니다.');
+      return;
+    }
 
-      const jsonResponse = {
-        status: 'success',
-        data: {
-          diagram: `sequenceDiagram
-            participant User
-            participant AuthSystem
-            participant ProductSystem
-            participant CartSystem
-            participant OrderSystem
-            participant ReviewSystem
-            participant CreditSystem
+    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
 
-            User->>AuthSystem: 회원가입 요청 (이메일, 비밀번호, 이름)
-            AuthSystem->>AuthSystem: 입력 정보 검증
-            AuthSystem-->>User: 계정 생성 결과
+    const cleanCode = diagramCode.replace(/```mermaid\n|```/g, '').trim();
+    setCleanDiagramCode(cleanCode);
 
-            User->>AuthSystem: 로그인 요청 (이메일, 비밀번호)
-            AuthSystem->>AuthSystem: 사용자 정보 검증
-            AuthSystem-->>User: 사용자 정보, 토큰
-
-            User->>ProductSystem: 상품 검색 요청 (검색어)
-            ProductSystem->>ProductSystem: 상품 목록 조회
-            ProductSystem-->>User: 상품 목록
-
-            User->>CartSystem: 상품 추가 요청 (상품 ID, 수량)
-            CartSystem->>CartSystem: 장바구니 업데이트
-            CartSystem-->>User: 장바구니 목록
-
-            User->>OrderSystem: 주문 요청 (장바구니 정보)
-            OrderSystem->>CreditSystem: 크레딧 확인 요청
-            CreditSystem-->>OrderSystem: 크레딧 잔액
-            alt 크레딧 충분
-              OrderSystem->>OrderSystem: 주문 처리
-              OrderSystem->>CreditSystem: 크레딧 차감 요청
-              CreditSystem-->>OrderSystem: 크레딧 차감 결과
-              OrderSystem-->>User: 주문 번호, 결제 결과
-            else 크레딧 부족
-              OrderSystem-->>User: 결제 거부
-            end
-
-            User->>ReviewSystem: 리뷰 작성 요청 (상품 ID, 리뷰 내용, 평점)
-            ReviewSystem->>ReviewSystem: 리뷰 저장
-            ReviewSystem-->>User: 리뷰 저장 결과
-
-            User->>ReviewSystem: 리뷰 조회 요청 (상품 ID)
-            ReviewSystem->>ReviewSystem: 리뷰 목록 조회
-            ReviewSystem-->>User: 리뷰 목록, 평균 평점
-          `,
-        },
-      };
-
-      const diagramCode = jsonResponse.data.diagram;
-      const cleanDiagramCode = diagramCode
-        .replace(/```mermaid\n|```/g, '')
-        .trim();
-
+    if (activeTab === 'image') {
       const diagramContainer = document.getElementById('mermaid-container');
       if (diagramContainer) {
-        diagramContainer.innerHTML = `<div class="mermaid">${cleanDiagramCode}</div>`;
-        mermaid.default.contentLoaded();
+        diagramContainer.innerHTML = `<div class="mermaid">${cleanCode}</div>`;
+        mermaid.contentLoaded();
       }
-    });
-  }, []);
+    }
+  }, [diagramCode, activeTab]);
+
+  // 상단 버튼 클릭 핸들러
+  const handlePageClick = (page, route) => {
+    setActivePage(page);
+    navigate(route);
+  };
+
+  // 탭 전환 핸들러
+  const handleTabClick = (tab) => setActiveTab(tab);
 
   return (
     <Layout>
-      <div className="flex min-h-screen flex-col items-center justify-center text-gray-200">
-        <h1 className="mb-6 text-center text-2xl font-bold">Diagram</h1>
-        <div
-          id="mermaid-container"
-          className="w-full max-w-4xl rounded-lg border border-gray-600 bg-gray-800 p-6 shadow-lg"
-        ></div>
+      <div className="relative flex min-h-screen w-full text-gray-200">
+        {/* 콘텐츠 영역 */}
+        <div className="flex w-full flex-col items-center justify-center">
+          {/* 상단 버튼 */}
+          <div className="mb-4 flex gap-4">
+            <button
+              onClick={() => handlePageClick('ERD', '/erdpage')}
+              className={`rounded px-4 py-2 ${
+                activePage === 'ERD'
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-700 text-gray-200'
+              }`}
+            >
+              ERD
+            </button>
+            <button
+              onClick={() => handlePageClick('DIAGRAM', '/diagrampage')}
+              className={`rounded px-4 py-2 ${
+                activePage === 'DIAGRAM'
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-700 text-gray-200'
+              }`}
+            >
+              DIAGRAM
+            </button>
+            <button
+              onClick={() => handlePageClick('API', '/swaggerpage')}
+              className={`rounded px-4 py-2 ${
+                activePage === 'API'
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-700 text-gray-200'
+              }`}
+            >
+              API
+            </button>
+          </div>
+
+          {/* 콘텐츠 박스 */}
+          <div className="h-[500px] w-full max-w-4xl overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
+            {activeTab === 'image' && (
+              <div id="mermaid-container" className="h-full w-full"></div>
+            )}
+            {activeTab === 'code' && (
+              <pre className="h-full w-full whitespace-pre-wrap text-white">
+                {cleanDiagramCode}
+              </pre>
+            )}
+          </div>
+
+          {/* 탭 버튼 */}
+          <div className="mt-4 flex gap-2">
+            <button
+              onClick={() => handleTabClick('image')}
+              className={`rounded px-4 py-2 ${
+                activeTab === 'image'
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-700 text-gray-200'
+              }`}
+            >
+              이미지보기
+            </button>
+            <button
+              onClick={() => handleTabClick('code')}
+              className={`rounded px-4 py-2 ${
+                activeTab === 'code'
+                  ? 'bg-blue-500 text-white'
+                  : 'bg-gray-700 text-gray-200'
+              }`}
+            >
+              코드보기
+            </button>
+          </div>
+        </div>
       </div>
     </Layout>
   );

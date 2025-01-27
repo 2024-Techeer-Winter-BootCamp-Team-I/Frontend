@@ -13,10 +13,6 @@ export default {
       fontFamily: {
         sans: ['SF Pro', 'sans-serif'],
       },
-      animation: {
-        'fade-in': 'fadeIn 1.5s ease-out forwards',
-        'slide-down': 'slideDown 1s ease-out',
-      },
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0', transform: 'scale(0.95)' },

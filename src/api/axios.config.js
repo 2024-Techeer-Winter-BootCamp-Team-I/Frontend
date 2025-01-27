@@ -16,7 +16,7 @@ export const axiosInstance = axios.create({
  */
 export const jsonAxios = axios.create({
   baseURL: BASE_URL,
-  withCredentials: true, // 쿠키 전송 허용
+  withCredentials: true, // 인증 정보를 요청에 포함
   headers: {
     'Content-Type': 'application/json',
   },
