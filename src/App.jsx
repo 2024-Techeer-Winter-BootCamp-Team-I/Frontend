@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import Testing from './pages/Testing';
+
 import Main from './pages/Main';
 
 import Design from './pages/Design';
@@ -20,13 +22,15 @@ import FrontLanguage from './pages/FrontSetting/FrontLangauge';
 import BackFramework from './pages/BackendSetting/BackFramework';
 import BackDatabase from './pages/BackendSetting/BackDatabase';
 import SettingPage from './pages/SettingPage';
-import Onboarding from './pages/Onboarding/Onboarding';
+// import Onboarding from './pages/Onboarding/Onboarding';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Main />} />
+
+        <Route path="/testing" element={<Testing />} />
 
         <Route path="/design" element={<Design />} />
         <Route path="/api" element={<Api />} />
@@ -46,7 +50,7 @@ function App() {
         <Route path="/backframework" element={<BackFramework />} />
         <Route path="/backdatabase" element={<BackDatabase />} />
         <Route path="/setting" element={<SettingPage />} />
-        <Route path="/onboarding" element={<Onboarding />} />
+        {/* <Route path="/onboarding" element={<Onboarding />} /> */}
       </Routes>
     </Router>
   );
