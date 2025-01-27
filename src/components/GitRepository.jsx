@@ -1,15 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import GithubIcon from '../assets/image/github.svg'; // SVG 파일 import
 import Button from './Button/Button';
-import { createRepository } from '../api/reposApi'; // createRepository 함수 import
+import { createRepository, startDockerInDocker } from '../api/reposApi'; // createRepository 및 startDockerInDocker 함수 import
 import useSettingStore from '../store/useSettingStore';
+import useLoginStore from '../store/LoginStore'; // useLoginStore import
 
 const GitRepository = () => {
   const [activeButton, setActiveButton] = useState(null); // 현재 활성화된 버튼 상태
   const [isPrivate, setIsPrivate] = useState(false); // 레포지토리 비공개 여부 상태
   const [repoName, setRepoName] = useState(''); // 레포지토리 이름 상태
 
+  const userName = useLoginStore((state) => state.userName); // userName 상태만 가져오기
   const projectDir = useSettingStore((state) => state.project_dir);
+  const setRepoUrl = useSettingStore((state) => state.setRepoUrl);
+  const repoUrl = useSettingStore((state) => state.repoUrl); // repoUrl 상태 추가
+
+  // repoUrl 상태가 변경될 때마다 로그 출력
+  useEffect(() => {
+    console.log('Updated repoUrl:', repoUrl);
+  }, [repoUrl]);
+
+  // userName 상태가 변경될 때마다 로그 출력
+  useEffect(() => {
+    console.log('Updated userName:', userName);
+  }, [userName]);
 
   // 버튼 클릭 시 호출되는 함수
   const handleButtonClick = (buttonName) => {
@@ -32,9 +46,39 @@ const GitRepository = () => {
       });
       console.log('레포지토리가 성공적으로 생성되었습니다:', response);
       alert('레포지토리가 성공적으로 생성되었습니다.');
+
+      // 응답에서 repo_url 추출 및 상태 업데이트
+      setRepoUrl(response.repo_url); // repoUrl 상태 업데이트
+      console.log('Repository URL:', response.repo_url);
     } catch (error) {
       console.error('레포지토리 생성 중 오류가 발생했습니다:', error);
       alert('레포지토리 생성 중 오류가 발생했습니다.');
+      console.log('request:', { repoName, isPrivate, projectDir });
+    }
+  };
+
+  // "docker In docker" 버튼 클릭 시 동작
+  const handleDockerClick = async () => {
+    console.log('Current repoUrl:', repoUrl); // repoUrl 상태 확인
+    console.log('Current userName:', userName); // userName 상태 확인
+    console.log('Current repoName:', repoName); // repoName 상태 확인
+    if (!repoUrl) {
+      alert('먼저 레포지토리를 생성해주세요.');
+      return;
+    }
+
+    try {
+      // startDockerInDocker 함수 호출
+      const response = await startDockerInDocker({
+        userName, // userName 사용
+        repoUrl, // repoUrl 사용
+        repoName,
+      });
+      console.log('Docker in Docker started successfully:', response);
+      alert('Docker in Docker started successfully.');
+    } catch (error) {
+      console.error('Error starting Docker in Docker:', error);
+      alert('Error starting Docker in Docker.');
     }
   };
 
@@ -116,12 +160,18 @@ const GitRepository = () => {
               </div>
 
               {/* "CREATE" 버튼 */}
-              <div className="flex justify-end pr-[1rem]">
+              <div className="flex justify-end gap-3 pr-[1rem]">
                 <Button
                   size="small"
                   label="create"
                   color="primary"
                   onClick={handleCreateClick}
+                />
+                <Button
+                  size="small"
+                  label="docker In docker"
+                  color="primary"
+                  onClick={handleDockerClick}
                 />
               </div>
             </div>
