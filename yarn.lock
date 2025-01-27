@@ -5426,6 +5426,13 @@ swagger-client@^3.31.0:
     ramda "^0.30.1"
     ramda-adjunct "^5.0.0"
 
+swagger-ui-dist@^5.18.2:
+  version "5.18.2"
+  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-5.18.2.tgz#62013074374d272c04ed3030704b88db5aa8c0b7"
+  integrity sha512-J+y4mCw/zXh1FOj5wGJvnAajq6XgHOyywsa9yITmwxIlJbMqITq3gYRZHaeqLVH/eV/HOPphE6NjF+nbSNC5Zw==
+  dependencies:
+    "@scarf/scarf" "=1.4.0"
+
 swagger-ui-react@^5.18.2:
   version "5.18.2"
   resolved "https://registry.yarnpkg.com/swagger-ui-react/-/swagger-ui-react-5.18.2.tgz#732aa8475e9540a071539b95456de4ff02829402"

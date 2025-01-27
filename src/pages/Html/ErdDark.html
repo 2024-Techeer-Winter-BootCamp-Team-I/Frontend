@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mermaid ERD Test - Dark Blue Theme with Animation</title>
+    <!-- Mermaid.js CDN -->
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({
+        startOnLoad: true,
+        theme: 'dark', // Mermaid.js 다크 테마 활성화
+      });
+
+      // JSON 형식의 데이터를 받을 부분
+      const jsonResponse = {
+        status: 'success',
+        data: {
+          erd: '```mermaid\nerDiagram\n    USER ||--o{ CREDIT : has\n    USER ||--o{ ORDER : places\n    USER ||--o{ REVIEW : writes\n    ORDER ||--o{ ORDER_ITEM : contains\n    ORDER ||--o{ PAYMENT : has\n    PRODUCT ||--o{ ORDER_ITEM : included_in\n    PRODUCT ||--o{ REVIEW : reviewed_in\n    CART ||--o{ CART_ITEM : contains\n    PRODUCT ||--o{ CART_ITEM : included_in\n\n    USER {\n        integer user_id PK\n        string email\n        string password\n        string name\n        string address\n        string phone\n    }\n\n    CREDIT {\n        integer credit_id PK\n        integer user_id FK\n        integer balance\n    }\n\n    PRODUCT {\n        integer product_id PK\n        string name\n        string description\n        decimal price\n        integer stock\n    }\n\n    CART {\n        integer cart_id PK\n        integer user_id FK\n    }\n\n    CART_ITEM {\n        integer cart_item_id PK\n        integer cart_id FK\n        integer product_id FK\n        integer quantity\n    }\n\n    ORDER {\n        integer order_id PK\n        integer user_id FK\n        datetime order_date\n        string status\n    }\n\n    ORDER_ITEM {\n        integer order_item_id PK\n        integer order_id FK\n        integer product_id FK\n        integer quantity\n        decimal price\n    }\n\n    PAYMENT {\n        integer payment_id PK\n        integer order_id FK\n        decimal amount\n        string payment_method\n        string status\n    }\n\n    REVIEW {\n        integer review_id PK\n        integer user_id FK\n        integer product_id FK\n        string content\n        integer rating\n        datetime review_date\n    }\n```',
+        },
+      };
+
+      // JSON 응답에서 mermaid 코드만 추출하여 HTML에 삽입
+      window.onload = function () {
+        const erdCode = jsonResponse.data.erd; // Mermaid 다이어그램 코드 추출
+
+        // Mermaid 코드에서 "```mermaid\n"과 "```"를 제거하고, 줄바꿈을 유지
+        const cleanErdCode = erdCode.replace(/```mermaid\n|```/g, '').trim();
+
+        // 다이어그램 코드로 Mermaid div 생성
+        const erdContainer = document.getElementById('mermaid-container');
+        erdContainer.innerHTML = `<div class="mermaid">${cleanErdCode}</div>`;
+
+        // Mermaid.js 코드 렌더링
+        mermaid.contentLoaded();
+      };
+    </script>
+    <style>
+      /* 어두운 블루 계열 테마 스타일 */
+      body {
+        background-color: #0b1120; /* 어두운 블루 계열 배경 */
+        color: #cdd6f4; /* 부드러운 블루-화이트 텍스트 */
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+
+      h1 {
+        text-align: center;
+        padding: 20px;
+        color: #d9e6f2; /* 밝은 블루 톤 텍스트 */
+        border-bottom: 1px solid #23364f; /* 어두운 블루 계열 경계선 */
+        margin: 0;
+        animation: slideDown 1s ease-out;
+      }
+
+      #mermaid-container {
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 900px;
+        background-color: #1b2735; /* 어두운 블루 계열 배경 */
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(11, 17, 32, 0.6);
+        border: 1px solid #3a4e6d; /* 테두리에 블루 톤 */
+        opacity: 0; /* 처음에는 투명 */
+        animation: fadeIn 1.5s ease-out forwards; /* 애니메이션 효과 */
+      }
+
+      .mermaid {
+        padding: 10px;
+        border-radius: 8px;
+        transition: all 0.3s ease-in-out;
+      }
+
+      /* 스크롤바 커스터마이징 */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #1b2735; /* 어두운 블루 배경 */
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: #465a75; /* 블루 톤 스크롤바 */
+        border-radius: 4px;
+      }
+
+      ::-webkit-scrollbar-thumb:hover {
+        background: #577090; /* 더 밝은 블루 톤 */
+      }
+
+      /* 애니메이션 효과 */
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes slideDown {
+        0% {
+          opacity: 0;
+          transform: translateY(-50px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Mermaid.js ERD 테스트 (다크 블루 테마 + 애니메이션)</h1>
+
+    <!-- 다이어그램을 렌더링할 영역 -->
+    <div id="mermaid-container"></div>
+  </body>
+</html>

@@ -13,7 +13,7 @@ const ERD = ({ documentId }) => {
       try {
         // API 호출로 Mermaid 다이어그램 데이터 가져오기
         const data = await postDesign(documentId);
-        const rawDiagram = data.data.erd; // ERD 데이터 추출
+        const rawDiagram = data.erd; // ERD 데이터 추출
 
         // HTML 파일 가져오기
         const htmlResponse = await fetch('./Html/erd.html'); // HTML 파일 경로

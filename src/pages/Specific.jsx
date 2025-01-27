@@ -1,100 +1,107 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Layout from './Layout';
 import Button from '../components/Button/Button';
+import useDocumentStore from '../store/useDocumentStore';
+import { getDocumentStream } from '../api/documentsApi';
 import EditModal from '../components/EditModal';
 
 const Specific = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
-  const [documentContent, setDocumentContent] = useState([]); // Stream 데이터 저장
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const documentId = searchParams.get('documentId'); // document_id 가져오기
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태
+  const documentId = useDocumentStore((state) => state.documentId); // 전역 상태에서 documentId 가져오기
+  const [documentContent, setDocumentContent] = useState(''); // 스트림 데이터 저장
+  const [isLoading, setIsLoading] = useState(true); // 로딩 상태
 
   useEffect(() => {
+    console.log('Document ID:', documentId);
     if (!documentId) {
-      console.error('Document ID가 제공되지 않았습니다.');
+      console.error('문서 ID가 없습니다.');
       return;
     }
 
-    // 스트림 URL 생성
-    const streamUrl = `http://localhost:8000/documents/`;
-    const eventSource = new EventSource(streamUrl);
-
-    eventSource.onmessage = (event) => {
+    const fetchStream = async () => {
       try {
-        // JSON 데이터 파싱 및 추가
-        const parsedData = JSON.parse(event.data);
-        if (parsedData.content) {
-          setDocumentContent((prev) => [...prev, parsedData.content]);
-        } else if (parsedData.error) {
-          console.error('스트림 오류:', parsedData.error);
-        }
+        const eventSource = getDocumentStream(documentId); // 스트림 요청
+
+        eventSource.onopen = () => {
+          console.log('스트림 연결 성공');
+        };
+
+        eventSource.onmessage = (event) => {
+          console.log('Received data:', event.data);
+          setDocumentContent((prev) => prev + event.data); // 데이터 추가
+
+          // 첫 데이터 수신 시 로딩 상태 해제
+          if (isLoading) {
+            setIsLoading(false);
+          }
+        };
+
+        eventSource.onerror = (error) => {
+          console.error('스트림 에러:', error);
+          eventSource.close();
+          setIsLoading(false); // 에러 발생 시 로딩 상태 해제
+        };
       } catch (error) {
-        console.error('데이터 파싱 오류:', error);
+        console.error('스트림 요청 실패:', error);
+        setIsLoading(false); // 요청 실패 시 로딩 상태 해제
       }
     };
 
-    eventSource.onerror = (error) => {
-      console.error('Stream Error:', error);
-      eventSource.close();
-    };
-
-    return () => {
-      eventSource.close(); // 컴포넌트 언마운트 시 스트림 닫기
-    };
-  }, [documentId]);
+    fetchStream();
+  }, [documentId, isLoading]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   const handleSpecificClick = () => {
     alert('API, ERD, 다이어그램을 제작합니다');
-    navigate('/design');
+    navigate('/erd');
   };
 
   return (
     <Layout>
       <div className="relative flex min-h-screen flex-col items-center justify-center">
-        {/* 박스 외부 영역 */}
+        {/* 문서 표시 박스 */}
         <div className="absolute top-[2rem] flex h-[28rem] w-[52rem] flex-shrink-0 items-center justify-center">
           {/* 그라데이션 테두리 */}
           <div className="absolute inset-0 rounded-[1.875rem] bg-gradient-to-r from-white/55 via-[#7885E9] to-[#485CF3]" />
           {/* 스크롤 가능한 내용 박스 */}
           <div className="relative z-10 h-[27.75rem] w-[51.75rem] overflow-y-auto rounded-[1.875rem] bg-[#141414] p-6 text-white shadow-lg">
             <div className="space-y-4 text-sm leading-relaxed">
+              {/* 로딩 중, 문서 내용, 기본 메시지 */}
               <div>
-                <strong>문서 내용:</strong>
-                <br />
-                <div className="whitespace-pre-wrap">
-                  {documentContent.length > 0 ? (
-                    documentContent.map((content, index) => (
-                      <p key={index}>{content}</p>
-                    ))
-                  ) : (
-                    <p>로딩 중...</p>
-                  )}
-                </div>
+                {isLoading ? (
+                  <p>로딩 중...</p>
+                ) : documentContent ? (
+                  <p>{documentContent}</p>
+                ) : (
+                  <p>문서 내용이 없습니다.</p>
+                )}
               </div>
             </div>
           </div>
         </div>
-        {/* 버튼 영역 */}
-        <div className="mt-80 flex flex-row gap-5">
-          <Button
-            label="수정하기"
-            size="medium"
-            color="secondary"
-            onClick={openModal}
-          />
-          <Button
-            label="설계하기"
-            size="medium"
-            color="primary"
-            onClick={handleSpecificClick}
-          />
-        </div>
       </div>
+
+      {/* 버튼 영역 */}
+      <div className="mt-80 flex flex-row gap-5">
+        <Button
+          label="수정하기"
+          size="medium"
+          color="secondary"
+          onClick={openModal}
+        />
+        <Button
+          label="설계하기"
+          size="medium"
+          color="primary"
+          onClick={handleSpecificClick}
+        />
+      </div>
+
+      {/* 수정 모달 */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <EditModal onClose={closeModal} />

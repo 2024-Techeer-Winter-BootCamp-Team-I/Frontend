@@ -3,34 +3,31 @@ import { useNavigate } from 'react-router-dom';
 import InputBox from '../components/InputBox/InputBox';
 import Button from '../components/Button/Button';
 import Layout from './Layout';
-import { postDocument } from '../api/documentsApi'; // API 호출 함수
+import { postDocument } from '../api/documentsApi';
+import useDocumentStore from '../store/useDocumentStore'; // Zustand
 
 const InputPage = () => {
   const navigate = useNavigate();
+  const setDocumentId = useDocumentStore((state) => state.setDocumentId);
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [requirements, setRequirements] = useState('');
-  console.log('Title:', title);
-  console.log('Content:', content);
-  console.log('Requirements:', requirements);
+
   const handleDesignClick = async () => {
     if (!title || !content || !requirements) {
       alert('모든 입력값을 채워주세요.');
       return;
     }
-    try {
-      const { documentId } = await postDocument({
-        title,
-        content,
-        requirements,
-      });
 
-      alert('기능명세가 생성 됩니다!');
-      navigate(`/specific?documentId=${documentId}`); // documentId를 전달
+    try {
+      // 문서 생성 요청
+      const { documentId } = await postDocument({ title, content, requirements });
+      setDocumentId(String(documentId)); // Zustand로 document_id 저장
+      navigate('/specific'); // Specific 페이지로 이동
     } catch (error) {
       console.error('문서 생성 실패:', error);
-      alert('문서 생성 중 오류가 발생했습니다.');
+      alert('문서 생성에 실패했습니다.');
     }
   };
 
@@ -44,14 +41,9 @@ const InputPage = () => {
           Make API, ERD, DIAGRAM and Setting
         </p>
 
-        {/* 입력창 부분 */}
         <div className="flex flex-col items-center justify-center space-y-6">
-          {/* 프로젝트 이름 */}
           <div className="w-full">
-            <label
-              htmlFor="project-name"
-              className="mb-2 block text-lg font-semibold text-white"
-            >
+            <label className="mb-2 block text-lg font-semibold text-white">
               프로젝트 이름
             </label>
             <InputBox
@@ -61,13 +53,8 @@ const InputPage = () => {
               onChange={(e) => setTitle(e.target.value)}
             />
           </div>
-
-          {/* 프로젝트 설명 */}
           <div className="w-full">
-            <label
-              htmlFor="project-description"
-              className="mb-2 block text-lg font-semibold text-white"
-            >
+            <label className="mb-2 block text-lg font-semibold text-white">
               프로젝트 설명
             </label>
             <InputBox
@@ -77,13 +64,8 @@ const InputPage = () => {
               onChange={(e) => setContent(e.target.value)}
             />
           </div>
-
-          {/* 주요 기능 */}
           <div className="w-full">
-            <label
-              htmlFor="project-features"
-              className="mb-2 block text-lg font-semibold text-white"
-            >
+            <label className="mb-2 block text-lg font-semibold text-white">
               주요 기능
             </label>
             <InputBox
@@ -95,7 +77,6 @@ const InputPage = () => {
           </div>
         </div>
 
-        {/* 설계하기 버튼 */}
         <div className="mt-10">
           <Button
             label="설계하러가기"

@@ -1,9 +1,9 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import Button from '../Button/Button';
 import SaveIcon from '../../assets/image/save.svg';
 
-// eslint-disable-next-line react/prop-types
 const MultiViewBox = ({ type, imageContent, codeContent }) => {
   const [activeTab, setActiveTab] = useState('image'); // 기본 활성화 탭: 'image'
   const navigate = useNavigate();
@@ -65,7 +65,9 @@ const MultiViewBox = ({ type, imageContent, codeContent }) => {
             <div className="h-full">{imageContent}</div>
           )}
           {activeTab === 'code' && (
-            <pre className="whitespace-pre-wrap text-white">{codeContent}</pre>
+            <pre className="whitespace-pre-wrap text-white">
+              {codeContent.replace(/\\n/g, '\n')}
+            </pre>
           )}
         </div>
 
@@ -89,6 +91,12 @@ const MultiViewBox = ({ type, imageContent, codeContent }) => {
       </div>
     </div>
   );
+};
+
+MultiViewBox.propTypes = {
+  type: PropTypes.string.isRequired,
+  imageContent: PropTypes.node.isRequired,
+  codeContent: PropTypes.string.isRequired,
 };
 
 export default MultiViewBox;

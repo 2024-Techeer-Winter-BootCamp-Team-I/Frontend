@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import Main from './pages/Main';
 
-import Design from './pages/Design';
 import Api from './pages/Api';
 import Erd from './pages/Erd';
 import Diagram from './pages/Diagram';
@@ -20,7 +19,9 @@ import FrontLanguage from './pages/FrontSetting/FrontLangauge';
 import BackFramework from './pages/BackendSetting/BackFramework';
 import BackDatabase from './pages/BackendSetting/BackDatabase';
 import SettingPage from './pages/SettingPage';
-import Onboarding from './pages/Onboarding/Onboarding';
+import ErdPage from './pages/ErdPage';
+import DiagramPage from './pages/DiagramPage';
+import SwaggerPage from './pages/SwaggerPage';
 
 function App() {
   return (
@@ -28,7 +29,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
 
-        <Route path="/design" element={<Design />} />
         <Route path="/api" element={<Api />} />
         <Route path="/erd" element={<Erd />} />
         <Route path="/diagram" element={<Diagram />} />
@@ -46,7 +46,9 @@ function App() {
         <Route path="/backframework" element={<BackFramework />} />
         <Route path="/backdatabase" element={<BackDatabase />} />
         <Route path="/setting" element={<SettingPage />} />
-        <Route path="/onboarding" element={<Onboarding />} />
+        <Route path="/erdpage" element={<ErdPage />} />
+        <Route path="/diagrampage" element={<DiagramPage />} />
+        <Route path="/swaggerpage" element={<SwaggerPage />} />
       </Routes>
     </Router>
   );
