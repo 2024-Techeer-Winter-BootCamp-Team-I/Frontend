@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from './Layout';
-import Button from '../components/Button/Button';
 import EditModal from '../components/EditModal';
 
 const Specific = () => {
@@ -22,13 +21,14 @@ const Specific = () => {
       <div className="relative flex min-h-screen flex-col items-center justify-center">
         {/* 박스 외부 영역 */}
         <div className="absolute top-[2rem] flex h-[28rem] w-[52rem] flex-shrink-0 items-center justify-center">
-          {/* 그라데이션 테두리 */}
-          <div className="absolute inset-0 rounded-[1.875rem] bg-gradient-to-r from-white/55 via-[#7885E9] to-[#485CF3]" />
           {/* 스크롤 가능한 내용 박스 */}
-          <div className="relative z-10 h-[27.75rem] w-[51.75rem] overflow-y-auto rounded-[1.875rem] bg-[#141414] p-6 text-white shadow-lg">
-            <h1 className="mb-4 text-3xl font-bold">Dev Sketch</h1>
-            <div className="space-y-4 text-sm leading-relaxed">
-            <p>
+          <div
+            className="relative z-10 h-[27.75rem] w-[51.75rem] overflow-y-auto rounded-[1.2rem] bg-[#141414] p-6 text-white shadow-lg"
+            style={{ border: '0.5px solid #8B8B8B' }}
+          >
+            <h1 className="mb-4 text-2xl font-bold">Dev Sketch</h1>
+            <div className="space-y-4 text-[0.7rem] text-[#cecece] leading-relaxed">
+              <p>
                 <strong>1. 시스템 목적</strong>
                 <br />
                 Dev Sketch는 개발자의 초기 프로젝트 설계와 세팅 단계를
@@ -73,18 +73,18 @@ const Specific = () => {
         </div>
         {/* 버튼 영역 */}
         <div className="mt-80 flex flex-row gap-5">
-          <Button
-            label="수정하기"
-            size="medium"
-            color="secondary"
+          <button
+            className="mt-[1rem] w-[10rem] h-[2rem] font-sans text-[0.9rem] font-semibold bg-[#E7E5E5] text-black rounded-md hover:opacity-80"
             onClick={openModal} // 모달 열기
-          />
-          <Button
-            label="설계하기"
-            size="medium"
-            color="primary"
-            onClick={handleSpecificClick}
-          />
+          >
+            수정하기
+          </button>
+          <button
+            className="mt-[1rem] w-[10rem] h-[2rem] font-sans text-[0.9rem] font-semibold bg-[#135CA4] text-white rounded-md hover:opacity-80"
+            onClick={handleSpecificClick} // 모달 열기
+          >
+            설계하기
+          </button>
         </div>
       </div>
       {/* 모달 렌더링 */}

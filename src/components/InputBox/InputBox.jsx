@@ -10,7 +10,7 @@ const InputBox = ({ size, placeholder }) => {
   return (
     <input
       type="text"
-      className={`rounded-lg bg-gray-800 p-2 text-white placeholder-gray-400 ${sizeClass[size]}`}
+      className={`rounded-lg bg-[#111F2C] opacity-[80%] p-2 text-white placeholder-gray-400 placeholder:text-sm ${sizeClass[size]}`}
       placeholder={placeholder}
     />
   );
