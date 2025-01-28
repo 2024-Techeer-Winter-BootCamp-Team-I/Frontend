@@ -2,12 +2,10 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProfile } from '../api/auth';
 import useLoginStore from '../store/LoginStore';
-import GithubIcon from '../assets/image/github.svg';
 
 const MyProject = () => {
   const navigate = useNavigate();
   const {
-    userName,
     profileImage,
     documentTitle,
     setUserInfo,
