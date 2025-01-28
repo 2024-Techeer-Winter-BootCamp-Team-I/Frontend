@@ -16,7 +16,7 @@ export const axiosInstance = axios.create({
  */
 export const jsonAxios = axios.create({
   baseURL: BASE_URL,
-  withCredentials: true, // 쿠키 전송 허용
+  withCredentials: true, // 인증 정보를 요청에 포함
   headers: {
     'Content-Type': 'application/json',
   },
@@ -128,12 +128,3 @@ jsonAxios.interceptors.response.use(
     return Promise.reject(error); // 다른 오류는 그대로 반환
   },
 );
-
-/**
- * export default
- * - axiosInstance와 jsonAxios를 포함하여 전체 export
- */
-export default {
-  axiosInstance,
-  jsonAxios,
-};
