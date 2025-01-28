@@ -99,7 +99,9 @@ const GitRepository = () => {
     <div className="flex items-center justify-center pt-14">
       <div>
         {/* 제목 텍스트 */}
-        <div className="absolute left-[20rem] mt-[6rem] break-words font-sans text-[1rem] font-medium text-white">
+
+        <div className="absolute left-[20rem] mt-[6rem] break-words font-sans text-[1rem] font-semibold text-white">
+
           깃허브에 업로드하기
         </div>
 

@@ -20,37 +20,37 @@ const Leftbar = () => {
         <div className="bg-gradient-to-r from-[#FFFFFF] via-[#9BB6CC] to-[#01457E] bg-clip-text p-6 text-[2rem] font-bold text-transparent">
           DevSketch
         </div>
-        <div className="flex flex-grow flex-col justify-start space-y-6 pl-4">
+        <div className="flex flex-grow flex-col justify-start space-y-6 pl-3">
           <div
-            className="flex cursor-pointer items-center space-x-4"
+            className="flex cursor-pointer items-center space-x-2 rounded-md p-1 hover:bg-[#cecece] hover:bg-opacity-20"
             onClick={() => handleNavigation('/input')}
           >
             <img src={Icon1} alt="Icon1" className="h-[1rem] w-[1rem]" />
             <p className="text-[0.8rem] text-[#FFFFFF]">정보 입력</p>
           </div>
           <div
-            className="flex cursor-pointer items-center space-x-4"
+            className="flex cursor-pointer items-center space-x-2 rounded-md p-1 hover:bg-[#cecece] hover:bg-opacity-20"
             onClick={() => handleNavigation('/specific')}
           >
             <img src={Icon2} alt="Icon2" className="h-[1rem] w-[1rem]" />
             <p className="text-[0.8rem] text-[#FFFFFF]">기능명세</p>
           </div>
           <div
-            className="flex cursor-pointer items-center space-x-4"
+            className="flex cursor-pointer items-center space-x-2 rounded-md p-1 hover:bg-[#cecece] hover:bg-opacity-20"
             onClick={() => handleNavigation('/design')}
           >
             <img src={Icon3} alt="Icon3" className="h-[1rem] w-[1rem]" />
             <p className="text-[0.8rem] text-[#FFFFFF]">설계</p>
           </div>
           <div
-            className="flex cursor-pointer items-center space-x-4"
+            className="flex cursor-pointer items-center space-x-2 rounded-md p-1 hover:bg-[#cecece] hover:bg-opacity-20"
             onClick={() => handleNavigation('/setting')}
           >
             <img src={Icon4} alt="Icon4" className="h-[1rem] w-[1rem]" />
             <p className="text-[0.8rem] text-[#FFFFFF]">세팅 시작</p>
           </div>
           <div
-            className="flex cursor-pointer items-center space-x-4"
+            className="flex cursor-pointer items-center space-x-2 rounded-md p-1 hover:bg-[#cecece] hover:bg-opacity-20"
             onClick={() => handleNavigation('/settingcheck')}
           >
             <img src={Icon5} alt="Icon5" className="h-[1rem] w-[1rem]" />
@@ -61,7 +61,7 @@ const Leftbar = () => {
 
       <div className="flex h-[7%] flex-grow flex-col justify-center space-y-2 border-b border-[#6F6E6E] bg-[#000000] pl-4">
         <div
-          className="flex cursor-pointer items-center space-x-4"
+          className="flex cursor-pointer items-center space-x-2 rounded-md p-2 hover:bg-[#cecece] hover:bg-opacity-20"
           onClick={() => handleNavigation('/mypage')}
         >
           <img src={Icon6} alt="Icon6" className="h-[1rem] w-[1rem]" />

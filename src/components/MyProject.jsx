@@ -2,12 +2,10 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProfile } from '../api/auth';
 import useLoginStore from '../store/LoginStore';
-import GithubIcon from '../assets/image/github.svg';
 
 const MyProject = () => {
   const navigate = useNavigate();
   const {
-    userName,
     profileImage,
     documentTitle,
     setUserInfo,
@@ -33,7 +31,7 @@ const MyProject = () => {
 
   const handleDocumentClick = (document) => {
     if (!document) return; // Document가 undefined 또는 null인 경우 처리
-    navigate(`/${document.toLowerCase().replace(/ /g, '-')}`); // 공백을 하이픈으로 대체
+    navigate(`/${document.toLowerCase().replace(/ /g, '-')}`);
   };
 
   return (
