@@ -1,0 +1,72 @@
+import React, { useEffect } from 'react';
+// mermaid.js 라이브러리를 ES 모듈 형식으로 가져옴
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+import Layout from './Layout';
+const Testing = () => {
+  useEffect(() => {
+  
+    //2. ERD: JSON 형식의 응답, 머메이드형식의 ERD
+    const jsonResponse = {
+      status: 'success',
+      data: {
+        erd: `\`\`\`mermaid
+erDiagram
+    USER ||--o{ POST : "1:N"
+    USER ||--o{ COMMENT : "1:N"
+    POST ||--o{ COMMENT : "1:N"
+    POST ||--o{ SEARCH : "1:N"
+    USER {
+        integer user_id PK
+        string username
+        string password
+        string email
+        datetime created_at
+    }
+    POST {
+        integer post_id PK
+        integer user_id FK
+        string title
+        string content
+        datetime created_at
+        datetime updated_at
+    }
+    COMMENT {
+        integer comment_id PK
+        integer post_id FK
+        integer user_id FK
+        string content
+        datetime created_at
+        datetime updated_at
+    }
+    SEARCH {
+        integer search_id PK
+        integer post_id FK
+        string keyword
+        datetime searched_at
+    }
+\`\`\``,
+      },
+    };
+    const erdCode = jsonResponse.data.erd;
+    const cleanErdCode = erdCode.replace(/```mermaid\n|```/g, '').trim();
+    const erdContainer = document.getElementById('mermaid-container');
+    erdContainer.innerHTML = `<div class="mermaid">${cleanErdCode}</div>`;
+    mermaid.initialize({ startOnLoad: true });
+    mermaid.contentLoaded();
+  }, []);
+  return (
+    <Layout>
+      <h1 className="text-4xl font-bold text-gray-800">
+        Mermaid.js ERD 테스트
+      </h1>
+      <div id="mermaid-container" className="mt-8"></div>
+    </Layout>
+  );
+};
+export default Testing;
+
+
+
+
+
+

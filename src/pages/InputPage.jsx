@@ -1,15 +1,39 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputBox from '../components/InputBox/InputBox';
 import Button from '../components/Button/Button';
 import Layout from './Layout';
+import { postDocument } from '../api/documentsApi';
+import useDocumentStore from '../store/useDocumentStore'; // Zustand
 
 const InputPage = () => {
   const navigate = useNavigate();
+  const setDocumentId = useDocumentStore((state) => state.setDocumentId);
 
-  const handleDesignClick = () => {
-    alert('설계가 시작됩니다!');
-    // /specific 페이지로 이동
-    navigate('/specific');
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [requirements, setRequirements] = useState('');
+
+  const handleDesignClick = async () => {
+    if (!title || !content || !requirements) {
+      alert('모든 입력값을 채워주세요.');
+      return;
+    }
+
+    try {
+      // 문서 생성 요청
+      const { documentId } = await postDocument({
+        title,
+        content,
+        requirements,
+      });
+      console.log('문서 생성 성공:', documentId);
+      setDocumentId(String(documentId)); // Zustand로 document_id 저장
+      navigate('/specific'); // Specific 페이지로 이동
+    } catch (error) {
+      console.error('문서 생성 실패:', error);
+      alert('문서 생성에 실패했습니다.');
+    }
   };
 
   return (
@@ -22,43 +46,42 @@ const InputPage = () => {
           Make API, ERD, DIAGRAM and Setting
         </p>
 
-        {/* 입력창 부분을 중앙 정렬 */}
         <div className="flex flex-col items-center justify-center space-y-6">
-          {/* 프로젝트 이름 */}
           <div className="w-full">
-            <label
-              htmlFor="project-name"
-              className="mb-2 block text-lg font-semibold text-white"
-            >
+            <label className="mb-2 block text-lg font-semibold text-white">
               프로젝트 이름
             </label>
-            <InputBox size="small" placeholder="프로젝트 이름을 입력하세요" />
+            <InputBox
+              size="small"
+              placeholder="프로젝트 이름을 입력하세요"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
           </div>
-
-          {/* 프로젝트 설명 */}
           <div className="w-full">
-            <label
-              htmlFor="project-description"
-              className="mb-2 block text-lg font-semibold text-white"
-            >
+            <label className="mb-2 block text-lg font-semibold text-white">
               프로젝트 설명
             </label>
-            <InputBox size="medium" placeholder="프로젝트 설명을 입력하세요" />
+            <InputBox
+              size="medium"
+              placeholder="프로젝트 설명을 입력하세요"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
           </div>
-
-          {/* 주요 기능 */}
           <div className="w-full">
-            <label
-              htmlFor="project-features"
-              className="mb-2 block text-lg font-semibold text-white"
-            >
+            <label className="mb-2 block text-lg font-semibold text-white">
               주요 기능
             </label>
-            <InputBox size="large" placeholder="주요 기능을 입력하세요" />
+            <InputBox
+              size="large"
+              placeholder="주요 기능을 입력하세요"
+              value={requirements}
+              onChange={(e) => setRequirements(e.target.value)}
+            />
           </div>
         </div>
 
-        {/* 설계하기 버튼 */}
         <div className="mt-10">
           <Button
             label="설계하러가기"
