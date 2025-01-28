@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 import GithubIcon from '../assets/image/github.svg'; // SVG 파일 import
 import Button from './Button/Button';
-import { createRepository, startDockerInDocker } from '../api/reposApi'; // createRepository 및 startDockerInDocker 함수 import
+import DockerModal from './DockerModal'; // DockerModal 컴포넌트 import
+
+import { createRepository } from '../api/reposApi'; // createRepository 및 startDockerInDocker 함수 import
+// import { startDockerInDocker } from '../api/dockerApi'; // startDockerInDocker 함수 import
+
 import useSettingStore from '../store/useSettingStore';
 import useLoginStore from '../store/LoginStore'; // useLoginStore import
 
@@ -9,6 +13,7 @@ const GitRepository = () => {
   const [activeButton, setActiveButton] = useState(null); // 현재 활성화된 버튼 상태
   const [isPrivate, setIsPrivate] = useState(false); // 레포지토리 비공개 여부 상태
   const [repoName, setRepoName] = useState(''); // 레포지토리 이름 상태
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
 
   const userName = useLoginStore((state) => state.userName); // userName 상태만 가져오기
   const projectDir = useSettingStore((state) => state.project_dir);
@@ -45,7 +50,7 @@ const GitRepository = () => {
         projectDir, // 필요시 프로젝트 디렉토리 값 추가
       });
       console.log('레포지토리가 성공적으로 생성되었습니다:', response);
-      alert('레포지토리가 성공적으로 생성되었습니다.');
+      alert('깃허브에 업로드 되었습니다!');
 
       // 응답에서 repo_url 추출 및 상태 업데이트
       setRepoUrl(response.repo_url); // repoUrl 상태 업데이트
@@ -62,36 +67,39 @@ const GitRepository = () => {
     console.log('Current repoUrl:', repoUrl); // repoUrl 상태 확인
     console.log('Current userName:', userName); // userName 상태 확인
     console.log('Current repoName:', repoName); // repoName 상태 확인
-    if (!repoUrl) {
-      alert('먼저 레포지토리를 생성해주세요.');
-      return;
-    }
 
-    try {
-      // startDockerInDocker 함수 호출
-      const response = await startDockerInDocker({
-        userName, // userName 사용
-        repoUrl, // repoUrl 사용
-        repoName,
-      });
-      console.log('Docker in Docker started successfully:', response);
-      alert('Docker in Docker started successfully.');
-    } catch (error) {
-      console.error('Error starting Docker in Docker:', error);
-      alert('Error starting Docker in Docker.');
-    }
+    setIsModalOpen(true); // 모달 열기
+
+    // if (!repoUrl) {
+    //   alert('먼저 레포지토리를 생성해주세요.');
+    //   return;
+    // }
+
+    //   try {
+    //     // startDockerInDocker 함수 호출
+    //     const response = await startDockerInDocker({
+    //       userName, // userName 사용
+    //       repoUrl, // repoUrl 사용
+    //       repoName,
+    //     });
+    //     console.log('Docker in Docker started successfully:', response);
+    //     alert('Docker in Docker started successfully.');
+    //   } catch (error) {
+    //     console.error('Error starting Docker in Docker:', error);
+    //     alert('Error starting Docker in Docker.');
+    //   }
   };
 
   // 내부 원 활성화/비활성화 토글 함수
   const toggleInnerCircle = () => {
-    setIsPrivate(!isPrivate);
+    setIsPrivate((prevIsPrivate) => !prevIsPrivate);
   };
 
   return (
     <div className="flex items-center justify-center pt-14">
       <div>
         {/* 제목 텍스트 */}
-        <div className="absolute left-[20rem] mt-[6rem] break-words font-sans text-[1.3rem] font-[100rem] font-semibold text-white">
+        <div className="absolute left-[20rem] mt-[6rem] break-words font-sans text-[1rem] font-medium text-white">
           깃허브에 업로드하기
         </div>
 
@@ -110,7 +118,7 @@ const GitRepository = () => {
           <div className="mt-[9rem] flex h-[12rem] w-[55rem] rounded-[0.75rem] bg-[#212227]">
             {/* 왼쪽 섹션 */}
             <div className="flex w-[12rem] flex-col items-start justify-center space-y-[1.25rem] pl-[2.5rem]">
-              {['REPOSITORY', 'PUSH'].map((buttonName) => (
+              {['REPOSITORY'].map((buttonName) => (
                 <button
                   key={buttonName}
                   onClick={() => handleButtonClick(buttonName)} // 버튼 클릭 이벤트 처리
@@ -145,7 +153,10 @@ const GitRepository = () => {
                     }`}
                   />
                 </div>
-                <h3 className="text-[1rem] font-medium text-white">Private</h3>
+                {/* Private 상태 표시 */}
+                <div className="text-white">
+                  Private: {isPrivate ? 'true' : 'false'}
+                </div>
               </div>
 
               {/* 입력 필드 */}
@@ -169,7 +180,7 @@ const GitRepository = () => {
                 />
                 <Button
                   size="small"
-                  label="docker In docker"
+                  label="confirm"
                   color="primary"
                   onClick={handleDockerClick}
                 />
@@ -178,6 +189,16 @@ const GitRepository = () => {
           </div>
         </div>
       </div>
+      <DockerModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={`사이트에서 확인해보세요!`}
+        url="사이트 주소 넣는곳"
+      >
+        <p className="font-sans text-[0.9rem] text-gray-600">
+          현재 테스트 단계이므로 작동에 문제가 있을 수 있습니다.
+        </p>
+      </DockerModal>
     </div>
   );
 };
