@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import Testing from './pages/Testing';
+
 import Main from './pages/Main';
 import SettingCheck from './pages/SettingCheck';
 
@@ -23,6 +25,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Main />} />
+
+   
 
         <Route path="/settingcheck" element={<SettingCheck />} />
         <Route path="/input" element={<InputPage />} />

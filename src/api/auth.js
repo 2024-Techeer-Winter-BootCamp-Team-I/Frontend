@@ -52,10 +52,13 @@ export const getProfile = async () => {
     const response = await jsonAxios.get('/login/profile');
     const githubUsername = response.data.github_username;
     const email = response.data.email;
-    const documentTitle = response.data.document_titles;
+    const documentTitles = response.data.document_titles.map((doc) => ({
+      documentId: doc.document_id,
+      title: doc.title,
+    }));
 
     // 객체로 반환
-    return { githubUsername, email, documentTitle };
+    return { githubUsername, email, documentTitles };
   } catch (error) {
     console.error(
       '프로필 정보 조회 실패:',
