@@ -49,23 +49,29 @@ const Specific = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  // ✅ postDesign 호출 + useDocumentStore에 저장 (최적화)
   const handleSpecificClick = async () => {
     alert('API, ERD, 다이어그램을 제작합니다');
 
+    if (!documentId) {
+      alert('Document ID가 없습니다.');
+      return;
+    }
+
     try {
-      const { erd, diagram, api } = await postDesign(documentId);
+      console.log(`🔄 설계 요청 시작: documentId = ${documentId}`);
+      const response = await postDesign(documentId);
 
-      if (!erd || !diagram || !api) {
-        throw new Error('ERD, Diagram, API 데이터가 누락되었습니다.');
-      }
+      console.log('✅ 설계 요청 성공:', response);
 
-      setErdCode(erd);
-      setDiagramCode(diagram);
-      setApiCode(api);
+      // 전역 상태 업데이트
+      setErdCode(response.data.erd);
+      setDiagramCode(response.data.diagram);
+      setApiCode(response.data.api);
 
       navigate('/erdpage');
     } catch (error) {
-      console.error('설계 요청 실패:', error);
+      console.error('🚨 설계 요청 실패:', error);
       alert('설계 요청 중 오류가 발생했습니다.');
     }
   };
@@ -73,6 +79,7 @@ const Specific = () => {
   return (
     <Layout>
       <div className="relative flex min-h-screen w-full flex-col items-center justify-center text-gray-200">
+        {/* 문서 내용 박스 */}
         <div className="relative w-full max-w-4xl">
           <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-white/55 via-[#7885E9] to-[#485CF3]" />
           <div className="relative z-10 h-[500px] overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-6 shadow-lg">
@@ -88,6 +95,7 @@ const Specific = () => {
           </div>
         </div>
 
+        {/* 버튼 배치 */}
         <div className="mt-6 flex gap-4">
           <Button
             label="수정하기"
@@ -103,6 +111,7 @@ const Specific = () => {
           />
         </div>
 
+        {/* 수정 모달 */}
         {isModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
             <EditModal onClose={closeModal} />
