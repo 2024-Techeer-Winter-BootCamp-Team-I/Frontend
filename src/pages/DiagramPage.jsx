@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import mermaid from 'mermaid';
 import Layout from './Layout';
 import useDocumentStore from '../store/useDocumentStore';
+import { saveDocumentData } from '../api/documentsApi';
+import SaveIcon from '../assets/image/save.svg';
 
 const DiagramPage = () => {
   const navigate = useNavigate();
-  const { diagramCode } = useDocumentStore(); // 전역 상태에서 diagramCode 가져오기
+  const { documentId, diagramCode } = useDocumentStore(); // documentId 추가
   const [activePage, setActivePage] = useState('DIAGRAM');
   const [activeTab, setActiveTab] = useState('image');
   const [cleanDiagramCode, setCleanDiagramCode] = useState('');
@@ -30,6 +32,16 @@ const DiagramPage = () => {
       }
     }
   }, [diagramCode, activeTab]);
+
+  // 저장 버튼 핸들러
+  const handleSave = async () => {
+    if (!documentId) {
+      console.error('문서 ID가 없습니다.');
+      return;
+    }
+    console.log(`Saving document with ID: ${documentId}, Type: diagram`);
+    await saveDocumentData(documentId, 'diagram');
+  };
 
   // 상단 버튼 클릭 핸들러
   const handlePageClick = (page, route) => {
@@ -80,7 +92,14 @@ const DiagramPage = () => {
           </div>
 
           {/* 콘텐츠 박스 */}
-          <div className="h-[500px] w-full max-w-4xl overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
+          <div className="relative h-[500px] w-full max-w-4xl overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
+            {/* Save 버튼 추가 */}
+            <img
+              src={SaveIcon}
+              alt="Save"
+              className="absolute right-4 top-4 h-8 w-8 cursor-pointer"
+              onClick={handleSave}
+            />
             {activeTab === 'image' && (
               <div id="mermaid-container" className="h-full w-full"></div>
             )}
