@@ -7,8 +7,21 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      // eslint-disable-next-line no-undef
       '@components': resolve(__dirname, 'src/components'),
+    },
+  },
+  define: {
+    'process.env': {
+      VITE_API_BASE_URL: JSON.stringify(process.env.VITE_API_BASE_URL),
+    },
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: process.env.VITE_API_BASE_URL || 'http://localhost:8000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
     },
   },
 });
