@@ -80,18 +80,18 @@ const Navbar = () => {
               </span>
             )}
             <button
-              className="rounded bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+              className="rounded bg-[#3C2221] px-4 py-2 text-[#D0524C] hover:bg-red-600"
               onClick={handleLogout}
             >
-              로그아웃
+              Log out
             </button>
           </>
         ) : (
           <button
-            className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+            className="rounded w-[6rem] h-[2.3rem] bg-[#135CA4] px-4 py-2 text-white hover:bg-[#113C67]"
             onClick={toggleLoginModal}
           >
-            로그인
+            Log in
           </button>
         )}
       </div>

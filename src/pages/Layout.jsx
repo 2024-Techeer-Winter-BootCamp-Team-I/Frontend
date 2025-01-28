@@ -3,6 +3,7 @@ import Background from '../components/Background';
 import Navbar from '../components/Navbar/Navbar';
 import Leftbar from '../components/LeftBar'; // Leftbar 컴포넌트 추가
 
+// eslint-disable-next-line react/prop-types
 const Layout = ({ children }) => {
   const [isLeftbarVisible, setIsLeftbarVisible] = useState(false); // Leftbar의 표시 여부 상태 관리
 

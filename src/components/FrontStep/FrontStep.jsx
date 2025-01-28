@@ -4,6 +4,9 @@ import { useLocation } from 'react-router-dom';
 const FrontStep = () => {
   const location = useLocation();
 
+  const paths = ['/frontpackage', '/frontbuild', '/frontframework', '/frontlanguage'];
+
+  // 현재 경로에 따라 텍스트 반환
   const getTextForPath = (path) => {
     switch (path) {
       case '/frontpackage':
@@ -19,78 +22,59 @@ const FrontStep = () => {
     }
   };
 
-  // 현재 경로에 따라 원의 배경색을 결정하는 함수
+  // 현재 경로와 이전 경로들에 따라 색상 반환
   const getCircleBackground = (path) => {
-    return location.pathname === path ? 'bg-gray-800' : 'bg-black';
+    const currentIndex = paths.indexOf(location.pathname);
+    const targetIndex = paths.indexOf(path);
+
+    return targetIndex <= currentIndex ? 'bg-[#1488FC] border-[#1488FC]' : 'bg-black border-gray-700';
+  };
+
+  const getLineColor = (index) => {
+    const currentIndex = paths.indexOf(location.pathname);
+
+    return index < currentIndex ? 'border-[#1488FC]' : 'border-[#cecece]';
   };
 
   return (
-    <div className="relative mb-5 ml-0 flex h-[130px] w-full items-center justify-center">
-      {/* 선과 원들을 그룹으로 묶기 */}
-      <div className="absolute left-1/2 top-1/2 h-[5px] w-3/4 -translate-x-1/2 -translate-y-1/2 transform bg-gray-600">
-        {/* 첫 번째 원 */}
-        <div
-          className={`absolute top-1/2 flex h-[50px] w-[50px] -translate-y-1/2 transform items-center justify-center rounded-full border border-gray-700 ${getCircleBackground('/frontpackage')}`}
-          style={{ left: '0%' }}
-        >
-          <p className="-translate-y-[2px] text-[1.2rem] text-white">1</p>
-          {location.pathname === '/frontpackage' && (
-            <p
-              className="absolute top-full mt-2 text-[1rem] text-white"
-              style={{ left: '0%', transform: 'translateX(-10%)' }}
+    <div className="relative mb-5 flex h-[130px] w-full items-center justify-center">
+      <div className="relative flex items-center" style={{ width: '40rem' }}>
+        {paths.map((path, index) => (
+          <React.Fragment key={path}>
+            {/* 원 */}
+            <div
+              className={`flex h-8 w-8 items-center justify-center rounded-full ${getCircleBackground(
+                path
+              )}`}
             >
-              {getTextForPath('/frontpackage')}
-            </p>
-          )}
-        </div>
+              {/* 숫자 */}
+              <p className="text-white">{index + 1}</p>
+            </div>
 
-        {/* 두 번째 원 */}
-        <div
-          className={`absolute top-1/2 flex h-[50px] w-[50px] -translate-y-1/2 transform items-center justify-center rounded-full border border-gray-700 ${getCircleBackground('/frontbuild')}`}
-          style={{ left: '35%' }}
-        >
-          <p className="-translate-y-[2px] text-[1.2rem] text-white">2</p>
-          {location.pathname === '/frontbuild' && (
-            <p
-              className="absolute top-full mt-2 text-[1rem] text-white"
-              style={{ left: '0%', transform: 'translateX(10%)' }}
-            >
-              {getTextForPath('/frontbuild')}
-            </p>
-          )}
-        </div>
+            {/* 텍스트 */}
+            {location.pathname === path && (
+              <p
+                className="absolute top-[3rem] text-center text-[0.9rem] text-white"
+                style={{
+                  left: `calc(${(index * 100) / (paths.length - 1)}% - ${index === 0 ? '2rem' : index === 1 ? '0.6rem' : index === 2 ? '2.5rem' : '3rem'})`, // 각 원에 따라 다른 left 값 적용
+                }}
+              >
+                {getTextForPath(path)}
+              </p>
+            )}
 
-        {/* 세 번째 원 */}
-        <div
-          className={`absolute top-1/2 flex h-[50px] w-[50px] -translate-y-1/2 transform items-center justify-center rounded-full border border-gray-700 ${getCircleBackground('/frontframework')}`}
-          style={{ left: '65%' }}
-        >
-          <p className="-translate-y-[2px] text-[1.2rem] text-white">3</p>
-          {location.pathname === '/frontframework' && (
-            <p
-              className="absolute top-full mt-2 text-[1rem] text-white"
-              style={{ left: '0%', transform: 'translateX(-10%)' }}
-            >
-              {getTextForPath('/frontframework')}
-            </p>
-          )}
-        </div>
-
-        {/* 네 번째 원 */}
-        <div
-          className={`absolute top-1/2 flex h-[50px] w-[50px] -translate-y-1/2 transform items-center justify-center rounded-full border border-gray-700 ${getCircleBackground('/frontlanguage')}`}
-          style={{ left: '100%' }}
-        >
-          <p className="-translate-y-[2px] text-[1.2rem] text-white">4</p>
-          {location.pathname === '/frontlanguage' && (
-            <p
-              className="absolute top-full mt-2 text-[1rem] text-white"
-              style={{ left: '0%', transform: 'translateX(-10%)' }}
-            >
-              {getTextForPath('/frontlanguage')}
-            </p>
-          )}
-        </div>
+            {/* 점선 (마지막 원 뒤에는 점선 추가 X) */}
+            {index < paths.length - 1 && (
+              <div
+                className={`h-[2px] w-[12rem] border-t border-dashed ${getLineColor(index)}`}
+                style={{
+                  marginLeft: '-4px',
+                  marginRight: '-4px', // 점선과 원이 붙도록 마진 제거
+                }}
+              />
+            )}
+          </React.Fragment>
+        ))}
       </div>
     </div>
   );
