@@ -1,12 +1,20 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { createDocument } from '../api/documentsApi'; // 문서 생성 API 함수 불러오기
 import InputBox from '../components/InputBox/InputBox';
 import Layout from './Layout';
+import { postDocument } from '../api/documentsApi';
+import useDocumentStore from '../store/useDocumentStore'; // Zustand
 import QuestionIcon from '../assets/image/question.svg'; // question.svg 경로
 
 const InputPage = () => {
   const navigate = useNavigate();
+  const setDocumentId = useDocumentStore((state) => state.setDocumentId);
+
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [requirements, setRequirements] = useState('');
 
   // 입력값을 상태로 관리
   const [title, setTitle] = useState(''); // 프로젝트 이름
@@ -198,11 +206,11 @@ const InputPage = () => {
           />
         </div>
 
-        {/* 설계하기 버튼 */}
-        <div className="mt-8">
-          <button
-            className={`w-[12rem] h-[2.3rem] text-[0.8rem] font-semibold bg-[#135CA4] text-[#cecece] hover:bg-[#0D1A34] flex items-center justify-center rounded-lg ${loading ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
+        <div className="mt-10">
+          <Button
+            label="설계하러가기"
+            size="medium"
+            color="primary"
             onClick={handleDesignClick}
             disabled={loading}
           >

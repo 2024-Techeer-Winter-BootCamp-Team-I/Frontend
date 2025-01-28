@@ -2,19 +2,16 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getProfile } from '../api/auth';
 import useLoginStore from '../store/LoginStore';
-import GithubIcon from '../assets/image/github.svg';
-import TrashIcon from '../assets/image/trashcan.svg'; // Trash 아이콘 import
 
 const MyProject = () => {
   const navigate = useNavigate();
   const {
-    userName,
     profileImage,
     documentTitle,
     setUserInfo,
     addDocumentTitleName,
     setEmail,
-    email,
+    email, // email 상태 추가
   } = useLoginStore();
 
   useEffect(() => {
@@ -30,55 +27,43 @@ const MyProject = () => {
     };
 
     fetchProfile();
-  }, [setUserInfo, addDocumentTitleName, setEmail]);
+  }, [setUserInfo, addDocumentTitleName, setEmail]); // profileImage 제거
 
   const handleDocumentClick = (document) => {
-    if (!document) return;
+    if (!document) return; // Document가 undefined 또는 null인 경우 처리
     navigate(`/${document.toLowerCase().replace(/ /g, '-')}`);
-  };
-
-  const handleDeleteDocument = (document) => {
-    // 삭제 로직 추가 (예: 상태 업데이트, API 호출)
-    console.log(`Deleting document: ${document}`);
   };
 
   return (
     <div className="mt-0 flex h-full w-full flex-col">
       <div className="flex h-[35rem] w-full items-center justify-center">
-        <div className="h-[32rem] w-[44rem] rounded-[3.125rem] border-[0.125rem] border-[#80B9E8] bg-[#101010]">
+        {/* 하늘색 테두리 네모박스 */}
+        <div className="h-[35rem] w-[40rem] rounded-[3.125rem] border-[0.125rem] border-[#80B9E8] bg-[#030303]">
+          {/* GitHub 아이콘과 이름 */}
           <div className="ml-[5rem] mr-[5rem] mt-[2.5rem] flex items-center">
             <img
               src={profileImage}
               alt="ProfileImage"
-              className="h-[5rem] w-[5rem] rounded-full"
+              className="h-[5rem] w-[5rem] rounded-full" // 프로필 이미지를 둥글게 표시
             />
-            <p className="ml-[1rem] text-[1rem] font-medium text-white">
-              {email || '사용자 이메일'}
+            <p className="ml-[1.5rem] text-[1rem] font-medium text-white">
+              {email || '사용자 이메일'} {/* setEmail 대신 email 사용 */}
             </p>
           </div>
 
-          <div className="mt-[1.8rem] flex flex-col items-center justify-center space-y-[1.2rem]">
+          {/* 회색 네모박스 리스트 */}
+          <div className="mb-[2rem] flex h-[25rem] flex-col items-center justify-center space-y-[1.2rem]">
             <div className="flex h-[20rem] w-[30rem] flex-col items-center overflow-y-auto">
               {documentTitle.map((document, index) => (
-                <div
+                <button
                   key={index}
-                  className="mb-[1.2rem] flex h-[3.9rem] w-full flex-shrink-0 items-center justify-between rounded-[0.625rem] bg-[#171717] px-[1.25rem] text-left transition hover:bg-[#4B4B4B] hover:text-blue-main"
+                  onClick={() => handleDocumentClick(document)}
+                  className="mb-[1.2rem] flex h-[3.9rem] w-full flex-shrink-0 items-center rounded-[0.625rem] bg-[#171717] px-[1.25rem] text-left transition hover:bg-[#4B4B4B] hover:text-blue-main"
                 >
                   <p className="text-[1rem] font-medium text-white">
                     {document}
                   </p>
-                  {/* 삭제 버튼 */}
-                  <button
-                    className="flex items-center justify-center"
-                    onClick={() => handleDeleteDocument(document)}
-                  >
-                    <img
-                      src={TrashIcon}
-                      alt="Delete"
-                      className="h-[1.5rem] w-[1.5rem] transition hover:opacity-70"
-                    />
-                  </button>
-                </div>
+                </button>
               ))}
             </div>
           </div>
