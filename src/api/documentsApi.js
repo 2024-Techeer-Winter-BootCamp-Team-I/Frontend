@@ -1,7 +1,5 @@
 import { jsonAxios } from './axios.config';
 
-
-
 /**
  * 문서 생성 (POST /documents)
  */
@@ -34,29 +32,35 @@ export const postDocument = async ({ title, content, requirements }) => {
 /**
  * 문서 스트림 가져오기 (GET /documents/{document_id}/stream)
  */
-export const getDocumentStream = (documentId) => {
-  if (!documentId || typeof documentId !== 'string') {
-    throw new Error('유효한 documentId가 필요합니다.');
+export const getDocumentStream = async (documentId, onMessage) => {
+  try {
+    const response = await fetch(
+      `http://localhost:8000/api/v1/documents/${documentId}/stream`,
+      {
+        headers: { Accept: 'text/event-stream' },
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    let done = false;
+    while (!done) {
+      const { value, done: readerDone } = await reader.read();
+      done = readerDone;
+      if (value) {
+        const chunk = decoder.decode(value, { stream: true });
+        console.log('Received chunk:', chunk);
+        onMessage(chunk);
+      }
+    }
+  } catch (error) {
+    console.error('Stream error:', error);
   }
-
-  const streamUrl = `http://localhost:8000/api/v1/documents/${documentId}/stream?cacheBuster=${Date.now()}`;
-
-  // Fetch API로 SSE 요청
-  const eventSource = new EventSource(streamUrl, {
-    headers: {
-      Accept: 'text/event-stream; charset=utf-8', // 헤더 설정
-    },
-  });
-
-  eventSource.onmessage = (event) => {
-    console.log('Received message:', event.data); // 수신한 데이터 출력
-  };
-
-  eventSource.onerror = (error) => {
-    console.error('Stream error:', error); // 에러 처리
-  };
-
-  return eventSource;
 };
 
 /**

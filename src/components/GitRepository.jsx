@@ -47,7 +47,7 @@ const GitRepository = () => {
     <div className="flex items-center justify-center pt-14">
       <div>
         {/* 제목 텍스트 */}
-        <div className="absolute left-[20rem] mt-[6rem] break-words font-sans text-[1.3rem] font-[100rem] font-semibold text-white">
+        <div className="absolute left-[20rem] mt-[6rem] break-words font-sans text-[1rem] font-semibold text-white">
           깃허브에 업로드하기
         </div>
 
@@ -66,7 +66,7 @@ const GitRepository = () => {
           <div className="mt-[9rem] flex h-[12rem] w-[55rem] rounded-[0.75rem] bg-[#212227]">
             {/* 왼쪽 섹션 */}
             <div className="flex w-[12rem] flex-col items-start justify-center space-y-[1.25rem] pl-[2.5rem]">
-              {['REPOSITORY', 'PUSH'].map((buttonName) => (
+              {['REPOSITORY'].map((buttonName) => (
                 <button
                   key={buttonName}
                   onClick={() => handleButtonClick(buttonName)} // 버튼 클릭 이벤트 처리
