@@ -92,3 +92,22 @@ export const postDesign = async (documentId) => {
     throw error; // 에러를 호출한 곳으로 전달
   }
 };
+
+/**
+ * 특정 문서에 데이터를 저장 (POST /documents/{document_id}/save)
+ */
+export const saveDocumentData = async (documentId, type) => {
+  try {
+    const response = await jsonAxios.post(`/documents/${documentId}/save`, {
+      parts: [type],
+    });
+    console.log(`"${type}" 저장 완료:`, response.data);
+    return response.data;
+  } catch (error) {
+    console.error(
+      `"${type}" 저장 실패:`,
+      error.response?.data || error.message,
+    );
+    throw error;
+  }
+};
