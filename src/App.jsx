@@ -1,7 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import Testing from './pages/Testing';
-
 import Main from './pages/Main';
 import SettingCheck from './pages/SettingCheck';
 
@@ -19,14 +17,13 @@ import SettingPage from './pages/SettingPage';
 import ErdPage from './pages/ErdPage';
 import DiagramPage from './pages/DiagramPage';
 import SwaggerPage from './pages/SwaggerPage';
+import Onboarding from './pages/Onboarding';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Main />} />
-
-   
 
         <Route path="/settingcheck" element={<SettingCheck />} />
         <Route path="/input" element={<InputPage />} />
@@ -45,6 +42,7 @@ function App() {
         <Route path="/erdpage" element={<ErdPage />} />
         <Route path="/diagrampage" element={<DiagramPage />} />
         <Route path="/swaggerpage" element={<SwaggerPage />} />
+        <Route path="/onboarding" element={<Onboarding />} />
       </Routes>
     </Router>
   );

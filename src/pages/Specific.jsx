@@ -4,7 +4,7 @@ import Layout from './Layout';
 import Button from '../components/Button/Button';
 import useDocumentStore from '../store/useDocumentStore';
 import EditModal from '../components/EditModal';
-import { postDesign } from '../api/documentsApi';
+import { getDocumentStream, postDesign } from '../api/documentsApi';
 
 const Specific = () => {
   const navigate = useNavigate();
@@ -21,41 +21,29 @@ const Specific = () => {
       return;
     }
 
+    // AbortController를 사용해 fetch 요청 중단 가능
+    const controller = new AbortController();
+
     const fetchStream = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:8000/api/v1/documents/${documentId}/stream`,
-          {
-            headers: { Accept: 'text/event-stream' },
-          },
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder('utf-8');
-        let done = false;
-
-        while (!done) {
-          const { value, done: readerDone } = await reader.read();
-          done = readerDone;
-          if (value) {
-            const chunk = decoder.decode(value, { stream: true });
-            console.log('Received chunk:', chunk);
-            setDocumentContent((prev) => prev + chunk);
-          }
-        }
-
+        await getDocumentStream(documentId, (chunk) => {
+          console.log('Received chunk:', chunk);
+          setDocumentContent((prev) => prev + chunk);
+        });
         setIsLoading(false);
       } catch (error) {
-        console.error('스트림 요청 실패:', error);
+        if (error.name !== 'AbortError') {
+          console.error('스트림 요청 실패:', error);
+        }
         setIsLoading(false);
       }
     };
 
     fetchStream();
+
+    return () => {
+      controller.abort(); // 컴포넌트 언마운트 시 요청 중단
+    };
   }, [documentId]);
 
   const openModal = () => setIsModalOpen(true);
@@ -65,16 +53,15 @@ const Specific = () => {
     alert('API, ERD, 다이어그램을 제작합니다');
 
     try {
-      const response = await postDesign(documentId);
-      if (response && response.data) {
-        const { erd, diagram, api } = response.data;
+      const { erd, diagram, api } = await postDesign(documentId);
 
-        setErdCode(erd);
-        setDiagramCode(diagram);
-        setApiCode(api);
-      } else {
+      if (!erd || !diagram || !api) {
         throw new Error('ERD, Diagram, API 데이터가 누락되었습니다.');
       }
+
+      setErdCode(erd);
+      setDiagramCode(diagram);
+      setApiCode(api);
 
       navigate('/erdpage');
     } catch (error) {
@@ -86,11 +73,8 @@ const Specific = () => {
   return (
     <Layout>
       <div className="relative flex min-h-screen w-full flex-col items-center justify-center text-gray-200">
-        {/* 문서 생성 내용 박스 */}
         <div className="relative w-full max-w-4xl">
-          {/* 박스 외부 테두리 (그라데이션) */}
           <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-white/55 via-[#7885E9] to-[#485CF3]" />
-          {/* 내부 컨텐츠 박스 */}
           <div className="relative z-10 h-[500px] overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-6 shadow-lg">
             {isLoading ? (
               <p className="text-center text-white">로딩 중...</p>
@@ -104,7 +88,6 @@ const Specific = () => {
           </div>
         </div>
 
-        {/* 버튼 영역 (박스 아래 중앙 배치) */}
         <div className="mt-6 flex gap-4">
           <Button
             label="수정하기"
@@ -120,7 +103,6 @@ const Specific = () => {
           />
         </div>
 
-        {/* 수정 모달 */}
         {isModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
             <EditModal onClose={closeModal} />
