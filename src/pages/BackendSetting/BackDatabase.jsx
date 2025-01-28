@@ -23,6 +23,10 @@ const BackDatabase = () => {
     setIsModalOpen(false);
   };
 
+  const handleConfirm = () => {
+    navigate('/settingcheck');
+  };
+
   useEffect(() => {
     const currentState = useBackStore.getState();
     console.log('Current State:', currentState);
@@ -36,12 +40,9 @@ const BackDatabase = () => {
       return;
     }
 
+    console.log('Opening modal...'); // 로그 추가
     // 모달창 띄우기
     setIsModalOpen(true);
-  };
-
-  const handleConfirm = () => {
-    navigate('/settingcheck');
   };
 
   // ChooseBox 클릭 시 호출되는 함수

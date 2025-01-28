@@ -1,5 +1,7 @@
 import useFrontStore from '../../store/useFrontStore';
 import useSettingStore from '../../store/useSettingStore'; // useSettingStore 추가
+import useDocumentStore from '../../store/useDocumentStore';
+
 import { useNavigate } from 'react-router-dom'; // useNavigate 추가
 import { techStackSetupApi } from '../../api/techStacksSetupApi';
 import PropTypes from 'prop-types';
@@ -15,6 +17,7 @@ const FrontStackModal = ({ isOpen, onClose, onConfirm }) => {
   const selectedPositions = useSettingStore((state) => state.selectedPositions); // useSettingStore에서 selectedPositions 가져오기
   const directoryName = useSettingStore((state) => state.directoryName);
 
+  const documentId = useDocumentStore((state) => state.documentId); // documentId 가져오기
   // 모달이 열리지 않았으면 null 반환
   if (!isOpen) return null;
 
@@ -30,8 +33,6 @@ const FrontStackModal = ({ isOpen, onClose, onConfirm }) => {
 
     // 백엔드 기술 스택 구성, 일단 null값으로 구성 후 Backend도 선택하면 수정
     const backendTechStack = ['', ''];
-
-    const documentId = 0;
 
     try {
       // techStackSetupApi 호출
@@ -102,29 +103,47 @@ const FrontStackModal = ({ isOpen, onClose, onConfirm }) => {
       ></div>
 
       {/* 모달 내용 */}
-      <div className="z-10 rounded-lg bg-[#171717] shadow-lg w-[30rem] h-[20rem] mt-[6rem] border border-[#2f2f2f] border-[0.3px]">
-        <h2 className="mb-8 text-[1.4rem] mt-[1.5rem] font-semibold text-center text-[#EDEDED]">프론트엔드 기술 스택</h2>
+      <div className="z-10 mt-[6rem] h-[20rem] w-[30rem] rounded-lg border border-[0.3px] border-[#2f2f2f] bg-[#171717] shadow-lg">
+        <h2 className="mb-8 mt-[1.5rem] text-center text-[1.4rem] font-semibold text-[#EDEDED]">
+          프론트엔드 기술 스택
+        </h2>
         <ul className="space-y-4">
           <li>
-            <strong className="text-[#EDEDED] font-bold ml-[2rem]">패키지 매니저   :</strong>{' '}
-            <span className="text-gray-300 text-[1.1rem] font-medium">{selectedPackage || '선택되지 않음'}</span>
+            <strong className="ml-[2rem] font-bold text-[#EDEDED]">
+              패키지 매니저 :
+            </strong>{' '}
+            <span className="text-[1.1rem] font-medium text-gray-300">
+              {selectedPackage || '선택되지 않음'}
+            </span>
           </li>
           <li>
-            <strong className="text-[#EDEDED] font-bold ml-[2rem]">빌드 도구   :</strong>{' '}
-            <span className="text-gray-300 text-[1.1rem] font-medium">{selectedBuildTool || '선택되지 않음'}</span>
+            <strong className="ml-[2rem] font-bold text-[#EDEDED]">
+              빌드 도구 :
+            </strong>{' '}
+            <span className="text-[1.1rem] font-medium text-gray-300">
+              {selectedBuildTool || '선택되지 않음'}
+            </span>
           </li>
           <li>
-            <strong className="text-[#EDEDED] font-bold ml-[2rem]">프레임워크   :</strong>{' '}
-            <span className="text-gray-300 text-[1.1rem] font-medium">{selectedFramework || '선택되지 않음'}</span>
+            <strong className="ml-[2rem] font-bold text-[#EDEDED]">
+              프레임워크 :
+            </strong>{' '}
+            <span className="text-[1.1rem] font-medium text-gray-300">
+              {selectedFramework || '선택되지 않음'}
+            </span>
           </li>
           <li>
-            <strong className="text-[#EDEDED] font-bold ml-[2rem]">언어 :</strong>{' '}
-            <span className="text-gray-300 text-[1.1rem] font-medium">{selectedLanguage || '선택되지 않음'}</span>
+            <strong className="ml-[2rem] font-bold text-[#EDEDED]">
+              언어 :
+            </strong>{' '}
+            <span className="text-[1.1rem] font-medium text-gray-300">
+              {selectedLanguage || '선택되지 않음'}
+            </span>
           </li>
         </ul>
         <button
-          className="mt-7 ml-[24rem] w-[5.2rem] rounded-[0.25rem] bg-[#33598B] px-4 py-2 text-white font-medium hover:bg-[#78A0D4]"
-          onClick={handleConfirm} 
+          className="ml-[24rem] mt-7 w-[5.2rem] rounded-[0.25rem] bg-[#33598B] px-4 py-2 font-medium text-white hover:bg-[#78A0D4]"
+          onClick={handleConfirm}
         >
           확인
         </button>

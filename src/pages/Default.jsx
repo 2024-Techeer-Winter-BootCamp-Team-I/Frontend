@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion'; // framer-motion 추가
+import useDocumentStore from '../store/useDocumentStore'; // useDocumentStore 추가
 
 import ReactIcon from '../assets/image/react.svg'; // React 아이콘
 import ViteIcon from '../assets/image/vite.svg'; // MySQL 아이콘
@@ -16,6 +17,8 @@ const Default = () => {
   const navigate = useNavigate();
   const location = useLocation(); // 현재 경로 정보를 가져오기 위해 useLocation 사용
   const [selectedPage, setSelectedPage] = useState(null);
+  const setDocumentId = useDocumentStore((state) => state.setDocumentId); // setDocumentId 가져오기
+  const documentId = useDocumentStore((state) => state.documentId); // documentId 가져오기
 
   // ChooseBox 클릭 시 호출되는 함수
   const handleBoxClick = (page) => {
@@ -29,6 +32,8 @@ const Default = () => {
         if (page === 'input') {
           navigate('/input'); // 설계 선택 시 이동
         } else if (page === 'Setting') {
+          setDocumentId(0); // 세팅 선택 시 document_id를 "0"으로 설정
+          console.log('document_id:', documentId); // document_id 출력
           navigate('/setting'); // 세팅 선택 시 이동
         }
       }, 500); // 0.5초 딜레이
