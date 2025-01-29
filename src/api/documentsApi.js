@@ -32,20 +32,16 @@ export const getDocumentStream = async (
   documentId,
   onMessage,
   onError,
-  signal,
 ) => {
   try {
     const response = await fetch(
       `http://localhost:8000/api/v1/documents/${documentId}/stream`,
       {
         method: 'GET',
-        headers: {
-          Accept: 'text/event-stream',
-          'Content-Type': 'text/event-stream',
-        },
+        headers: {},
         mode: 'cors',
         credentials: 'include',
-        signal, // ✅ AbortController를 적용!
+
       },
     );
 

@@ -20,6 +20,7 @@ const Specific = () => {
       return;
     }
 
+
     const controller = new AbortController();
     const signal = controller.signal;
 
@@ -28,20 +29,18 @@ const Specific = () => {
         await getDocumentStream(
           documentId,
           (chunk) => {
-            setDocumentContent((prev) => prev + chunk); // ✅ UI를 실시간 업데이트
+            setDocumentContent((prev) => prev + chunk);
           },
           (error) => {
-            console.error('스트림 요청 실패:', error);
+            console.error("스트림 요청 실패:", error);
             setIsLoading(false);
           },
-          signal,
+          signal
         );
         setIsLoading(false);
       } catch (error) {
-        if (error.name === 'AbortError') {
-          console.log('스트림 요청이 중단되었습니다.');
-        } else {
-          console.error('스트림 요청 실패:', error);
+        if (error.name !== "AbortError") {
+          console.error("스트림 요청 실패:", error);
         }
         setIsLoading(false);
       }
@@ -50,10 +49,9 @@ const Specific = () => {
     fetchStream();
 
     return () => {
-      controller.abort(); // ✅ 컴포넌트 언마운트 시 요청 중단
+      controller.abort();
     };
   }, [documentId]);
-
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
