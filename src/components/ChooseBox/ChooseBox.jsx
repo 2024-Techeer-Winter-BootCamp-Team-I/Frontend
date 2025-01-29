@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 const ChooseBox = ({
@@ -35,7 +34,7 @@ const ChooseBox = ({
 
           {/* 기술스택 설명 */}
           {description && (
-            <p className="ml-4 mr-4 mt-8 text-sm text-white">{description}</p>
+            <p className="ml-5 mr-4 mt-8 text-sm text-white">{description}</p>
           )}
         </div>
       </div>
