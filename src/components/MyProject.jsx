@@ -94,7 +94,8 @@ const MyProject = () => {
           </div>
 
           <div className="mt-[1.8rem] flex flex-col items-center justify-center space-y-[1.2rem]">
-            <div className="flex h-[20rem] w-[30rem] flex-col items-center overflow-y-auto">
+            {/* <div className="flex h-[20rem] w-[30rem] flex-col items-center overflow-y-auto scrollbar-thin scrollbar-track-[#171717] scrollbar-thumb-[#4B4B4B]"> */}
+            <div className="flex h-[20rem] w-[30rem] flex-col items-center overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-transparent">
               {documentTitles && documentTitles.length > 0 ? (
                 documentTitles.map((document) => (
                   <div

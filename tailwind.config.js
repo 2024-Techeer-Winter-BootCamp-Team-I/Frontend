@@ -1,5 +1,6 @@
 import { colors } from './src/config/colors';
 import tailwindScrollbar from 'tailwind-scrollbar'; // 플러그인 가져오기
+import tailwindScrollbarHide from 'tailwind-scrollbar-hide'; // 플러그인 가져오기
 
 export default {
   content: [
@@ -27,5 +28,6 @@ export default {
   },
   plugins: [
     tailwindScrollbar({ nocompatible: true }), // 플러그인 활성화
+    tailwindScrollbarHide, // tailwind-scrollbar-hide 플러그인 추가
   ],
 };
