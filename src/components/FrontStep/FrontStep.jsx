@@ -4,7 +4,12 @@ import { useLocation } from 'react-router-dom';
 const FrontStep = () => {
   const location = useLocation();
 
-  const paths = ['/frontpackage', '/frontbuild', '/frontframework', '/frontlanguage'];
+  const paths = [
+    '/frontpackage',
+    '/frontbuild',
+    '/frontframework',
+    '/frontlanguage',
+  ];
 
   // 현재 경로에 따라 텍스트 반환
   const getTextForPath = (path) => {
@@ -27,7 +32,9 @@ const FrontStep = () => {
     const currentIndex = paths.indexOf(location.pathname);
     const targetIndex = paths.indexOf(path);
 
-    return targetIndex <= currentIndex ? 'bg-[#1488FC] border-[#1488FC]' : 'bg-black border-gray-700';
+    return targetIndex <= currentIndex
+      ? 'bg-[#1488FC] border-[#1488FC]'
+      : 'bg-black border-gray-700';
   };
 
   const getLineColor = (index) => {
@@ -43,8 +50,8 @@ const FrontStep = () => {
           <React.Fragment key={path}>
             {/* 원 */}
             <div
-              className={`flex h-8 w-8 items-center justify-center rounded-full ${getCircleBackground(
-                path
+              className={`z-10 flex h-8 w-8 items-center justify-center rounded-full ${getCircleBackground(
+                path,
               )}`}
             >
               {/* 숫자 */}
@@ -66,7 +73,7 @@ const FrontStep = () => {
             {/* 점선 (마지막 원 뒤에는 점선 추가 X) */}
             {index < paths.length - 1 && (
               <div
-                className={`h-[2px] w-[12rem] border-t border-dashed ${getLineColor(index)}`}
+                className={`z-0 h-[2px] w-[12rem] border-t border-dashed ${getLineColor(index)}`}
                 style={{
                   marginLeft: '-4px',
                   marginRight: '-4px', // 점선과 원이 붙도록 마진 제거
