@@ -62,7 +62,14 @@ const FrontFramework = () => {
                 isSelected={selectedFramework === 'React'}
                 onClick={() => setSelectedFramework('React')} // zustand 스토어의 setSelectedFramework 사용
                 description={
-                  'Facebook에서 개발한 UI 라이브러리로, 컴포넌트 기반 아키텍처와 상태 관리가 뛰어나며 대규모 애플리케이션 개발에 적합'
+                  <>
+                    Facebook에서 개발한 UI 라이브러리로,{' '}
+                    <span className="font-semibold">
+                      컴포넌트 기반 아키텍처
+                    </span>
+                    와 <span className="font-semibold">상태 관리</span>가
+                    뛰어나며 대규모 애플리케이션 개발 에 적합
+                  </>
                 }
               />
 
@@ -73,7 +80,13 @@ const FrontFramework = () => {
                 isSelected={selectedFramework === 'Vue'}
                 onClick={() => setSelectedFramework('Vue')} // zustand 스토어의 setSelectedFramework 사용
                 description={
-                  '사용자 친화적인 문법과 데이터 바인딩을 통해 간단한 프로젝트부터 복잡한 애플리케이션까지 쉽게 개발할 수 있는 프레임워크'
+                  <>
+                    사용자 <span className="font-semibold">친화적인 문법</span>
+                    과 <span className="font-semibold">데이터 바인딩</span>을
+                    통해 간단한 프로젝트부터{' '}
+                    <span className="font-semibold">복잡한</span>{' '}
+                    애플리케이션까지 쉽게 개발할 수 있는 프레임워크
+                  </>
                 }
               />
 
@@ -84,7 +97,13 @@ const FrontFramework = () => {
                 isSelected={selectedFramework === 'Svelte'}
                 onClick={() => setSelectedFramework('Svelte')} // zustand 스토어의 setSelectedFramework 사용
                 description={
-                  '컴파일 단계에서 DOM 업데이트 코드를 생성하여 빠르고 간결한 개발 경험을 제공하는 차세대 UI 프레임워크'
+                  <>
+                    컴파일 단계에서{' '}
+                    <span className="font-semibold">DOM 업데이트 코드</span>를
+                    생성하여 빠르고{' '}
+                    <span className="font-semibold">간결한 개발</span> 경험을
+                    제공하는 차세대 UI 프레임워크
+                  </>
                 }
               />
 

@@ -65,7 +65,11 @@ const Default = () => {
             imageUrl={design}
             isSelected={selectedPage === 'input'}
             onClick={() => handleBoxClick('input')}
-            description={'API, ERD, DIAGRAM 만들기'}
+            description={
+              <>
+                <span className="font-semibold">API, ERD, DIAGRAM 제작</span>
+              </>
+            }
           />
 
           {/* 세팅 페이지 선택 */}
@@ -74,14 +78,19 @@ const Default = () => {
             imageUrl={setting}
             isSelected={selectedPage === 'Setting'}
             onClick={() => handleBoxClick('Setting')}
-            description={'초기 세팅하러가기'}
+            description={
+              <>
+                <span className="font-semibold">초기 세팅</span>
+              </>
+            }
           />
         </div>
 
         {/* 마지막 텍스트 섹션 */}
         <div className="mt-8 flex flex-col items-center space-y-4 text-center">
-          <p className="text-[1rem] text-[#D9D9D9]">
-            We help setting using with many Tech Stacks
+          <p className="font-sans text-[1rem] text-[#D9D9D9]">
+            We help setting using with many{' '}
+            <span className="font-bold">Tech Stacks</span>
           </p>
         </div>
 

@@ -82,7 +82,11 @@ const FrontLanguage = () => {
                 isSelected={selectedLanguage === 'JavaScript'}
                 onClick={() => handleChooseBoxClick('JavaScript')} // zustand 스토어의 setSelectedLanguage 사용
                 description={
-                  '웹과 서버에서 사용하는 동적 타이핑 기반의 유연한 스크립트 언어'
+                  <>
+                    웹과 서버에서 사용하는{' '}
+                    <span className="font-semibold">동적 타이핑 기반</span>의
+                    유연한 스크립트 언어
+                  </>
                 }
               />
 
@@ -93,7 +97,11 @@ const FrontLanguage = () => {
                 isSelected={selectedLanguage === 'TypeScript'}
                 onClick={() => handleChooseBoxClick('TypeScript')} // zustand 스토어의 setSelectedLanguage 사용
                 description={
-                  '정적 타이핑과 추가 기능으로 코드 안정성을 강화한 JavaScript의 확장 언어'
+                  <>
+                    <span className="font-semibold">정적 타이핑</span>과 추가
+                    기능으로 <span className="font-semibold">코드 안정성</span>
+                    을 강화한 JavaScript의 확장 언어
+                  </>
                 }
               />
 

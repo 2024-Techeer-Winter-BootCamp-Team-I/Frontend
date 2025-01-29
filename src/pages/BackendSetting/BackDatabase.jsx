@@ -82,14 +82,30 @@ const BackDatabase = () => {
                 imageUrl={mysql}
                 isSelected={selectedDatabase === 'MySQL'}
                 onClick={() => handleChooseBoxClick('MySQL')}
-                description={'오픈 소스 관계형 데이터베이스 관리 시스템'}
+                description={
+                  <>
+                    <span className="font-semibold">
+                      오픈 소스 관계형 데이터베이스
+                    </span>{' '}
+                    관리 시스템으로, 높은 성능과 신뢰성을 제공
+                  </>
+                }
               />
               <ChooseBox
                 label="PostgreSQL"
                 imageUrl={postgresql}
                 isSelected={selectedDatabase === 'PostgreSQL'}
                 onClick={() => handleChooseBoxClick('PostgreSQL')}
-                description={'오픈 소스 객체-관계형 데이터베이스 시스템'}
+                description={
+                  <>
+                    <span className="font-semibold">
+                      {' '}
+                      소스 객체-관계형 데이터베이스
+                    </span>{' '}
+                    시스템으로, <span className="font-semibold">고급 기능</span>
+                    과 확장성을 제공
+                  </>
+                }
               />
               <ChooseBox
                 label="SQLite3"
@@ -97,7 +113,13 @@ const BackDatabase = () => {
                 isSelected={selectedDatabase === 'SQLite3'}
                 onClick={() => handleChooseBoxClick('SQLite3')}
                 description={
-                  '경량의 파일 기반 데이터베이스로, 서버 없이도 사용 가능한 임베디드 DBMS'
+                  <>
+                    <span className="font-semibold">
+                      경량의 파일 기반 데이터베이스
+                    </span>
+                    로, 서버 없이도 사용 가능한{' '}
+                    <span className="font-semibold">임베디드 DBMS</span>
+                  </>
                 }
               />
               <img

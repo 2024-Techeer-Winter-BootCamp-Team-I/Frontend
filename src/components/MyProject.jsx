@@ -81,20 +81,21 @@ const MyProject = () => {
   return (
     <div className="mt-0 flex h-full w-full flex-col">
       <div className="flex h-[35rem] w-full items-center justify-center">
-        <div className="h-[32rem] w-[44rem] rounded-[3.125rem] border-[0.125rem] border-[#80B9E8] bg-[#101010]">
-          <div className="ml-[5rem] mr-[5rem] mt-[2.5rem] flex items-center">
+        <div className="h-[32rem] w-[44rem] rounded-[3.125rem] border-[0.09rem] border-[#80B9E8] bg-[#101010]">
+          <div className="ml-[7rem] mr-[5rem] mt-[2.5rem] flex items-center">
             <img
               src={profileImage}
               alt="ProfileImage"
               className="h-[5rem] w-[5rem] rounded-full"
             />
-            <p className="ml-[1rem] text-[1rem] font-medium text-white">
+            <p className="ml-[2rem] text-[1.2rem] font-medium text-white">
               {email || '사용자 이메일'}
             </p>
           </div>
 
           <div className="mt-[1.8rem] flex flex-col items-center justify-center space-y-[1.2rem]">
-            <div className="flex h-[20rem] w-[30rem] flex-col items-center overflow-y-auto">
+            {/* <div className="flex h-[20rem] w-[30rem] flex-col items-center overflow-y-auto scrollbar-thin scrollbar-track-[#171717] scrollbar-thumb-[#4B4B4B]"> */}
+            <div className="flex h-[20rem] w-[30rem] flex-col items-center overflow-y-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-transparent">
               {documentTitles && documentTitles.length > 0 ? (
                 documentTitles.map((document) => (
                   <div

@@ -71,7 +71,14 @@ const FrontPackage = () => {
                 isSelected={selectedPackage === 'npm'}
                 onClick={() => setSelectedPackage('npm')} // zustand 스토어의 setSelectedPackage 사용
                 description={
-                  'Node.js와 함께 기본으로 제공되며, 가장 널리 사용되는 패키지 매니저'
+                  <>
+                    Node.js와 함께 <span className="font-semibold">기본</span>
+                    으로 제공되며,{' '}
+                    <span className="font-semibold">
+                      가장 널리 사용되는
+                    </span>{' '}
+                    패키지 매니저
+                  </>
                 }
               />
 
@@ -82,7 +89,11 @@ const FrontPackage = () => {
                 isSelected={selectedPackage === 'yarn'}
                 onClick={() => setSelectedPackage('yarn')} // zustand 스토어의 setSelectedPackage 사용
                 description={
-                  '빠른 속도와 효율적인 캐싱으로 성능을 개선한 Facebook에서 개발한 패키지 매니저'
+                  <>
+                    <span className="font-semibold">빠른 속도</span>와{' '}
+                    <span className="font-semibold">효율적인 캐싱으로 </span>
+                    성능을 개선한 Facebook에서 개발한 패키지 매니저
+                  </>
                 }
               />
 
@@ -93,7 +104,14 @@ const FrontPackage = () => {
                 isSelected={selectedPackage === 'pnpm'}
                 onClick={() => setSelectedPackage('pnpm')} // zustand 스토어의 setSelectedPackage 사용
                 description={
-                  '디스크 공간을 절약하고 빠른 설치를 제공하며 모노레포 프로젝트에 최적화된 패키지 매니저'
+                  <>
+                    <span className="font-semibold">디스크 공간</span>을{' '}
+                    <span className="font-semibold">절약</span>
+                    하고 <span className="font-semibold">빠른 설치</span>를
+                    제공하며{' '}
+                    <span className="font-semibold">모노레포 프로젝트</span>에
+                    최적화된 패키지 매니저
+                  </>
                 }
               />
 
