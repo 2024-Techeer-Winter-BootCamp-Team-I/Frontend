@@ -15,24 +15,32 @@ const Specific = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log('Document ID:', documentId);
     if (!documentId) {
       console.error('문서 ID가 없습니다.');
       return;
     }
 
-    // AbortController를 사용해 fetch 요청 중단 가능
     const controller = new AbortController();
+    const signal = controller.signal;
 
     const fetchStream = async () => {
       try {
-        await getDocumentStream(documentId, (chunk) => {
-          console.log('Received chunk:', chunk);
-          setDocumentContent((prev) => prev + chunk);
-        });
+        await getDocumentStream(
+          documentId,
+          (chunk) => {
+            setDocumentContent((prev) => prev + chunk); // ✅ UI를 실시간 업데이트
+          },
+          (error) => {
+            console.error('스트림 요청 실패:', error);
+            setIsLoading(false);
+          },
+          signal,
+        );
         setIsLoading(false);
       } catch (error) {
-        if (error.name !== 'AbortError') {
+        if (error.name === 'AbortError') {
+          console.log('스트림 요청이 중단되었습니다.');
+        } else {
           console.error('스트림 요청 실패:', error);
         }
         setIsLoading(false);
@@ -42,7 +50,7 @@ const Specific = () => {
     fetchStream();
 
     return () => {
-      controller.abort(); // 컴포넌트 언마운트 시 요청 중단
+      controller.abort(); // ✅ 컴포넌트 언마운트 시 요청 중단
     };
   }, [documentId]);
 
