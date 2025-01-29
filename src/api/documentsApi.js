@@ -28,24 +28,15 @@ export const postDocument = async ({ title, content, requirements }) => {
     throw error;
   }
 };
-export const getDocumentStream = async (
-  documentId,
-  onMessage,
-  onError,
-  signal,
-) => {
+export const getDocumentStream = async (documentId, onMessage, onError) => {
   try {
     const response = await fetch(
       `http://localhost:8000/api/v1/documents/${documentId}/stream`,
       {
         method: 'GET',
-        headers: {
-          Accept: 'text/event-stream',
-          'Content-Type': 'text/event-stream',
-        },
+        headers: {},
         mode: 'cors',
         credentials: 'include',
-        signal, // ✅ AbortController를 적용!
       },
     );
 
@@ -67,8 +58,10 @@ export const getDocumentStream = async (
         break;
       }
 
-      // ✅ 한 글자씩 즉시 반영!
-      onMessage(chunk);
+      // ✅ 누적 없이 한 글자씩 즉시 반영!
+      for (const char of chunk) {
+        onMessage(char);
+      }
     }
   } catch (error) {
     console.error('SSE Fetch Error:', error);
@@ -88,6 +81,56 @@ export const putDocument = async ({ documentId, prompt }) => {
   } catch (error) {
     console.error('문서 수정 실패:', error);
     throw error;
+  }
+};
+
+/**
+ * 문서 업데이트 (PUT /documents/{document_id}/update) + SSE 구현
+ */
+export const updateDocumentStream = async (
+  documentId,
+  modifications,
+  onMessage,
+  onError,
+) => {
+  try {
+    const response = await fetch(
+      `http://localhost:8000/api/v1/documents/${documentId}/update`,
+      {
+        method: 'PUT',
+        headers: {},
+        body: JSON.stringify({ modifications }), // 요청 본문
+        mode: 'cors',
+        credentials: 'include',
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+
+      const chunk = decoder.decode(value, { stream: true });
+
+      if (chunk.includes('[DONE]')) {
+        console.log('Streaming finished.');
+        break;
+      }
+
+      // ✅ 한 글자씩 즉시 반영
+      for (const char of chunk) {
+        onMessage(char);
+      }
+    }
+  } catch (error) {
+    console.error('SSE Update Fetch Error:', error);
+    if (onError) onError(error);
   }
 };
 
