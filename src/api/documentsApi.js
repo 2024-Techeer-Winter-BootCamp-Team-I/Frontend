@@ -28,16 +28,24 @@ export const postDocument = async ({ title, content, requirements }) => {
     throw error;
   }
 };
-
-/**
- * 문서 스트림 가져오기 (GET /documents/{document_id}/stream)
- */
-export const getDocumentStream = async (documentId, onMessage) => {
+export const getDocumentStream = async (
+  documentId,
+  onMessage,
+  onError,
+  signal,
+) => {
   try {
     const response = await fetch(
       `http://localhost:8000/api/v1/documents/${documentId}/stream`,
       {
-        headers: { Accept: 'text/event-stream' },
+        method: 'GET',
+        headers: {
+          Accept: 'text/event-stream',
+          'Content-Type': 'text/event-stream',
+        },
+        mode: 'cors',
+        credentials: 'include',
+        signal, // ✅ AbortController를 적용!
       },
     );
 
@@ -48,18 +56,23 @@ export const getDocumentStream = async (documentId, onMessage) => {
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
 
-    let done = false;
-    while (!done) {
-      const { value, done: readerDone } = await reader.read();
-      done = readerDone;
-      if (value) {
-        const chunk = decoder.decode(value, { stream: true });
-        console.log('Received chunk:', chunk);
-        onMessage(chunk);
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+
+      const chunk = decoder.decode(value, { stream: true });
+
+      if (chunk.includes('[DONE]')) {
+        console.log('Streaming finished.');
+        break;
       }
+
+      // ✅ 한 글자씩 즉시 반영!
+      onMessage(chunk);
     }
   } catch (error) {
-    console.error('Stream error:', error);
+    console.error('SSE Fetch Error:', error);
+    if (onError) onError(error);
   }
 };
 
