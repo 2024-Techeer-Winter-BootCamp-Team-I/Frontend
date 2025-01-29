@@ -20,7 +20,7 @@ const ChooseBox = ({
       >
         {/* 기술스택 이름 */}
         <label
-          className={`absolute left-7 top-6 font-sans text-[1.5rem] text-lg font-bold text-white`} // 선택 상태에 따라 글자색 변경
+          className={`absolute left-7 top-6 font-sans text-[1.5rem] text-lg font-semibold text-white`} // 선택 상태에 따라 글자색 변경
         >
           {label}
         </label>
@@ -34,7 +34,9 @@ const ChooseBox = ({
 
           {/* 기술스택 설명 */}
           {description && (
-            <p className="ml-5 mr-4 mt-8 text-sm text-white">{description}</p>
+            <p className="ml-5 mr-4 mt-8 font-sans text-sm font-light text-white">
+              {description}
+            </p>
           )}
         </div>
       </div>

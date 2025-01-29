@@ -76,7 +76,7 @@ const Leftbar = () => {
           <img
             src={profileImage}
             alt="profileImage"
-            className="h-[1.5rem] w-[1.5rem] rounded-md"
+            className="h-[1.5rem] w-[1.5rem] rounded-full"
           />
           <p className="font-sfpro text-[1rem] text-[#FFFFFF]">{userName}</p>
         </div>

@@ -61,7 +61,13 @@ const FrontBuild = () => {
                 isSelected={selectedBuildTool === 'Vite'}
                 onClick={() => setSelectedBuildTool('Vite')} // zustand 스토어의 setSelectedBuildTool 사용
                 description={
-                  '빠른 개발 서버와 모듈 번들링을 제공하며, 최신 브라우저 기능을 활용해 효율적으로 동작'
+                  <>
+                    <span className="font-semibold">빠른 개발 서버</span>와{' '}
+                    <span className="font-semibold">모듈 번들링</span>을
+                    제공하며,{' '}
+                    <span className="font-semibold">최신 브라우저 기능</span>을
+                    활용해 효율적으로 동작
+                  </>
                 }
               />
 
@@ -72,7 +78,12 @@ const FrontBuild = () => {
                 isSelected={selectedBuildTool === 'Webpack'}
                 onClick={() => setSelectedBuildTool('Webpack')} // zustand 스토어의 setSelectedBuildTool 사용
                 description={
-                  '다양한 플러그인과 설정으로 유연한 번들링 옵션을 제공하는 강력한 빌드 도구'
+                  <>
+                    <span className="font-semibold">다양한 플러그인</span>과
+                    설정으로{' '}
+                    <span className="font-semibold">유연한 번들링 옵션</span>을
+                    제공하는 강력한 빌드 도구
+                  </>
                 }
               />
 
