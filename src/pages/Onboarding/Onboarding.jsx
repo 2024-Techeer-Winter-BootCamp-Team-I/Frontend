@@ -21,7 +21,6 @@ const AnimatedTitle = () => {
       className="relative text-[#9ef3f3] left-[28rem] top-[3rem] text-5xl font-bold tracking-widest"
       style={{
         fontFamily: "'Orbitron', sans-serif",
-        transform: "scaleX(1.2)", // 글자 가로로 더 넓게
         textShadow: glow
           ? `
       0 0 5px rgba(0, 120, 180, 0.5), 
@@ -34,11 +33,12 @@ const AnimatedTitle = () => {
       0 0 8px rgba(0, 80, 140, 0.18), 
       0 0 12px rgba(0, 60, 120, 0.15)
     `,
-        transition: "text-shadow 1.5s ease-in-out", // 부드럽게 빛 변화
+        transition: "text-shadow 1.5s ease-in-out",
         filter: "drop-shadow(0px 0px 15px rgba(0, 100, 160, 0.4))",
       }}
     >
       Dev Sketch
+      <p className="text-sm font-medium text-[#cecece] mt-3">개발을 더 쉽게, 더 빠르게</p>
     </h1>
   );
 };
