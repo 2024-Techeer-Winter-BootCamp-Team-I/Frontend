@@ -40,7 +40,13 @@ const ErdPage = () => {
       return;
     }
     console.log(`Saving document with ID: ${documentId}, Type: erd`);
-    await saveDocumentData(documentId, 'erd');
+    try {
+      await saveDocumentData(documentId, 'erd');
+      alert("저장이 완료되었습니다");
+    } catch (error) {
+      console.error('저장에 실패했습니다:', error);
+      alert("저장에 실패했습니다");
+    }
   };
 
   // 상단 버튼 클릭 핸들러
@@ -69,44 +75,44 @@ const ErdPage = () => {
           <div className="mb-4 flex gap-4">
             <button
               onClick={() => handlePageClick('ERD', '/erdpage')}
-              className={`rounded px-4 py-2 ${
-                activePage === 'ERD'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-700 text-gray-200'
-              }`}
+              className={`rounded px-4 py-2 ${activePage === 'ERD'
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-700 text-gray-200'
+                }`}
             >
               ERD
             </button>
             <button
               onClick={() => handlePageClick('DIAGRAM', '/diagrampage')}
-              className={`rounded px-4 py-2 ${
-                activePage === 'DIAGRAM'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-700 text-gray-200'
-              }`}
+              className={`rounded px-4 py-2 ${activePage === 'DIAGRAM'
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-700 text-gray-200'
+                }`}
             >
               DIAGRAM
             </button>
             <button
               onClick={() => handlePageClick('API', '/swaggerpage')}
-              className={`rounded px-4 py-2 ${
-                activePage === 'API'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-700 text-gray-200'
-              }`}
+              className={`rounded px-4 py-2 ${activePage === 'API'
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-700 text-gray-200'
+                }`}
             >
               API
             </button>
           </div>
 
           {/* 콘텐츠 박스 */}
-          <div className="relative h-[500px] w-full max-w-4xl overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
+          <div className="relative h-[500px] w-full max-w-4xl overflow-auto rounded-lg border border-gray-600 bg-[#090909] opacity-50 p-4 shadow-lg">
             {/* Save 버튼 추가 */}
             <img
               src={SaveIcon}
               alt="Save"
               className="absolute right-4 top-4 h-8 w-8 cursor-pointer"
-              onClick={handleSave}
+              onClick={() => {
+                handleSave();
+                alert("저장이 완료되었습니다!");
+              }}
             />
             {activeTab === 'image' && (
               <div id="mermaid-container" className="h-full w-full"></div>
@@ -122,21 +128,19 @@ const ErdPage = () => {
           <div className="mt-4 flex gap-2">
             <button
               onClick={() => handleTabClick('image')}
-              className={`rounded px-4 py-2 ${
-                activeTab === 'image'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-700 text-gray-200'
-              }`}
+              className={`rounded px-4 py-2 ${activeTab === 'image'
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-700 text-gray-200'
+                }`}
             >
               이미지보기
             </button>
             <button
               onClick={() => handleTabClick('code')}
-              className={`rounded px-4 py-2 ${
-                activeTab === 'code'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-700 text-gray-200'
-              }`}
+              className={`rounded px-4 py-2 ${activeTab === 'code'
+                ? 'bg-blue-500 text-white'
+                : 'bg-gray-700 text-gray-200'
+                }`}
             >
               코드보기
             </button>
