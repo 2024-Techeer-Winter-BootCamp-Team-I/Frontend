@@ -37,10 +37,10 @@ const FrontStackModal = ({ isOpen, onClose, onConfirm }) => {
     try {
       // techStackSetupApi 호출
       if (!selectedPositions.includes('Backend')) {
-        const response = await techStackSetupApi(
-          directoryName,
+        const response = await techStackSetupApi(     
           frontendTechStack,
           backendTechStack,
+          directoryName,
           documentId,
         );
         // 응답에서 project_dir 추출
