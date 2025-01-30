@@ -77,10 +77,10 @@ const OnboardingPage = () => {
     const section = sectionsRef.current[currentSection];
 
     // 배경색 전환 애니메이션
-    gsap.to("body", {
-      backgroundColor: "#000000",
+    gsap.to('body', {
+      backgroundColor: '#000000',
       duration: 0.5,
-      ease: "power2.out",
+      ease: 'power2.out',
     });
 
     gsap.to(section, {
@@ -114,18 +114,18 @@ const OnboardingPage = () => {
   useEffect(() => {
     if (currentSection === 3) {
       // 4번 페이지 애니메이션
-      gsap.from(".final-text", {
+      gsap.from('.final-text', {
         y: -200, // 시작 위치: 화면 위로 크게 벗어남
         opacity: 0,
         duration: 1, // 애니메이션 속도
-        ease: "power4.out", // 더 드라마틱한 ease
+        ease: 'power4.out', // 더 드라마틱한 ease
       });
-      gsap.from(".start-button", {
+      gsap.from('.start-button', {
         y: -200, // 시작 위치: 화면 위로 크게 벗어남
         opacity: 0,
         duration: 1.2, // 버튼은 살짝 느리게
         delay: 0.3, // 텍스트 뒤에 나타남
-        ease: "power4.out", // 동일한 ease
+        ease: 'power4.out', // 동일한 ease
       });
     }
   }, [currentSection]);
@@ -146,7 +146,7 @@ const OnboardingPage = () => {
         {/* 1번 페이지 */}
         <section
           ref={(el) => (sectionsRef.current[0] = el)}
-          className="flex h-screen w-full items-center justify-center relative"
+          className="relative flex h-screen w-full items-center justify-center"
         >
           <div
             ref={(el) => (splineRefs.current[0] = el)}
@@ -163,7 +163,7 @@ const OnboardingPage = () => {
         {/* 2번 페이지 */}
         <section
           ref={(el) => (sectionsRef.current[1] = el)}
-          className="flex h-screen w-full items-center justify-center relative"
+          className="relative flex h-screen w-full items-center justify-center"
         >
           {/* 배경 3D 애니메이션 */}
           <div
@@ -202,7 +202,7 @@ const OnboardingPage = () => {
         {/* 3번 페이지 */}
         <section
           ref={(el) => (sectionsRef.current[2] = el)}
-          className="flex h-screen w-full items-center justify-center relative bg-[#02001C]"
+          className="relative flex h-screen w-full items-center justify-center bg-[#02001C]"
         >
           <div
             ref={(el) => (splineRefs.current[2] = el)}
