@@ -31,7 +31,7 @@ export const postDocument = async ({ title, content, requirements }) => {
 export const getDocumentStream = async (documentId, onMessage, onError) => {
   try {
     const response = await fetch(
-      `http://localhost:8000/api/v1/documents/${documentId}/stream`,
+      `https://api.devsketch.xyz/api/v1/documents/${documentId}/stream`,
       {
         method: 'GET',
         headers: {},
