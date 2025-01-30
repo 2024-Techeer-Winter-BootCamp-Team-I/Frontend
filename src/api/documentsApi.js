@@ -46,41 +46,41 @@ export const getDocumentStream = async (documentId, onMessage, onError) => {
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
+    let accumulatedText = ''; // 데이터를 누적할 버퍼
 
     while (true) {
       const { value, done } = await reader.read();
       if (done) break;
 
-      const chunk = decoder.decode(value, { stream: true });
+      accumulatedText += decoder.decode(value, { stream: true });
 
-      if (chunk.includes('[DONE]')) {
-        console.log('Streaming finished.');
-        break;
-      }
+      // 데이터 단위로 분리 (SSE 형식 처리)
+      const lines = accumulatedText.split('\n\n');
+      accumulatedText = lines.pop(); // 처리되지 않은 남은 데이터 유지
 
-      // ✅ 누적 없이 한 글자씩 즉시 반영!
-      for (const char of chunk) {
-        onMessage(char);
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+
+        const data = line.slice(6).trim(); // "data: " 제거
+
+        if (data === '[DONE]') {
+          console.log('✅ Streaming finished.');
+          return;
+        }
+
+        try {
+          // ✅ 한 글자씩 전송
+          for (const char of data) {
+            onMessage(char);
+          }
+        } catch (error) {
+          console.error('🚨 SSE 데이터 파싱 오류:', error);
+        }
       }
     }
   } catch (error) {
-    console.error('SSE Fetch Error:', error);
+    console.error('🚨 SSE Fetch Error:', error);
     if (onError) onError(error);
-  }
-};
-
-/**
- * 문서 수정 (PUT /documents/{document_id})
- */
-export const putDocument = async ({ documentId, prompt }) => {
-  try {
-    const response = await jsonAxios.put(`/documents/${documentId}`, {
-      prompt,
-    });
-    return response.data; // 응답 데이터 반환
-  } catch (error) {
-    console.error('문서 수정 실패:', error);
-    throw error;
   }
 };
 

@@ -29,7 +29,7 @@ const Specific = () => {
 
     const fetchStream = async () => {
       setIsLoading(true);
-      setDocumentContent(''); // 기존 내용을 지우고 새로 로드
+      setDocumentContent(''); // 기존 내용을 초기화하고 새 데이터 받기
 
       try {
         await getDocumentStream(
@@ -38,14 +38,14 @@ const Specific = () => {
             setDocumentContent((prev) => prev + char);
           },
           (error) => {
-            console.error('스트림 요청 실패:', error);
+            console.error('🚨 스트림 요청 실패:', error);
             setIsLoading(false);
           },
           signal,
         );
       } catch (error) {
         if (error.name !== 'AbortError') {
-          console.error('스트림 요청 실패:', error);
+          console.error('🚨 스트림 요청 실패:', error);
         }
         setIsLoading(false);
       }
