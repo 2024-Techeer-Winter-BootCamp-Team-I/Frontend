@@ -95,7 +95,7 @@ export const updateDocumentStream = async (
 ) => {
   try {
     const response = await fetch(
-      `https://api.devsketch.xyz/api/v1/${documentId}/update`,
+      `https://api.devsketch.xyz/api/v1/documents/${documentId}/update`,
       {
         method: 'PUT',
         headers: {},
