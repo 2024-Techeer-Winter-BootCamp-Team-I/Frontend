@@ -1,9 +1,9 @@
 import { jsonAxios } from './axios.config';
 
 export const techStackSetupApi = async (
-  directoryName,
   frontendTechStack,
   backendTechStack,
+  directoryName,
   documentId,
 ) => {
   const requestBody = {
