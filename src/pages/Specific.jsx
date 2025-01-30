@@ -122,10 +122,12 @@ const Specific = () => {
           <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-white/55 via-[#7885E9] to-[#485CF3]" />
           <div className="relative z-10 h-[500px] overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-6 shadow-lg">
             {documentContent ? (
-              <pre
-                className="whitespace-pre-wrap text-white"
-                dangerouslySetInnerHTML={{ __html: documentContent }}
-              ></pre>
+              <pre className="whitespace-pre-wrap text-white">
+                {/* ✅ HTML 해석 가능하도록 수정 */}
+                <span
+                  dangerouslySetInnerHTML={{ __html: documentContent }}
+                ></span>
+              </pre>
             ) : isLoading ? (
               <p className="text-center text-white">로딩 중...</p>
             ) : (

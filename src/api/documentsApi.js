@@ -98,7 +98,7 @@ export const updateDocumentStream = async (
       `https://api.devsketch.xyz/api/v1/documents/${documentId}/update`,
       {
         method: 'PUT',
-        headers: { "Content-Type": "application/json"},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ modifications }), // 요청 본문
         mode: 'cors',
         credentials: 'include',
@@ -111,25 +111,38 @@ export const updateDocumentStream = async (
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
+    let accumulatedText = '';
 
     while (true) {
       const { value, done } = await reader.read();
       if (done) break;
 
-      const chunk = decoder.decode(value, { stream: true });
+      accumulatedText += decoder.decode(value, { stream: true });
 
-      if (chunk.includes('[DONE]')) {
-        console.log('Streaming finished.');
-        break;
-      }
+      // ✅ SSE 이벤트 데이터 추출 (파싱)
+      const lines = accumulatedText.split('\n\n');
+      accumulatedText = lines.pop(); // 남은 데이터는 보존
 
-      // ✅ 한 글자씩 즉시 반영
-      for (const char of chunk) {
-        onMessage(char);
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+
+        const data = line.slice(6).trim(); // "data: " 부분 제거
+
+        if (data === '[DONE]') {
+          console.log('✅ Streaming finished.');
+          return;
+        }
+
+        try {
+          // ✅ 한 줄씩 추가 (파싱하여 줄바꿈 유지)
+          onMessage(data.replace(/\n/g, '<br>'));
+        } catch (error) {
+          console.error('🚨 SSE 데이터 파싱 오류:', error);
+        }
       }
     }
   } catch (error) {
-    console.error('SSE Update Fetch Error:', error);
+    console.error('🚨 SSE Update Fetch Error:', error);
     if (onError) onError(error);
   }
 };
