@@ -70,11 +70,11 @@ const SettingPage = () => {
               onChange={handleDirectoryNameChange} // 입력 변경 시 핸들러 호출
             />
 
-            <p className="mt-10 font-sans text-lg text-white">
+            <p className="mt-12 font-sans text-lg text-white">
               프로젝트 세팅할 포지션(중복가능)
             </p>
 
-            <div className="mt-3 flex w-full max-w-2xl justify-center gap-8">
+            <div className="mt-6 flex w-full max-w-2xl justify-center gap-16">
               <div className="opacity-0 focus:outline-none">
                 <img src={leftArrow} alt="Left Arrow" className="h-12 w-12" />
               </div>

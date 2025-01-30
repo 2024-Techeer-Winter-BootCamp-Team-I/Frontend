@@ -27,9 +27,11 @@
     "react-helmet": "^6.1.0",
     "react-router-dom": "7.1.1",
     "spline": "^0.0.0",
-    "swagger-ui": "^5.18.2",
+    "swagger-ui": "^5.18.3",
     "swagger-ui-dist": "^5.18.2",
     "swagger-ui-react": "^5.18.3",
+    "tailwind-scrollbar-hide": "^2.0.0",
+
     "tanstack-query": "^1.0.0",
     "zustand": "^5.0.3"
   },

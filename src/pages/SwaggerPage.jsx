@@ -4,10 +4,12 @@ import SwaggerUI from 'swagger-ui-react';
 import 'swagger-ui-react/swagger-ui.css';
 import Layout from './Layout';
 import useDocumentStore from '../store/useDocumentStore';
+import { saveDocumentData } from '../api/documentsApi';
+import SaveIcon from '../assets/image/save.svg';
 
 const SwaggerPage = () => {
   const navigate = useNavigate();
-  const { apiCode } = useDocumentStore(); // 전역 상태에서 apiCode 가져오기
+  const { documentId, apiCode } = useDocumentStore(); // documentId 추가
   const [activePage, setActivePage] = useState('API');
   const [activeTab, setActiveTab] = useState('image');
   let apiJson;
@@ -23,6 +25,16 @@ const SwaggerPage = () => {
     console.error('Invalid JSON:', e);
   }
 
+  // 저장 버튼 핸들러
+  const handleSave = async () => {
+    if (!documentId) {
+      console.error('문서 ID가 없습니다.');
+      return;
+    }
+    console.log(`Saving document with ID: ${documentId}, Type: api`);
+    await saveDocumentData(documentId, 'api');
+  };
+
   // 상단 버튼 클릭 핸들러
   const handlePageClick = (page, route) => {
     setActivePage(page);
@@ -31,6 +43,14 @@ const SwaggerPage = () => {
 
   // 탭 전환 핸들러
   const handleTabClick = (tab) => setActiveTab(tab);
+
+  const handleMainButtonClick = () => {
+    navigate('/');
+  };
+
+  const handleSettingButtonClick = () => {
+    navigate('/setting');
+  };
 
   return (
     <Layout>
@@ -72,7 +92,14 @@ const SwaggerPage = () => {
           </div>
 
           {/* 콘텐츠 박스 */}
-          <div className="h-[500px] w-full max-w-4xl overflow-auto rounded-lg border border-gray-600 bg-white p-4 shadow-lg">
+          <div className="relative h-[500px] w-full max-w-4xl overflow-auto rounded-lg border border-gray-600 bg-white p-4 shadow-lg">
+            {/* Save 버튼 추가 */}
+            <img
+              src={SaveIcon}
+              alt="Save"
+              className="absolute right-4 top-4 h-8 w-8 cursor-pointer"
+              onClick={handleSave}
+            />
             {activeTab === 'image' && (
               <div className="h-full w-full">
                 {apiJson ? (
@@ -85,7 +112,7 @@ const SwaggerPage = () => {
               </div>
             )}
             {activeTab === 'code' && (
-              <pre className="h-full w-full overflow-auto whitespace-pre-wrap text-white">
+              <pre className="h-full w-full overflow-auto whitespace-pre-wrap text-black">
                 {JSON.stringify(apiJson, null, 2)}
               </pre>
             )}
@@ -113,6 +140,21 @@ const SwaggerPage = () => {
             >
               코드보기
             </button>
+            {/* 오른쪽 아래 가장자리에 위치한 버튼들 */}
+            <div className="absolute bottom-0 right-0 mb-9 mr-9 flex flex-col gap-2">
+              <button
+                onClick={handleMainButtonClick}
+                className="rounded bg-gray-700 px-4 py-2"
+              >
+                메인으로가기
+              </button>
+              <button
+                onClick={handleSettingButtonClick}
+                className="rounded bg-gray-700 px-4 py-2"
+              >
+                세팅하러가기
+              </button>
+            </div>
           </div>
         </div>
       </div>

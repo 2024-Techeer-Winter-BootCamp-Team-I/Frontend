@@ -28,16 +28,15 @@ export const postDocument = async ({ title, content, requirements }) => {
     throw error;
   }
 };
-
-/**
- * 문서 스트림 가져오기 (GET /documents/{document_id}/stream)
- */
-export const getDocumentStream = async (documentId, onMessage) => {
+export const getDocumentStream = async (documentId, onMessage, onError) => {
   try {
     const response = await fetch(
       `http://localhost:8000/api/v1/documents/${documentId}/stream`,
       {
-        headers: { Accept: 'text/event-stream' },
+        method: 'GET',
+        headers: {},
+        mode: 'cors',
+        credentials: 'include',
       },
     );
 
@@ -48,18 +47,25 @@ export const getDocumentStream = async (documentId, onMessage) => {
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
 
-    let done = false;
-    while (!done) {
-      const { value, done: readerDone } = await reader.read();
-      done = readerDone;
-      if (value) {
-        const chunk = decoder.decode(value, { stream: true });
-        console.log('Received chunk:', chunk);
-        onMessage(chunk);
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+
+      const chunk = decoder.decode(value, { stream: true });
+
+      if (chunk.includes('[DONE]')) {
+        console.log('Streaming finished.');
+        break;
+      }
+
+      // ✅ 누적 없이 한 글자씩 즉시 반영!
+      for (const char of chunk) {
+        onMessage(char);
       }
     }
   } catch (error) {
-    console.error('Stream error:', error);
+    console.error('SSE Fetch Error:', error);
+    if (onError) onError(error);
   }
 };
 
@@ -78,6 +84,56 @@ export const putDocument = async ({ documentId, prompt }) => {
   }
 };
 
+/**
+ * 문서 업데이트 (PUT /documents/{document_id}/update) + SSE 구현
+ */
+export const updateDocumentStream = async (
+  documentId,
+  modifications,
+  onMessage,
+  onError,
+) => {
+  try {
+    const response = await fetch(
+      `http://localhost:8000/api/v1/documents/${documentId}/update`,
+      {
+        method: 'PUT',
+        headers: {},
+        body: JSON.stringify({ modifications }), // 요청 본문
+        mode: 'cors',
+        credentials: 'include',
+      },
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+
+      const chunk = decoder.decode(value, { stream: true });
+
+      if (chunk.includes('[DONE]')) {
+        console.log('Streaming finished.');
+        break;
+      }
+
+      // ✅ 한 글자씩 즉시 반영
+      for (const char of chunk) {
+        onMessage(char);
+      }
+    }
+  } catch (error) {
+    console.error('SSE Update Fetch Error:', error);
+    if (onError) onError(error);
+  }
+};
+
 export const postDesign = async (documentId) => {
   try {
     console.log('postDesign 요청 데이터:', { documentId });
@@ -90,5 +146,24 @@ export const postDesign = async (documentId) => {
       error.response?.data || error.message,
     );
     throw error; // 에러를 호출한 곳으로 전달
+  }
+};
+
+/**
+ * 특정 문서에 데이터를 저장 (POST /documents/{document_id}/save)
+ */
+export const saveDocumentData = async (documentId, type) => {
+  try {
+    const response = await jsonAxios.post(`/documents/${documentId}/save`, {
+      parts: [type],
+    });
+    console.log(`"${type}" 저장 완료:`, response.data);
+    return response.data;
+  } catch (error) {
+    console.error(
+      `"${type}" 저장 실패:`,
+      error.response?.data || error.message,
+    );
+    throw error;
   }
 };

@@ -70,7 +70,17 @@ const BackFramework = () => {
                 isSelected={selectedFramework === 'Django'}
                 onClick={() => setSelectedFramework('Django')} // Zustand 스토어의 setSelectedFramework 사용
                 description={
-                  'Python 기반 웹 프레임워크로, 빠른 개발과 단순함을 지향하며 ORM, 인증, 관리자 패널 등 다양한 기능을 기본 제공'
+                  <>
+                    <span className="font-semibold">
+                      Python 기반 웹 프레임워크
+                    </span>
+                    로, <span className="font-semibold">빠른 개발</span>과
+                    <span className="font-semibold">단순함</span>을 지향하며
+                    <span className="font-semibold">
+                      ORM, 인증, 관리자 패널
+                    </span>{' '}
+                    등 다양한 기능을 기본 제공
+                  </>
                 }
               />
 
@@ -81,7 +91,12 @@ const BackFramework = () => {
                 isSelected={selectedFramework === 'Node.js'}
                 onClick={() => setSelectedFramework('Node.js')} // Zustand 스토어의 setSelectedFramework 사용
                 description={
-                  '비동기 이벤트 기반 JavaScript 런타임으로, 서버 사이드 애플리케이션 개발에 주로 사용'
+                  <>
+                    <span className="font-semibold">
+                      비동기 이벤트 기반 JavaScript 런타임
+                    </span>
+                    으로, 서버 사이드 애플리케이션 개발에 주로 사용
+                  </>
                 }
               />
 
