@@ -52,6 +52,14 @@ const ErdPage = () => {
   // 탭 전환 핸들러
   const handleTabClick = (tab) => setActiveTab(tab);
 
+  const handleMainButtonClick = () => {
+    navigate('/');
+  };
+
+  const handleSettingButtonClick = () => {
+    navigate('/setting');
+  };
+
   return (
     <Layout>
       <div className="relative flex min-h-screen w-full text-gray-200">
@@ -132,6 +140,22 @@ const ErdPage = () => {
             >
               코드보기
             </button>
+
+            {/* 오른쪽 아래 가장자리에 위치한 버튼들 */}
+            <div className="absolute bottom-0 right-0 mb-9 mr-9 flex flex-col gap-2">
+              <button
+                onClick={handleMainButtonClick}
+                className="rounded bg-gray-700 px-4 py-2"
+              >
+                메인으로가기
+              </button>
+              <button
+                onClick={handleSettingButtonClick}
+                className="rounded bg-gray-700 px-4 py-2"
+              >
+                세팅하러가기
+              </button>
+            </div>
           </div>
         </div>
       </div>
