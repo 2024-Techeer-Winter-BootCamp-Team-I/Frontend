@@ -121,13 +121,6 @@ const DiagramPage = () => {
           {/* 탭 버튼 */}
           <div className="mt-4 flex gap-2">
             <button
-              onClick={() => handleMainButtonClick()}
-              className={`mr-56 rounded bg-blue-500 px-4 py-2`}
-            >
-              메인으로가기
-            </button>
-
-            <button
               onClick={() => handleTabClick('image')}
               className={`rounded px-4 py-2 ${
                 activeTab === 'image'
@@ -148,12 +141,21 @@ const DiagramPage = () => {
               코드보기
             </button>
 
-            <button
-              onClick={() => handleSettingButtonClick()}
-              className={`ml-56 rounded bg-blue-500 px-4 py-2`}
-            >
-              세팅하러가기
-            </button>
+            {/* 오른쪽 아래 가장자리에 위치한 버튼들 */}
+            <div className="absolute bottom-0 right-0 mb-9 mr-9 flex flex-col gap-2">
+              <button
+                onClick={handleMainButtonClick}
+                className="rounded bg-gray-700 px-4 py-2"
+              >
+                메인으로가기
+              </button>
+              <button
+                onClick={handleSettingButtonClick}
+                className="rounded bg-gray-700 px-4 py-2"
+              >
+                세팅하러가기
+              </button>
+            </div>
           </div>
         </div>
       </div>
