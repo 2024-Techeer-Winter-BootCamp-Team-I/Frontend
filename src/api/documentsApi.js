@@ -31,7 +31,7 @@ export const postDocument = async ({ title, content, requirements }) => {
 export const getDocumentStream = async (documentId, onMessage, onError) => {
   try {
     const response = await fetch(
-      `https://devsketch.xyz/api/v1/documents/${documentId}/stream`,
+      `https://api.devsketch.xyz/api/v1/documents/${documentId}/stream`,
       {
         method: 'GET',
         headers: {},
@@ -95,7 +95,7 @@ export const updateDocumentStream = async (
 ) => {
   try {
     const response = await fetch(
-      `https://devsketch.xyz/api/v1/documents/${documentId}/update`,
+      `https://api.devsketch.xyz/api/v1/${documentId}/update`,
       {
         method: 'PUT',
         headers: {},
