@@ -31,7 +31,7 @@ export const postDocument = async ({ title, content, requirements }) => {
 export const getDocumentStream = async (documentId, onMessage, onError) => {
   try {
     const response = await fetch(
-      `https://api.devsketch.xyz/api/v1/documents/${documentId}/stream`,
+      `https://devsketch.xyz/api/v1/documents/${documentId}/stream`,
       {
         method: 'GET',
         headers: {},
@@ -46,7 +46,7 @@ export const getDocumentStream = async (documentId, onMessage, onError) => {
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
-    let accumulatedText = '';
+    let accumulatedText = ''; // 데이터를 누적할 버퍼
 
     while (true) {
       const { value, done } = await reader.read();
@@ -54,8 +54,9 @@ export const getDocumentStream = async (documentId, onMessage, onError) => {
 
       accumulatedText += decoder.decode(value, { stream: true });
 
+      // 데이터 단위로 분리 (SSE 형식 처리)
       const lines = accumulatedText.split('\n\n');
-      accumulatedText = lines.pop();
+      accumulatedText = lines.pop(); // 처리되지 않은 남은 데이터 유지
 
       for (const line of lines) {
         if (!line.startsWith('data: ')) continue;
@@ -68,9 +69,10 @@ export const getDocumentStream = async (documentId, onMessage, onError) => {
         }
 
         try {
-          // ✅ 줄바꿈을 유지하며 한 글자씩 전달
-          const formattedData = data.replace(/\n/g, '<br>');
-          onMessage(formattedData);
+          // ✅ 한 글자씩 전송
+          for (const char of data) {
+            onMessage(char);
+          }
         } catch (error) {
           console.error('🚨 SSE 데이터 파싱 오류:', error);
         }
