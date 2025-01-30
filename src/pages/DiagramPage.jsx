@@ -52,6 +52,14 @@ const DiagramPage = () => {
   // 탭 전환 핸들러
   const handleTabClick = (tab) => setActiveTab(tab);
 
+  const handleMainButtonClick = () => {
+    navigate('/');
+  };
+
+  const handleSettingButtonClick = () => {
+    navigate('/setting');
+  };
+
   return (
     <Layout>
       <div className="relative flex min-h-screen w-full text-gray-200">
@@ -113,6 +121,13 @@ const DiagramPage = () => {
           {/* 탭 버튼 */}
           <div className="mt-4 flex gap-2">
             <button
+              onClick={() => handleMainButtonClick()}
+              className={`mr-56 rounded bg-blue-500 px-4 py-2`}
+            >
+              메인으로가기
+            </button>
+
+            <button
               onClick={() => handleTabClick('image')}
               className={`rounded px-4 py-2 ${
                 activeTab === 'image'
@@ -131,6 +146,13 @@ const DiagramPage = () => {
               }`}
             >
               코드보기
+            </button>
+
+            <button
+              onClick={() => handleSettingButtonClick()}
+              className={`ml-56 rounded bg-blue-500 px-4 py-2`}
+            >
+              세팅하러가기
             </button>
           </div>
         </div>
