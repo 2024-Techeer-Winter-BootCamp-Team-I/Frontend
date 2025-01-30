@@ -69,9 +69,13 @@ export const getDocumentStream = async (documentId, onMessage, onError) => {
         }
 
         try {
-          // ✅ 한 글자씩 전송
-          for (const char of data) {
-            onMessage(char);
+          // ✅ 한 글자씩 전송 (줄바꿈 유지)
+          if (data.includes("\n")) {
+            onMessage(data.replace(/\n/g, "<br>")); // `<br>`로 변환하여 줄바꿈 유지
+          } else {
+            for (const char of data) {
+              onMessage(char);
+            }
           }
         } catch (error) {
           console.error('🚨 SSE 데이터 파싱 오류:', error);
@@ -83,7 +87,6 @@ export const getDocumentStream = async (documentId, onMessage, onError) => {
     if (onError) onError(error);
   }
 };
-
 /**
  * 문서 업데이트 (PUT /documents/{document_id}/update) + SSE 구현
  */
