@@ -46,7 +46,7 @@ export const getDocumentStream = async (documentId, onMessage, onError) => {
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
-    let accumulatedText = ''; // 데이터를 누적할 버퍼
+    let accumulatedText = '';
 
     while (true) {
       const { value, done } = await reader.read();
@@ -54,9 +54,8 @@ export const getDocumentStream = async (documentId, onMessage, onError) => {
 
       accumulatedText += decoder.decode(value, { stream: true });
 
-      // 데이터 단위로 분리 (SSE 형식 처리)
       const lines = accumulatedText.split('\n\n');
-      accumulatedText = lines.pop(); // 처리되지 않은 남은 데이터 유지
+      accumulatedText = lines.pop();
 
       for (const line of lines) {
         if (!line.startsWith('data: ')) continue;
@@ -69,14 +68,9 @@ export const getDocumentStream = async (documentId, onMessage, onError) => {
         }
 
         try {
-          // ✅ 한 글자씩 전송 (줄바꿈 유지)
-          if (data.includes("\n")) {
-            onMessage(data.replace(/\n/g, "<br>")); // `<br>`로 변환하여 줄바꿈 유지
-          } else {
-            for (const char of data) {
-              onMessage(char);
-            }
-          }
+          // ✅ 줄바꿈을 유지하며 한 글자씩 전달
+          const formattedData = data.replace(/\n/g, '<br>');
+          onMessage(formattedData);
         } catch (error) {
           console.error('🚨 SSE 데이터 파싱 오류:', error);
         }
@@ -87,6 +81,7 @@ export const getDocumentStream = async (documentId, onMessage, onError) => {
     if (onError) onError(error);
   }
 };
+
 /**
  * 문서 업데이트 (PUT /documents/{document_id}/update) + SSE 구현
  */
