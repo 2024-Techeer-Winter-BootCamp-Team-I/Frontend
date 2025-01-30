@@ -12,7 +12,7 @@ import TrashIcon from '../assets/image/trashcan.svg';
 const MyProject = () => {
   const navigate = useNavigate();
   const { setUserInfo, setEmail, email, profileImage } = useLoginStore(); // profileImage 추가
-  const { setDocumentId } = useDocumentStore();
+
   const {
     documentTitles,
     setDocumentTitles,

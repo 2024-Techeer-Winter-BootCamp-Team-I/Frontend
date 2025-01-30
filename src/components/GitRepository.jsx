@@ -4,17 +4,20 @@ import Button from './Button/Button';
 import DockerModal from './DockerModal'; // DockerModal 컴포넌트 import
 
 import { createRepository } from '../api/reposApi'; // createRepository 및 startDockerInDocker 함수 import
-// import { startDockerInDocker } from '../api/dockerApi'; // startDockerInDocker 함수 import
+import { startDockerInDocker } from '../api/reposApi'; // startDockerInDocker 함수 import
 
 import useSettingStore from '../store/useSettingStore';
 import useLoginStore from '../store/LoginStore'; // useLoginStore import
+import useDocumentStore from '../store/useDocumentStore'; // useDocumentStore import
 
 const GitRepository = () => {
   const [activeButton, setActiveButton] = useState(null); // 현재 활성화된 버튼 상태
   const [isPrivate, setIsPrivate] = useState(false); // 레포지토리 비공개 여부 상태
   const [repoName, setRepoName] = useState(''); // 레포지토리 이름 상태
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
+  const [dockerUrl, setDockerUrl] = useState('');
 
+  const documentId = useDocumentStore((state) => state.documentId); // documentId만 가져오기
   const userName = useLoginStore((state) => state.userName); // userName 상태만 가져오기
   const projectDir = useSettingStore((state) => state.project_dir);
   const setRepoUrl = useSettingStore((state) => state.setRepoUrl);
@@ -70,24 +73,26 @@ const GitRepository = () => {
 
     setIsModalOpen(true); // 모달 열기
 
-    // if (!repoUrl) {
-    //   alert('먼저 레포지토리를 생성해주세요.');
-    //   return;
-    // }
+    if (!repoUrl) {
+      alert('먼저 레포지토리를 생성해주세요.');
+      return;
+    }
 
-    //   try {
-    //     // startDockerInDocker 함수 호출
-    //     const response = await startDockerInDocker({
-    //       userName, // userName 사용
-    //       repoUrl, // repoUrl 사용
-    //       repoName,
-    //     });
-    //     console.log('Docker in Docker started successfully:', response);
-    //     alert('Docker in Docker started successfully.');
-    //   } catch (error) {
-    //     console.error('Error starting Docker in Docker:', error);
-    //     alert('Error starting Docker in Docker.');
-    //   }
+    try {
+      // startDockerInDocker 함수 호출
+      const { dockerUrl } = await startDockerInDocker({
+        repoUrl, // repoUrl 사용
+        githubName: `${userName}-${documentId}`, // githubName 생성
+        repoName,
+      });
+
+      setDockerUrl(dockerUrl); // dockerUrl 상태 업데이트
+      console.log('Docker in Docker started successfully:', dockerUrl);
+      alert('도커인도커가 생성 완료되었습니다!');
+    } catch (error) {
+      console.error('Error starting Docker in Docker:', error);
+      alert('Error starting Docker in Docker.');
+    }
   };
 
   // 내부 원 활성화/비활성화 토글 함수
@@ -101,7 +106,6 @@ const GitRepository = () => {
         {/* 제목 텍스트 */}
 
         <div className="absolute left-[20rem] mt-[6rem] break-words font-sans text-[1rem] font-semibold text-white">
-
           깃허브에 업로드하기
         </div>
 
@@ -195,7 +199,7 @@ const GitRepository = () => {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         title={`사이트에서 확인해보세요!`}
-        url="사이트 주소 넣는곳"
+        url={dockerUrl}
       >
         <p className="font-sans text-[0.9rem] text-gray-600">
           현재 테스트 단계이므로 작동에 문제가 있을 수 있습니다.
