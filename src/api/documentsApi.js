@@ -98,7 +98,7 @@ export const updateDocumentStream = async (
       `https://api.devsketch.xyz/api/v1/documents/${documentId}/update`,
       {
         method: 'PUT',
-        headers: {},
+        headers: { "Content-Type": "application/json"},
         body: JSON.stringify({ modifications }), // 요청 본문
         mode: 'cors',
         credentials: 'include',
