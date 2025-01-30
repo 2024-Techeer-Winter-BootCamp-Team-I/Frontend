@@ -19,20 +19,22 @@ export const createRepository = async ({ repoName, isPrivate, projectDir }) => {
 };
 
 // 도커인도커를 띄우는 API 함수
-export const startDockerInDocker = async ({ userName, repoUrl, repoName }) => {
+export const startDockerInDocker = async ({
+  githubName,
+  repoUrl,
+  repoName,
+}) => {
   try {
     const response = await jsonAxios.post('/dinds/', {
-      github_name: userName,
+      github_name: githubName,
       github_url: repoUrl,
       repo_name: repoName,
     });
-    const message = response.data.message;
-    const taskId = response.data.task_id;
+    const dockerUrl = response.url; // 응답에서 URL 추출
 
-    console.log('Message:', message);
-    console.log('Task ID:', taskId);
+    console.log('Message:', dockerUrl);
 
-    return { message, taskId };
+    return { dockerUrl };
   } catch (error) {
     console.error(
       'Error starting Docker in Docker:',
