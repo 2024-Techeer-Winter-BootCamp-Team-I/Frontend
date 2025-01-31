@@ -157,8 +157,8 @@ const ErdPage = () => {
 
           {/* 🔥 모달에서도 Mermaid.js 적용 + 크기 유지 + 중앙 정렬 */}
           {isModalOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
-              <div className="relative flex h-[95vh] w-full max-w-6xl items-center justify-center rounded-lg bg-gray-800">
+            <div className="fixed z-50 flex items-center justify-center bg-black bg-opacity-90">
+              <div className="h-full relative flex w-full max-w-6xl items-center justify-center rounded-lg bg-gray-800">
                 <button
                   onClick={handleCloseModal}
                   className="absolute right-4 top-4 text-white hover:text-gray-400"
