@@ -19,6 +19,7 @@ const DiagramPage = () => {
       return;
     }
 
+    // Mermaid 설정
     mermaid.initialize({
       startOnLoad: true,
       theme: 'dark',
@@ -27,6 +28,8 @@ const DiagramPage = () => {
         edgeLabelBackground: '#374151',
         nodeBorder: '#4b5563',
       },
+      // 다이어그램 크기를 조정하기 위해 추가
+      scale: 0.8, // 원하는 크기에 맞게 조정 (0.5, 0.8 등)
     });
 
     const cleanCode = diagramCode.replace(/```mermaid\n|```/g, '').trim();
@@ -38,7 +41,7 @@ const DiagramPage = () => {
         diagramContainer.innerHTML = `<div class="mermaid">${cleanCode}</div>`;
         mermaid.contentLoaded();
 
-        // 다이어그램 크기 자동 조절 (박스 안에 들어가도록)
+        // 다이어그램 크기 자동 조절
         setTimeout(() => {
           const svg = diagramContainer.querySelector('svg');
           if (svg) {
@@ -49,6 +52,8 @@ const DiagramPage = () => {
               'viewBox',
               `0 0 ${svg.getBBox().width} ${svg.getBBox().height}`,
             );
+            svg.style.transform = 'scale(0.8)'; // SVG를 작게 줄이기
+            svg.style.transformOrigin = 'top left'; // 축소 기준점을 설정
           }
         }, 500);
       }
