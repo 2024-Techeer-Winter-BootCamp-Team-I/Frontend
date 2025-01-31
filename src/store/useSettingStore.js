@@ -25,7 +25,7 @@ const useSettingStore = create((set) => ({
   repoUrl: '', // 레포지토리 URL
   setRepoUrl: (repoUrl) => set({ repoUrl: repoUrl }), // 올바른 키 사용
 
-  dockerUrl: 'https://blog.naver.com/sd0578',
+  dockerUrl: 'site',
   setDockerUrl: (dockerUrl) => set({ dockerUrl: dockerUrl }),
 }));
 

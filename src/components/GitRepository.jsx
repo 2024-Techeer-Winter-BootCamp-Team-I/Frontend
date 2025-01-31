@@ -95,6 +95,8 @@ const GitRepository = () => {
     if (!repoUrl) {
       alert('먼저 레포지토리를 생성해주세요.');
       return;
+    } else {
+      setLoading(true); // 로딩 상태 활성화
     }
 
     try {
@@ -111,6 +113,8 @@ const GitRepository = () => {
     } catch (error) {
       console.error('Error starting Docker in Docker:', error);
       alert('Error starting Docker in Docker.');
+    } finally {
+      setLoading(false); // 로딩 상태 비활성화
     }
   };
 
