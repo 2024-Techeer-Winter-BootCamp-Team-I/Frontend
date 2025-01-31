@@ -41,7 +41,7 @@ const GitRepository = () => {
     console.log('Updated isPrivate:', isPrivate);
     if (isPrivate) {
       setWarningMessage(
-        '주의: Private 레포지토리 생성시 도커 인 도커 기능을 사용할 수 없습니다.',
+        '주의: Private 레포지토리 생성시 테스트 기능을 사용할 수 없습니다.',
       );
     } else {
       setWarningMessage('');
