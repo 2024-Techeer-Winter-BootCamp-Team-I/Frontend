@@ -48,11 +48,10 @@ const DiagramPage = () => {
             svg.style.maxHeight = '100%';
             svg.style.width = 'auto';
             svg.style.height = 'auto';
-            svg.style.display = 'block';
             svg.style.margin = 'auto';
 
             // 다이어그램 중앙 배치
-            svg.style.transform = 'scale(0.8)'; // 필요시 조정
+            svg.style.transform = 'scale(1.5)'; // 필요시 조정
             svg.style.transformOrigin = 'center center';
             svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
           }
