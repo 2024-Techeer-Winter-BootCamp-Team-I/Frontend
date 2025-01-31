@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import mermaid from 'mermaid';
 import Layout from './Layout';
@@ -12,6 +12,7 @@ const DiagramPage = () => {
   const [activePage, setActivePage] = useState('DIAGRAM');
   const [activeTab, setActiveTab] = useState('image');
   const [cleanDiagramCode, setCleanDiagramCode] = useState('');
+  const mermaidRef = useRef(null); // Mermaid 컨테이너에 대한 ref 추가
 
   useEffect(() => {
     if (!diagramCode) {
@@ -19,41 +20,34 @@ const DiagramPage = () => {
       return;
     }
 
-    // Mermaid 설정
     mermaid.initialize({
       startOnLoad: true,
       theme: 'dark',
       themeVariables: {
         primaryColor: '#1f2937',
         edgeLabelBackground: '#374151',
-        nodeBorder: '#4b5563',
-      },
-      // 다이어그램 크기를 조정하기 위해 추가
-      scale: 0.8, // 원하는 크기에 맞게 조정 (0.5, 0.8 등)
+        nodeBorder: '#4b5563'
+      }
     });
 
     const cleanCode = diagramCode.replace(/```mermaid\n|```/g, '').trim();
     setCleanDiagramCode(cleanCode);
 
     if (activeTab === 'image') {
-      const diagramContainer = document.getElementById('mermaid-container');
+      const diagramContainer = mermaidRef.current;
       if (diagramContainer) {
         diagramContainer.innerHTML = `<div class="mermaid">${cleanCode}</div>`;
         mermaid.contentLoaded();
 
-        // 다이어그램 크기 자동 조절
+        // 다이어그램 크기 자동 조절 (박스 안에 들어가도록)
         setTimeout(() => {
           const svg = diagramContainer.querySelector('svg');
           if (svg) {
-            svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-            svg.setAttribute('width', '100%');
-            svg.setAttribute('height', '100%');
-            svg.setAttribute(
-              'viewBox',
-              `0 0 ${svg.getBBox().width} ${svg.getBBox().height}`,
-            );
-            svg.style.transform = 'scale(0.8)'; // SVG를 작게 줄이기
-            svg.style.transformOrigin = 'top left'; // 축소 기준점을 설정
+            // SVG를 축소
+            svg.style.transform = 'scale(0.7)'; // 스케일 값 조정 가능 (예: 0.7)
+            svg.style.transformOrigin = '0 0'; // 축소 기준점 설정
+            svg.style.width = '100%';
+            svg.style.height = '100%';
           }
         }, 500);
       }
@@ -68,7 +62,7 @@ const DiagramPage = () => {
     }
     console.log(`Saving document with ID: ${documentId}, Type: diagram`);
     await saveDocumentData(documentId, 'diagram');
-    alert('diagram이 저장되었습니다');
+    alert('Diagram이 저장되었습니다');
   };
 
   // 상단 버튼 클릭 핸들러
@@ -128,7 +122,7 @@ const DiagramPage = () => {
           </div>
 
           {/* 콘텐츠 박스 */}
-          <div className="relative h-[800px] w-full max-w-4xl rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
+          <div className="relative h-[800px] w-full max-w-4xl rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg flex items-center justify-center">
             {/* Save 버튼 추가 */}
             <img
               src={SaveIcon}
@@ -137,10 +131,14 @@ const DiagramPage = () => {
               onClick={handleSave}
             />
             {activeTab === 'image' && (
-              <div id="mermaid-container" className="h-full w-full"></div>
+              <div
+                id="mermaid-container"
+                ref={mermaidRef}
+                className="h-full w-full flex items-center justify-center"
+              ></div>
             )}
             {activeTab === 'code' && (
-              <pre className="h-full w-full whitespace-pre-wrap text-white">
+              <pre className="h-full w-full whitespace-pre-wrap text-white overflow-auto">
                 {cleanDiagramCode}
               </pre>
             )}
