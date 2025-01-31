@@ -16,7 +16,8 @@ const Specific = () => {
     useDocumentStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [documentContent, setDocumentContent] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // ✅ 바로 false로 설정하여 스트리밍 반영
+  const [isLoading, setIsLoading] = useState(false); // For document stream and updates
+  const [isDesignLoading, setIsDesignLoading] = useState(false); // ✅ New state for design request
 
   useEffect(() => {
     if (!documentId) {
@@ -98,6 +99,8 @@ const Specific = () => {
       return;
     }
 
+    setIsDesignLoading(true); // ✅ Start loading
+
     try {
       console.log(`🔄 설계 요청 시작: documentId = ${documentId}`);
       const response = await postDesign(documentId);
@@ -112,6 +115,8 @@ const Specific = () => {
     } catch (error) {
       console.error('🚨 설계 요청 실패:', error);
       alert('설계 요청 중 오류가 발생했습니다.');
+    } finally {
+      setIsDesignLoading(false); // ✅ Stop loading
     }
   };
 
@@ -154,6 +159,37 @@ const Specific = () => {
         {isModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
             <EditModal onClose={closeModal} onSubmit={handleUpdate} />
+          </div>
+        )}
+
+        {/* ✅ Loading Overlay for Design Request */}
+        {isDesignLoading && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="flex flex-col items-center justify-center rounded bg-white p-6 shadow-lg">
+              <svg
+                className="mb-4 h-12 w-12 animate-spin text-blue-500"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v8H4z"
+                ></path>
+              </svg>
+              <p className="text-lg font-semibold text-gray-800">
+                설계 요청 중...
+              </p>
+            </div>
           </div>
         )}
       </div>
