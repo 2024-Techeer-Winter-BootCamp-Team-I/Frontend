@@ -128,7 +128,7 @@ const ErdPage = () => {
             </button>
           </div>
 
-          {/* ✨ ERD 크기 줄이기 (700px로 조정) */}
+          {/* ✨ ERD 크기 유지 + 중앙 정렬 */}
           <div className="relative flex h-[700px] w-full max-w-4xl items-center justify-center overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
             <img
               src={SaveIcon}
@@ -155,7 +155,7 @@ const ErdPage = () => {
             )}
           </div>
 
-          {/* 🔥 모달에서도 Mermaid.js 적용 + 중앙 정렬 */}
+          {/* 🔥 모달에서도 Mermaid.js 적용 + 크기 유지 + 중앙 정렬 */}
           {isModalOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
               <div className="relative flex h-[90vh] w-full max-w-6xl items-center justify-center overflow-auto rounded-lg bg-gray-800 p-4">
@@ -165,12 +165,10 @@ const ErdPage = () => {
                 >
                   &#10005;
                 </button>
-                <div className="flex h-full w-full items-center justify-center">
-                  <div
-                    id="modal-mermaid-container"
-                    className="flex h-full w-full items-center justify-center"
-                  ></div>
-                </div>
+                <div
+                  id="modal-mermaid-container"
+                  className="flex h-full w-full items-center justify-center"
+                ></div>
               </div>
             </div>
           )}
