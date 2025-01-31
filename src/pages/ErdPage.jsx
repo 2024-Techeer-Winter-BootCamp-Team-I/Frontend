@@ -5,14 +5,14 @@ import Layout from './Layout';
 import useDocumentStore from '../store/useDocumentStore';
 import { saveDocumentData } from '../api/documentsApi';
 import SaveIcon from '../assets/image/save.svg';
-import GlassIcon from '../assets/image/glass.svg';
+import GlassIcon from '../assets/image/glass.svg'; // 이미지 경로 수정
 
 const ErdPage = () => {
   const navigate = useNavigate();
   const { documentId, erdCode } = useDocumentStore(); // 전역 상태에서 documentId 및 ERD 코드 가져오기
   const [cleanErdCode, setCleanErdCode] = useState('');
   const [activePage, setActivePage] = useState('ERD');
-  const [activeTab, setActiveTab] = useState('image');
+  const [activeTab, setActiveTab] = useState('image'); // 🔥 ESLint 오류 해결 (사용되도록 수정)
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
 
   useEffect(() => {
@@ -52,6 +52,11 @@ const ErdPage = () => {
     }
   };
 
+  // 🔥 추가: 탭 전환 핸들러 (ESLint 오류 해결)
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
+
   // 전체보기 모달 열기
   const handleViewAll = () => {
     setIsModalOpen(true);
@@ -68,13 +73,12 @@ const ErdPage = () => {
     navigate(route);
   };
 
-  // 탭 전환 핸들러
-  const handleTabClick = (tab) => setActiveTab(tab);
-
+  // 메인으로 가는 버튼 클릭
   const handleMainButtonClick = () => {
     navigate('/');
   };
 
+  // 세팅 페이지로 가는 버튼 클릭
   const handleSettingButtonClick = () => {
     navigate('/setting');
   };
@@ -147,6 +151,25 @@ const ErdPage = () => {
             )}
           </div>
 
+          {/* 전체보기 모달 */}
+          {isModalOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
+              <div className="relative h-[90vh] w-full max-w-6xl overflow-auto rounded-lg bg-gray-800 p-4">
+                {/* 닫기 버튼 */}
+                <button
+                  onClick={handleCloseModal}
+                  className="absolute right-4 top-4 text-white hover:text-gray-400"
+                >
+                  &#10005;
+                </button>
+                {/* 전체 다이어그램 (Mermaid 적용) */}
+                <div className="flex h-full w-full items-center justify-center">
+                  <div className="mermaid">{cleanErdCode}</div>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* 탭 버튼 */}
           <div className="mt-4 flex gap-2">
             <button
@@ -169,42 +192,23 @@ const ErdPage = () => {
             >
               코드보기
             </button>
-
-            {/* 오른쪽 아래 버튼 */}
-            <div className="absolute bottom-0 right-0 mb-9 mr-9 flex flex-col gap-2">
-              <button
-                onClick={handleMainButtonClick}
-                className="rounded bg-gray-700 px-4 py-2"
-              >
-                메인으로가기
-              </button>
-              <button
-                onClick={handleSettingButtonClick}
-                className="rounded bg-gray-700 px-4 py-2"
-              >
-                세팅하러가기
-              </button>
-            </div>
           </div>
 
-          {/* 전체보기 모달 */}
-          {isModalOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
-              <div className="relative h-[90vh] w-full max-w-4xl overflow-auto rounded-lg bg-white p-4">
-                {/* 닫기 버튼 */}
-                <button
-                  onClick={handleCloseModal}
-                  className="absolute right-2 top-2 text-gray-700 hover:text-gray-900"
-                >
-                  &#10005;
-                </button>
-                {/* 전체 다이어그램 */}
-                <div className="flex h-full w-full items-center justify-center">
-                  <div className="mermaid">{cleanErdCode}</div>
-                </div>
-              </div>
-            </div>
-          )}
+          {/* 오른쪽 아래 가장자리에 위치한 버튼들 */}
+          <div className="absolute bottom-0 right-0 mb-9 mr-9 flex flex-col gap-2">
+            <button
+              onClick={handleMainButtonClick}
+              className="rounded bg-gray-700 px-4 py-2"
+            >
+              메인으로가기
+            </button>
+            <button
+              onClick={handleSettingButtonClick}
+              className="rounded bg-gray-700 px-4 py-2"
+            >
+              세팅하러가기
+            </button>
+          </div>
         </div>
       </div>
     </Layout>
