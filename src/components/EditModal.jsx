@@ -14,7 +14,7 @@ const EditModal = ({ onClose, onSubmit }) => {
   };
 
   return (
-    <div className="relative w-[480px] rounded-lg bg-[#1e1e1e] p-6 opacity-80 shadow-lg">
+    <div className="relative w-[480px] rounded-lg bg-[#1e1e1e] p-6 shadow-lg">
       <button
         onClick={onClose}
         className="absolute right-4 top-4 text-xl text-gray-500 hover:text-gray-700"
