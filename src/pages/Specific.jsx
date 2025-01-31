@@ -16,7 +16,7 @@ const Specific = () => {
     useDocumentStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [documentContent, setDocumentContent] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // ✅ 바로 false로 설정하여 스트리밍 반영
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!documentId) {
@@ -29,7 +29,7 @@ const Specific = () => {
 
     const fetchStream = async () => {
       setIsLoading(true);
-      setDocumentContent(''); // 기존 내용을 지우고 새로 로드
+      setDocumentContent('');
 
       try {
         await getDocumentStream(
@@ -61,7 +61,6 @@ const Specific = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  // ✅ 수정 요청 시 호출되는 함수
   const handleUpdate = async (modifications) => {
     if (!documentId) {
       alert('문서 ID가 없습니다.');
@@ -69,7 +68,7 @@ const Specific = () => {
     }
 
     setIsLoading(true);
-    setDocumentContent(''); // 기존 내용을 초기화하고 새 스트림 반영
+    setDocumentContent('');
 
     try {
       await updateDocumentStream(
@@ -98,6 +97,8 @@ const Specific = () => {
       return;
     }
 
+    setIsLoading(true);
+
     try {
       console.log(`🔄 설계 요청 시작: documentId = ${documentId}`);
       const response = await postDesign(documentId);
@@ -108,10 +109,12 @@ const Specific = () => {
       setDiagramCode(response.data.diagram);
       setApiCode(response.data.api);
 
+      setIsLoading(false);
       navigate('/erdpage');
     } catch (error) {
       console.error('🚨 설계 요청 실패:', error);
       alert('설계 요청 중 오류가 발생했습니다.');
+      setIsLoading(false);
     }
   };
 
@@ -145,6 +148,7 @@ const Specific = () => {
             size="medium"
             color="primary"
             onClick={handleSpecificClick}
+            disabled={isLoading} // ✅ 로딩 중이면 버튼 비활성화
           />
         </div>
 
