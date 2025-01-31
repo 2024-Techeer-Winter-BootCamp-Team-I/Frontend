@@ -95,27 +95,27 @@ const GitRepository = () => {
     if (!repoUrl) {
       alert('먼저 레포지토리를 생성해주세요.');
       return;
-    } else {
-      setLoading(true); // 로딩 상태 활성화
+      // } else {
+      //   setLoading(true); // 로딩 상태 활성화
     }
 
-    try {
-      // startDockerInDocker 함수 호출
-      const { dockerUrl } = await startDockerInDocker({
-        repoUrl, // repoUrl 사용
-        githubName: userName, // githubName 생성
-        repoName,
-      });
+    // try {
+    //   // startDockerInDocker 함수 호출
+    //   const { dockerUrl } = await startDockerInDocker({
+    //     repoUrl, // repoUrl 사용
+    //     githubName: userName, // githubName 생성
+    //     repoName,
+    //   });
 
-      setDockerUrl(dockerUrl); // dockerUrl 상태 업데이트
-      console.log('Docker in Docker started successfully:', dockerUrl);
-      alert('도커인도커가 생성 완료되었습니다!');
-    } catch (error) {
-      console.error('Error starting Docker in Docker:', error);
-      alert('Error starting Docker in Docker.');
-    } finally {
-      setLoading(false); // 로딩 상태 비활성화
-    }
+    //   setDockerUrl(dockerUrl); // dockerUrl 상태 업데이트
+    //   console.log('Docker in Docker started successfully:', dockerUrl);
+    //   alert('도커인도커가 생성 완료되었습니다!');
+    // } catch (error) {
+    //   console.error('Error starting Docker in Docker:', error);
+    //   alert('Error starting Docker in Docker.');
+    // } finally {
+    //   setLoading(false); // 로딩 상태 비활성화
+    // }
   };
 
   return (
