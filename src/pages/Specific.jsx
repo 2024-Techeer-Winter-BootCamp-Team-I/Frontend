@@ -123,7 +123,7 @@ const Specific = () => {
           <div className="relative z-10 h-[500px] overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-6 shadow-lg">
             {documentContent ? (
               <pre className="whitespace-pre-wrap text-white">
-                {/* ✅ HTML 해석 가능하도록 수정 */}
+                {/* ✅ HTML 해석 가능하도록 띄어쓰기 & 줄바꿈 변환 */}
                 <span
                   dangerouslySetInnerHTML={{ __html: documentContent }}
                 ></span>
