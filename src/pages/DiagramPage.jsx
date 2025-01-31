@@ -104,7 +104,7 @@ const DiagramPage = () => {
           </div>
 
           {/* 콘텐츠 박스 (스크롤 가능하도록 overflow-auto 추가) */}
-          <div className="relative h-[800px] w-full max-w-4xl overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
+          <div className="relative h-[800px] w-full max-w-4xl overflow-auto justify-center items-center rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
             {/* Save 버튼 */}
             <img
               src={SaveIcon}
