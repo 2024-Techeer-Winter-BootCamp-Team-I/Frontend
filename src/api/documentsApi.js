@@ -69,11 +69,8 @@ export const getDocumentStream = async (documentId, onMessage, onError) => {
         }
 
         try {
-          // ✅ 띄어쓰기 & 줄바꿈 변환
-          const formattedData = data
-            .replace(/ /g, '&nbsp;') // 띄어쓰기 유지
-            .replace(/\n/g, '<br>'); // 줄바꿈 유지
-          onMessage(formattedData);
+          // ✅ 별도 변환 없이 그대로 전달 (백엔드에서 변환 처리)
+          onMessage(data);
         } catch (error) {
           console.error('🚨 SSE 데이터 파싱 오류:', error);
         }
@@ -135,11 +132,8 @@ export const updateDocumentStream = async (
         }
 
         try {
-          // ✅ 띄어쓰기 & 줄바꿈 변환
-          const formattedData = data
-            .replace(/ /g, '&nbsp;') // 띄어쓰기 유지
-            .replace(/\n/g, '<br>'); // 줄바꿈 유지
-          onMessage(formattedData);
+          // ✅ 별도 변환 없이 그대로 전달 (백엔드에서 변환 처리)
+          onMessage(data);
         } catch (error) {
           console.error('🚨 SSE 데이터 파싱 오류:', error);
         }
