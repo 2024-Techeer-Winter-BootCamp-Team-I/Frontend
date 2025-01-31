@@ -24,6 +24,9 @@ const useSettingStore = create((set) => ({
   // repoAPI 연동 후 Response body에서 "repo_url"을 관리할 함수
   repoUrl: '', // 레포지토리 URL
   setRepoUrl: (repoUrl) => set({ repoUrl: repoUrl }), // 올바른 키 사용
+
+  dockerUrl: 'https://blog.naver.com/sd0578',
+  setDockerUrl: (dockerUrl) => set({ dockerUrl: dockerUrl }),
 }));
 
 export default useSettingStore;
