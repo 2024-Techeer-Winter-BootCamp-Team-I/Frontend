@@ -5,15 +5,13 @@ import Layout from './Layout';
 import useDocumentStore from '../store/useDocumentStore';
 import { saveDocumentData } from '../api/documentsApi';
 import SaveIcon from '../assets/image/save.svg';
-import GlassIcon from '../assets/image/glass.svg';
 
 const ErdPage = () => {
   const navigate = useNavigate();
-  const { documentId, erdCode } = useDocumentStore();
+  const { documentId, erdCode } = useDocumentStore(); // 전역 상태에서 documentId 및 ERD 코드 가져오기
   const [cleanErdCode, setCleanErdCode] = useState('');
   const [activePage, setActivePage] = useState('ERD');
   const [activeTab, setActiveTab] = useState('image');
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (!erdCode) {
@@ -35,53 +33,25 @@ const ErdPage = () => {
     }
   }, [erdCode, activeTab]);
 
-  // 🔥 모달에서도 Mermaid.js가 작동하도록 보장
-  useEffect(() => {
-    if (isModalOpen) {
-      setTimeout(() => {
-        const modalContainer = document.getElementById(
-          'modal-mermaid-container',
-        );
-        if (modalContainer) {
-          modalContainer.innerHTML = `<div class="mermaid">${cleanErdCode}</div>`;
-          mermaid.contentLoaded();
-        }
-      }, 100);
-    }
-  }, [isModalOpen, cleanErdCode]);
-
+  // 저장 버튼 핸들러
   const handleSave = async () => {
     if (!documentId) {
       console.error('문서 ID가 없습니다.');
-      alert('저장에 실패했습니다: 문서 ID가 없습니다.');
       return;
     }
-    try {
-      console.log(`Saving document with ID: ${documentId}, Type: erd`);
-      await saveDocumentData(documentId, 'erd');
-      alert('ERD가 저장되었습니다');
-    } catch (error) {
-      console.error('저장 중 오류 발생:', error);
-      alert('저장에 실패했습니다. 다시 시도해주세요.');
-    }
+    console.log(`Saving document with ID: ${documentId}, Type: erd`);
+    await saveDocumentData(documentId, 'erd');
+    alert('erd가 저장되었습니다');
   };
 
-  const handleTabClick = (tab) => {
-    setActiveTab(tab);
-  };
-
-  const handleViewAll = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
+  // 상단 버튼 클릭 핸들러
   const handlePageClick = (page, route) => {
     setActivePage(page);
     navigate(route);
   };
+
+  // 탭 전환 핸들러
+  const handleTabClick = (tab) => setActiveTab(tab);
 
   const handleMainButtonClick = () => {
     navigate('/');
@@ -94,7 +64,9 @@ const ErdPage = () => {
   return (
     <Layout>
       <div className="relative flex min-h-screen w-full text-gray-200">
+        {/* 콘텐츠 영역 */}
         <div className="flex w-full flex-col items-center justify-center">
+          {/* 상단 버튼 */}
           <div className="mb-4 flex gap-4">
             <button
               onClick={() => handlePageClick('ERD', '/erdpage')}
@@ -128,51 +100,26 @@ const ErdPage = () => {
             </button>
           </div>
 
-          {/* ✨ ERD 크기 유지 + 중앙 정렬 */}
-          <div className="relative flex h-[600px] w-full max-w-4xl items-center rounded-lg border border-gray-600 bg-gray-800 p-2 shadow-lg">
+          {/* 콘텐츠 박스 */}
+          <div className="relative h-[800px] w-full max-w-4xl rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
+            {/* Save 버튼 추가 */}
             <img
               src={SaveIcon}
               alt="Save"
               className="absolute right-4 top-4 h-8 w-8 cursor-pointer"
               onClick={handleSave}
             />
-            <img
-              src={GlassIcon}
-              alt="View All"
-              className="absolute right-16 top-4 h-8 w-8 cursor-pointer"
-              onClick={handleViewAll}
-            />
             {activeTab === 'image' && (
-              <div
-                id="mermaid-container"
-                className="flex h-full w-full items-center justify-center"
-              ></div>
+              <div id="mermaid-container" className="h-full w-full"></div>
             )}
             {activeTab === 'code' && (
-              <pre className="h-full w-full overflow-auto whitespace-pre-wrap text-white">
+              <pre className="h-full w-full whitespace-pre-wrap text-white">
                 {cleanErdCode}
               </pre>
             )}
           </div>
 
-          {/* 🔥 모달에서도 Mermaid.js 적용 + 크기 유지 + 중앙 정렬 */}
-          {isModalOpen && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
-              <div className="relative flex h-[90vh] w-full max-w-6xl items-center justify-center overflow-auto rounded-lg bg-gray-800">
-                <button
-                  onClick={handleCloseModal}
-                  className="absolute right-4 top-4 text-white hover:text-gray-400"
-                >
-                  &#10005;
-                </button>
-                <div
-                  id="modal-mermaid-container"
-                  className="flex h-full w-full items-center justify-center"
-                ></div>
-              </div>
-            </div>
-          )}
-
+          {/* 탭 버튼 */}
           <div className="mt-4 flex gap-2">
             <button
               onClick={() => handleTabClick('image')}
@@ -194,21 +141,22 @@ const ErdPage = () => {
             >
               코드보기
             </button>
-          </div>
 
-          <div className="absolute bottom-0 right-0 mb-9 mr-9 flex flex-col gap-2">
-            <button
-              onClick={handleMainButtonClick}
-              className="rounded bg-gray-700 px-4 py-2"
-            >
-              메인으로가기
-            </button>
-            <button
-              onClick={handleSettingButtonClick}
-              className="rounded bg-gray-700 px-4 py-2"
-            >
-              세팅하러가기
-            </button>
+            {/* 오른쪽 아래 가장자리에 위치한 버튼들 */}
+            <div className="absolute bottom-0 right-0 mb-9 mr-9 flex flex-col gap-2">
+              <button
+                onClick={handleMainButtonClick}
+                className="rounded bg-gray-700 px-4 py-2"
+              >
+                메인으로가기
+              </button>
+              <button
+                onClick={handleSettingButtonClick}
+                className="rounded bg-gray-700 px-4 py-2"
+              >
+                세팅하러가기
+              </button>
+            </div>
           </div>
         </div>
       </div>
