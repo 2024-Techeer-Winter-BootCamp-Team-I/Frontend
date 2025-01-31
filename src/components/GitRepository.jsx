@@ -137,12 +137,12 @@ const GitRepository = () => {
           {/* 메인 컴포넌트 */}
           <div className="mt-[9rem] flex h-[12rem] w-[55rem] rounded-[0.75rem] bg-[#212227]">
             {/* 왼쪽 섹션 */}
-            <div className="flex w-[12rem] flex-col items-start justify-center space-y-[1.25rem] pl-[2.5rem]">
+            <div className="ml-auto mr-auto flex w-[12rem] flex-col items-center justify-center space-y-[1.25rem]">
               {['REPOSITORY'].map((buttonName) => (
                 <button
                   key={buttonName}
                   onClick={() => handleButtonClick(buttonName)} // 버튼 클릭 이벤트 처리
-                  className={`font-sans text-[0.9rem] font-[590] ${
+                  className={`flex justify-center font-sans text-[0.9rem] font-medium ${
                     activeButton === buttonName
                       ? 'text-[#1488FC]' // 활성화된 버튼 색상
                       : 'text-[#D9D9D9]' // 비활성화된 버튼 색상
@@ -191,7 +191,7 @@ const GitRepository = () => {
                 <div className="text-white">Public</div>
 
                 {isPrivate && (
-                  <div className="mr-2 text-sm text-red-500">
+                  <div className="mr-2 text-xs text-red-500">
                     {warningMessage}
                   </div>
                 )}
@@ -214,13 +214,13 @@ const GitRepository = () => {
               <div className="flex justify-end gap-3 pr-[1rem]">
                 <Button
                   size="small"
-                  label="create"
+                  label="push"
                   color="primary"
                   onClick={handleCreateClick}
                 />
                 <Button
                   size="small"
-                  label="confirm"
+                  label="test"
                   color="primary"
                   onClick={handleDockerClick}
                 />
