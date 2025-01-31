@@ -7,8 +7,13 @@ import { useNavigate } from 'react-router-dom';
 import { techStackSetupApi } from '../../api/techStacksSetupApi';
 import PropTypes from 'prop-types';
 
+import { useState } from 'react'; // useState 추가
+import { ClipLoader } from 'react-spinners'; // react-spinners에서 ClipLoader 가져오기
+
 const BackStackModal = ({ isOpen, onClose, onConfirm }) => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false); // 로딩 상태 관리
+
   const selectedFramework = useBackStore((state) => state.selectedFramework);
   const selectedDatabase = useBackStore((state) => state.selectedDatabase);
 
@@ -28,6 +33,8 @@ const BackStackModal = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null;
 
   const handleConfirm = async () => {
+    setLoading(true); // 로딩 상태 활성화
+
     const frontendTechStack = selectedPositions.includes('Frontend')
       ? [
           selectedPackage,
@@ -76,6 +83,8 @@ const BackStackModal = ({ isOpen, onClose, onConfirm }) => {
       navigate('/settingcheck');
     } catch (error) {
       console.error('Error:', error);
+    } finally {
+      setLoading(false); // 로딩 상태 비활성화
     }
   };
 
@@ -119,12 +128,20 @@ const BackStackModal = ({ isOpen, onClose, onConfirm }) => {
             </span>
           </li>
         </ul>
-        <button
-          className="ml-[24rem] mt-16 w-[5.2rem] rounded-[0.25rem] bg-[#33598B] px-4 py-2 font-medium text-white hover:bg-[#78A0D4]"
-          onClick={handleConfirm}
-        >
-          확인
-        </button>
+        <div className="mr-4 mt-7 flex justify-end">
+          <button
+            className="w-[5.2rem] rounded-[0.25rem] bg-[#33598B] px-4 py-2 font-medium text-white hover:bg-[#78A0D4]"
+            onClick={handleConfirm}
+          >
+            확인
+          </button>
+        </div>
+        {/* 로딩 애니메이션 오버레이 */}
+        {loading && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+            <ClipLoader size={50} color={'#ffffff'} />
+          </div>
+        )}
       </div>
     </div>
   );

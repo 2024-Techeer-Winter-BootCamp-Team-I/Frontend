@@ -4,10 +4,13 @@ import { useNavigate } from 'react-router-dom'; // useNavigate 추가
 import useDocumentStore from '../../store/useDocumentStore';
 import { techStackSetupApi } from '../../api/techStacksSetupApi';
 import PropTypes from 'prop-types';
+import { useState } from 'react'; // useState 추가
+import { ClipLoader } from 'react-spinners'; // react-spinners에서 ClipLoader 가져오기
 
-// eslint-disable-next-line no-unused-vars
 const FrontStackModal = ({ isOpen, onClose, onConfirm }) => {
   const navigate = useNavigate(); // useNavigate 훅 사용
+  const [loading, setLoading] = useState(false); // 로딩 상태 관리
+
   // Zustand 스토어에서 프론트엔드 상태만 가져오기 (단일 값 반환)
   const selectedPackage = useFrontStore((state) => state.selectedPackage);
   const selectedBuildTool = useFrontStore((state) => state.selectedBuildTool);
@@ -23,6 +26,7 @@ const FrontStackModal = ({ isOpen, onClose, onConfirm }) => {
 
   // 모달에서 확인 버튼을 눌렀을 때 실행되는 함수
   const handleConfirm = async () => {
+    setLoading(true); // 로딩 상태 활성화
     // 프론트엔드 기술 스택 구성
     const frontendTechStack = [
       selectedPackage,
@@ -67,6 +71,8 @@ const FrontStackModal = ({ isOpen, onClose, onConfirm }) => {
       }
     } catch (error) {
       console.error('Error setting up tech stack:', error);
+    } finally {
+      setLoading(false); // 로딩 상태 비활성화
     }
   };
 
@@ -145,9 +151,16 @@ const FrontStackModal = ({ isOpen, onClose, onConfirm }) => {
           확인
         </button>
       </div>
+      {/* 로딩 애니메이션 오버레이 */}
+      {loading && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+          <ClipLoader size={50} color={'#ffffff'} />
+        </div>
+      )}
     </div>
   );
 };
+
 FrontStackModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
