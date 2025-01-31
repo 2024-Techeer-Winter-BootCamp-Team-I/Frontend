@@ -38,29 +38,11 @@ const DiagramPage = () => {
       if (diagramContainer) {
         diagramContainer.innerHTML = `<div class="mermaid">${cleanCode}</div>`;
         mermaid.contentLoaded();
-
-        // 다이어그램 크기 자동 조절 (박스 안에 들어가도록)
-        setTimeout(() => {
-          const svg = diagramContainer.querySelector('svg');
-          if (svg) {
-            // 박스를 넘지 않도록 크기 조정
-            svg.style.maxWidth = '100%';
-            svg.style.maxHeight = '100%';
-            svg.style.width = 'auto';
-            svg.style.height = 'auto';
-            svg.style.margin = 'auto';
-
-            // 다이어그램 중앙 배치
-            svg.style.transform = 'scale(1.5)'; // 필요시 조정
-            svg.style.transformOrigin = 'center center';
-            svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
-          }
-        }, 500);
       }
     }
   }, [diagramCode, activeTab]);
 
-  // 저장 버튼 핸들러
+  // 저장 버튼 핸들러 (알림창 추가)
   const handleSave = async () => {
     if (!documentId) {
       console.error('문서 ID가 없습니다.');
@@ -98,9 +80,7 @@ const DiagramPage = () => {
             <button
               onClick={() => handlePageClick('ERD', '/erdpage')}
               className={`rounded px-4 py-2 ${
-                activePage === 'ERD'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-700 text-gray-200'
+                activePage === 'ERD' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-gray-200'
               }`}
             >
               ERD
@@ -108,9 +88,7 @@ const DiagramPage = () => {
             <button
               onClick={() => handlePageClick('DIAGRAM', '/diagrampage')}
               className={`rounded px-4 py-2 ${
-                activePage === 'DIAGRAM'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-700 text-gray-200'
+                activePage === 'DIAGRAM' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-gray-200'
               }`}
             >
               DIAGRAM
@@ -118,18 +96,16 @@ const DiagramPage = () => {
             <button
               onClick={() => handlePageClick('API', '/swaggerpage')}
               className={`rounded px-4 py-2 ${
-                activePage === 'API'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-700 text-gray-200'
+                activePage === 'API' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-gray-200'
               }`}
             >
               API
             </button>
           </div>
 
-          {/* 콘텐츠 박스 */}
-          <div className="relative flex h-[800px] w-full max-w-4xl items-center justify-center rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
-            {/* Save 버튼 추가 */}
+          {/* 콘텐츠 박스 (스크롤 가능하도록 overflow-auto 추가) */}
+          <div className="relative h-[800px] w-full max-w-4xl overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
+            {/* Save 버튼 */}
             <img
               src={SaveIcon}
               alt="Save"
@@ -137,11 +113,7 @@ const DiagramPage = () => {
               onClick={handleSave}
             />
             {activeTab === 'image' && (
-              <div
-                id="mermaid-container"
-                ref={mermaidRef}
-                className="flex h-full w-full items-center justify-center"
-              ></div>
+              <div id="mermaid-container" ref={mermaidRef} className="h-full w-full"></div>
             )}
             {activeTab === 'code' && (
               <pre className="h-full w-full overflow-auto whitespace-pre-wrap text-white">
@@ -155,9 +127,7 @@ const DiagramPage = () => {
             <button
               onClick={() => handleTabClick('image')}
               className={`rounded px-4 py-2 ${
-                activeTab === 'image'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-700 text-gray-200'
+                activeTab === 'image' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-gray-200'
               }`}
             >
               이미지보기
@@ -165,26 +135,18 @@ const DiagramPage = () => {
             <button
               onClick={() => handleTabClick('code')}
               className={`rounded px-4 py-2 ${
-                activeTab === 'code'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-700 text-gray-200'
+                activeTab === 'code' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-gray-200'
               }`}
             >
               코드보기
             </button>
 
-            {/* 오른쪽 아래 가장자리에 위치한 버튼들 */}
+            {/* 오른쪽 아래 버튼 */}
             <div className="absolute bottom-0 right-0 mb-9 mr-9 flex flex-col gap-2">
-              <button
-                onClick={handleMainButtonClick}
-                className="rounded bg-gray-700 px-4 py-2"
-              >
+              <button onClick={handleMainButtonClick} className="rounded bg-gray-700 px-4 py-2">
                 메인으로가기
               </button>
-              <button
-                onClick={handleSettingButtonClick}
-                className="rounded bg-gray-700 px-4 py-2"
-              >
+              <button onClick={handleSettingButtonClick} className="rounded bg-gray-700 px-4 py-2">
                 세팅하러가기
               </button>
             </div>

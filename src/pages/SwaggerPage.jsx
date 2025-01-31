@@ -25,14 +25,21 @@ const SwaggerPage = () => {
     console.error('Invalid JSON:', e);
   }
 
-  // 저장 버튼 핸들러
+  // 저장 버튼 핸들러 (알림 창 추가)
   const handleSave = async () => {
     if (!documentId) {
       console.error('문서 ID가 없습니다.');
+      alert('저장에 실패했습니다: 문서 ID가 없습니다.');
       return;
     }
-    console.log(`Saving document with ID: ${documentId}, Type: api`);
-    await saveDocumentData(documentId, 'api');
+    try {
+      console.log(`Saving document with ID: ${documentId}, Type: api`);
+      await saveDocumentData(documentId, 'api');
+      alert('API가 저장되었습니다');
+    } catch (error) {
+      console.error('저장 중 오류 발생:', error);
+      alert('저장에 실패했습니다. 다시 시도해주세요.');
+    }
   };
 
   // 상단 버튼 클릭 핸들러
@@ -113,7 +120,9 @@ const SwaggerPage = () => {
             )}
             {activeTab === 'code' && (
               <pre className="h-full w-full overflow-auto whitespace-pre-wrap text-black">
-                {JSON.stringify(apiJson, null, 2)}
+                {apiJson
+                  ? JSON.stringify(apiJson, null, 2)
+                  : '유효하지 않은 JSON 데이터입니다.'}
               </pre>
             )}
           </div>

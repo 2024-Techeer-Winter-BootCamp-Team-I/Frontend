@@ -33,7 +33,7 @@ const ErdPage = () => {
     }
   }, [erdCode, activeTab]);
 
-  // 저장 버튼 핸들러
+  // 저장 버튼 핸들러 (알림 창 추가)
   const handleSave = async () => {
     if (!documentId) {
       console.error('문서 ID가 없습니다.');
@@ -41,7 +41,7 @@ const ErdPage = () => {
     }
     console.log(`Saving document with ID: ${documentId}, Type: erd`);
     await saveDocumentData(documentId, 'erd');
-    alert('erd가 저장되었습니다');
+    alert('ERD가 저장되었습니다');
   };
 
   // 상단 버튼 클릭 핸들러
@@ -100,8 +100,8 @@ const ErdPage = () => {
             </button>
           </div>
 
-          {/* 콘텐츠 박스 */}
-          <div className="relative h-[800px] w-full max-w-4xl rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
+          {/* 콘텐츠 박스 (스크롤 가능하도록 overflow-auto 추가) */}
+          <div className="relative h-[800px] w-full max-w-4xl overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
             {/* Save 버튼 추가 */}
             <img
               src={SaveIcon}
@@ -113,7 +113,7 @@ const ErdPage = () => {
               <div id="mermaid-container" className="h-full w-full"></div>
             )}
             {activeTab === 'code' && (
-              <pre className="h-full w-full whitespace-pre-wrap text-white">
+              <pre className="h-full w-full overflow-auto whitespace-pre-wrap text-white">
                 {cleanErdCode}
               </pre>
             )}
