@@ -41,6 +41,7 @@ const ErdPage = () => {
     }
     console.log(`Saving document with ID: ${documentId}, Type: erd`);
     await saveDocumentData(documentId, 'erd');
+    alert('erd가 저장되었습니다');
   };
 
   // 상단 버튼 클릭 핸들러
@@ -100,7 +101,7 @@ const ErdPage = () => {
           </div>
 
           {/* 콘텐츠 박스 */}
-          <div className="relative h-[500px] w-full max-w-4xl overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
+          <div className="relative h-[800px] w-full max-w-4xl rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
             {/* Save 버튼 추가 */}
             <img
               src={SaveIcon}
