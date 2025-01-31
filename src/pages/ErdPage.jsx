@@ -39,10 +39,16 @@ const ErdPage = () => {
   useEffect(() => {
     if (isModalOpen) {
       setTimeout(() => {
-        mermaid.contentLoaded();
+        const modalContainer = document.getElementById(
+          'modal-mermaid-container',
+        );
+        if (modalContainer) {
+          modalContainer.innerHTML = `<div class="mermaid">${cleanErdCode}</div>`;
+          mermaid.contentLoaded(); // Mermaid.js 강제 렌더링
+        }
       }, 100);
     }
-  }, [isModalOpen]);
+  }, [isModalOpen, cleanErdCode]);
 
   const handleSave = async () => {
     if (!documentId) {
@@ -122,7 +128,7 @@ const ErdPage = () => {
             </button>
           </div>
 
-          {/* ✨ ERD 크기 절대 변경 X, 처음 상태 유지 */}
+          {/* ERD 크기 절대 변경 X, 처음 상태 유지 */}
           <div className="relative flex h-[800px] w-full max-w-4xl items-center justify-center overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
             <img
               src={SaveIcon}
@@ -160,7 +166,10 @@ const ErdPage = () => {
                   &#10005;
                 </button>
                 <div className="flex h-full w-full items-center justify-center">
-                  <div className="mermaid">{cleanErdCode}</div>
+                  <div
+                    id="modal-mermaid-container"
+                    className="h-full w-full"
+                  ></div>
                 </div>
               </div>
             </div>
