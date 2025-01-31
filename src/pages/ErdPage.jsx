@@ -129,7 +129,7 @@ const ErdPage = () => {
           </div>
 
           {/* ✨ ERD 크기 유지 + 중앙 정렬 */}
-          <div className="relative flex h-[600px] w-full max-w-4xl items-center justify-center rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
+          <div className="relative flex h-[600px] w-full max-w-4xl items-center justify-center rounded-lg border border-gray-600 bg-gray-800 shadow-lg">
             <img
               src={SaveIcon}
               alt="Save"
