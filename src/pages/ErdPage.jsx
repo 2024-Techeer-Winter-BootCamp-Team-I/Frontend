@@ -9,11 +9,11 @@ import GlassIcon from '../assets/image/glass.svg'; // 이미지 경로 수정
 
 const ErdPage = () => {
   const navigate = useNavigate();
-  const { documentId, erdCode } = useDocumentStore(); // 전역 상태에서 documentId 및 ERD 코드 가져오기
+  const { documentId, erdCode } = useDocumentStore();
   const [cleanErdCode, setCleanErdCode] = useState('');
   const [activePage, setActivePage] = useState('ERD');
-  const [activeTab, setActiveTab] = useState('image'); // 🔥 ESLint 오류 해결 (사용되도록 수정)
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
+  const [activeTab, setActiveTab] = useState('image');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (!erdCode) {
@@ -35,7 +35,15 @@ const ErdPage = () => {
     }
   }, [erdCode, activeTab]);
 
-  // 저장 버튼 핸들러 (알림 창 추가)
+  // 🔥 모달에서도 Mermaid.js가 작동하도록 보장
+  useEffect(() => {
+    if (isModalOpen) {
+      setTimeout(() => {
+        mermaid.contentLoaded();
+      }, 100);
+    }
+  }, [isModalOpen]);
+
   const handleSave = async () => {
     if (!documentId) {
       console.error('문서 ID가 없습니다.');
@@ -52,33 +60,27 @@ const ErdPage = () => {
     }
   };
 
-  // 🔥 추가: 탭 전환 핸들러 (ESLint 오류 해결)
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
 
-  // 전체보기 모달 열기
   const handleViewAll = () => {
     setIsModalOpen(true);
   };
 
-  // 전체보기 모달 닫기
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
 
-  // 상단 버튼 클릭 핸들러
   const handlePageClick = (page, route) => {
     setActivePage(page);
     navigate(route);
   };
 
-  // 메인으로 가는 버튼 클릭
   const handleMainButtonClick = () => {
     navigate('/');
   };
 
-  // 세팅 페이지로 가는 버튼 클릭
   const handleSettingButtonClick = () => {
     navigate('/setting');
   };
@@ -86,9 +88,7 @@ const ErdPage = () => {
   return (
     <Layout>
       <div className="relative flex min-h-screen w-full text-gray-200">
-        {/* 콘텐츠 영역 */}
         <div className="flex w-full flex-col items-center justify-center">
-          {/* 상단 버튼 */}
           <div className="mb-4 flex gap-4">
             <button
               onClick={() => handlePageClick('ERD', '/erdpage')}
@@ -122,16 +122,14 @@ const ErdPage = () => {
             </button>
           </div>
 
-          {/* 콘텐츠 박스 (스크롤 가능하도록 overflow-auto 추가) */}
+          {/* ✨ ERD 크기 절대 변경 X, 처음 상태 유지 */}
           <div className="relative flex h-[800px] w-full max-w-4xl items-center justify-center overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
-            {/* Save 아이콘 */}
             <img
               src={SaveIcon}
               alt="Save"
               className="absolute right-4 top-4 h-8 w-8 cursor-pointer"
               onClick={handleSave}
             />
-            {/* Glass 아이콘 */}
             <img
               src={GlassIcon}
               alt="View All"
@@ -151,18 +149,16 @@ const ErdPage = () => {
             )}
           </div>
 
-          {/* 전체보기 모달 */}
+          {/* 🔥 모달에서도 Mermaid.js 적용 */}
           {isModalOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
               <div className="relative h-[90vh] w-full max-w-6xl overflow-auto rounded-lg bg-gray-800 p-4">
-                {/* 닫기 버튼 */}
                 <button
                   onClick={handleCloseModal}
                   className="absolute right-4 top-4 text-white hover:text-gray-400"
                 >
                   &#10005;
                 </button>
-                {/* 전체 다이어그램 (Mermaid 적용) */}
                 <div className="flex h-full w-full items-center justify-center">
                   <div className="mermaid">{cleanErdCode}</div>
                 </div>
@@ -170,7 +166,6 @@ const ErdPage = () => {
             </div>
           )}
 
-          {/* 탭 버튼 */}
           <div className="mt-4 flex gap-2">
             <button
               onClick={() => handleTabClick('image')}
@@ -194,7 +189,6 @@ const ErdPage = () => {
             </button>
           </div>
 
-          {/* 오른쪽 아래 가장자리에 위치한 버튼들 */}
           <div className="absolute bottom-0 right-0 mb-9 mr-9 flex flex-col gap-2">
             <button
               onClick={handleMainButtonClick}
