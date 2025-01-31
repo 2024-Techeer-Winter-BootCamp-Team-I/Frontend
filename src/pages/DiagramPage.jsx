@@ -44,7 +44,7 @@ const DiagramPage = () => {
           const svg = diagramContainer.querySelector('svg');
           if (svg) {
             // SVG를 축소
-            svg.style.transform = 'scale(0.9)'; // 스케일 값 조정 가능 (예: 0.7)
+            svg.style.transform = 'scale(1.4)'; // 스케일 값 조정 가능 (예: 0.7)
             svg.style.transformOrigin = '0 0'; // 축소 기준점 설정
             svg.style.width = '100%';
             svg.style.height = '100%';
