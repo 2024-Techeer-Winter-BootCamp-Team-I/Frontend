@@ -5,7 +5,7 @@ import Layout from './Layout';
 import useDocumentStore from '../store/useDocumentStore';
 import { saveDocumentData } from '../api/documentsApi';
 import SaveIcon from '../assets/image/save.svg';
-import GlassIcon from '../assets/glass.svg'; // glass.svg 임포트
+import GlassIcon from '../assets/image/glass.svg';
 
 const ErdPage = () => {
   const navigate = useNavigate();
@@ -119,7 +119,7 @@ const ErdPage = () => {
           </div>
 
           {/* 콘텐츠 박스 (스크롤 가능하도록 overflow-auto 추가) */}
-          <div className="relative h-[800px] w-full max-w-4xl overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg flex items-center justify-center">
+          <div className="relative flex h-[800px] w-full max-w-4xl items-center justify-center overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
             {/* Save 아이콘 */}
             <img
               src={SaveIcon}
@@ -135,7 +135,10 @@ const ErdPage = () => {
               onClick={handleViewAll}
             />
             {activeTab === 'image' && (
-              <div id="mermaid-container" className="h-full w-full flex items-center justify-center"></div>
+              <div
+                id="mermaid-container"
+                className="flex h-full w-full items-center justify-center"
+              ></div>
             )}
             {activeTab === 'code' && (
               <pre className="h-full w-full overflow-auto whitespace-pre-wrap text-white">
@@ -187,19 +190,17 @@ const ErdPage = () => {
           {/* 전체보기 모달 */}
           {isModalOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
-              <div className="relative bg-white rounded-lg p-4 max-w-4xl w-full h-[90vh] overflow-auto">
+              <div className="relative h-[90vh] w-full max-w-4xl overflow-auto rounded-lg bg-white p-4">
                 {/* 닫기 버튼 */}
                 <button
                   onClick={handleCloseModal}
-                  className="absolute top-2 right-2 text-gray-700 hover:text-gray-900"
+                  className="absolute right-2 top-2 text-gray-700 hover:text-gray-900"
                 >
                   &#10005;
                 </button>
                 {/* 전체 다이어그램 */}
-                <div className="h-full w-full flex items-center justify-center">
-                  <div className="mermaid">
-                    {cleanErdCode}
-                  </div>
+                <div className="flex h-full w-full items-center justify-center">
+                  <div className="mermaid">{cleanErdCode}</div>
                 </div>
               </div>
             </div>
