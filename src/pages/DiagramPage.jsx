@@ -26,8 +26,8 @@ const DiagramPage = () => {
       themeVariables: {
         primaryColor: '#1f2937',
         edgeLabelBackground: '#374151',
-        nodeBorder: '#4b5563'
-      }
+        nodeBorder: '#4b5563',
+      },
     });
 
     const cleanCode = diagramCode.replace(/```mermaid\n|```/g, '').trim();
@@ -44,7 +44,7 @@ const DiagramPage = () => {
           const svg = diagramContainer.querySelector('svg');
           if (svg) {
             // SVG를 축소
-            svg.style.transform = 'scale(0.7)'; // 스케일 값 조정 가능 (예: 0.7)
+            svg.style.transform = 'scale(0.9)'; // 스케일 값 조정 가능 (예: 0.7)
             svg.style.transformOrigin = '0 0'; // 축소 기준점 설정
             svg.style.width = '100%';
             svg.style.height = '100%';
@@ -122,7 +122,7 @@ const DiagramPage = () => {
           </div>
 
           {/* 콘텐츠 박스 */}
-          <div className="relative h-[800px] w-full max-w-4xl rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg flex items-center justify-center">
+          <div className="relative flex h-[800px] w-full max-w-4xl items-center justify-center rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
             {/* Save 버튼 추가 */}
             <img
               src={SaveIcon}
@@ -134,11 +134,11 @@ const DiagramPage = () => {
               <div
                 id="mermaid-container"
                 ref={mermaidRef}
-                className="h-full w-full flex items-center justify-center"
+                className="flex h-full w-full items-center justify-center"
               ></div>
             )}
             {activeTab === 'code' && (
-              <pre className="h-full w-full whitespace-pre-wrap text-white overflow-auto">
+              <pre className="h-full w-full overflow-auto whitespace-pre-wrap text-white">
                 {cleanDiagramCode}
               </pre>
             )}
