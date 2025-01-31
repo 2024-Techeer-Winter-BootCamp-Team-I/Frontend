@@ -5,7 +5,7 @@ import Layout from './Layout';
 import useDocumentStore from '../store/useDocumentStore';
 import { saveDocumentData } from '../api/documentsApi';
 import SaveIcon from '../assets/image/save.svg';
-import GlassIcon from '../assets/image/glass.svg'; // 이미지 경로 수정
+import GlassIcon from '../assets/image/glass.svg';
 
 const ErdPage = () => {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ const ErdPage = () => {
         );
         if (modalContainer) {
           modalContainer.innerHTML = `<div class="mermaid">${cleanErdCode}</div>`;
-          mermaid.contentLoaded(); // Mermaid.js 강제 렌더링
+          mermaid.contentLoaded();
         }
       }, 100);
     }
@@ -128,8 +128,8 @@ const ErdPage = () => {
             </button>
           </div>
 
-          {/* ERD 크기 절대 변경 X, 처음 상태 유지 */}
-          <div className="relative flex h-[800px] w-full max-w-4xl items-center justify-center overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
+          {/* ✨ ERD 크기 줄이기 (700px로 조정) */}
+          <div className="relative flex h-[700px] w-full max-w-4xl items-center justify-center overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
             <img
               src={SaveIcon}
               alt="Save"
@@ -155,10 +155,10 @@ const ErdPage = () => {
             )}
           </div>
 
-          {/* 🔥 모달에서도 Mermaid.js 적용 */}
+          {/* 🔥 모달에서도 Mermaid.js 적용 + 중앙 정렬 */}
           {isModalOpen && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
-              <div className="relative h-[90vh] w-full max-w-6xl overflow-auto rounded-lg bg-gray-800 p-4">
+              <div className="relative flex h-[90vh] w-full max-w-6xl items-center justify-center overflow-auto rounded-lg bg-gray-800 p-4">
                 <button
                   onClick={handleCloseModal}
                   className="absolute right-4 top-4 text-white hover:text-gray-400"
@@ -168,7 +168,7 @@ const ErdPage = () => {
                 <div className="flex h-full w-full items-center justify-center">
                   <div
                     id="modal-mermaid-container"
-                    className="h-full w-full"
+                    className="flex h-full w-full items-center justify-center"
                   ></div>
                 </div>
               </div>
