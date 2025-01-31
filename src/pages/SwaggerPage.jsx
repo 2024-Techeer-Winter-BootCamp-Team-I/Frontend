@@ -92,7 +92,7 @@ const SwaggerPage = () => {
           </div>
 
           {/* 콘텐츠 박스 */}
-          <div className="relative h-[500px] w-full max-w-4xl overflow-auto rounded-lg border border-gray-600 bg-white p-4 shadow-lg">
+          <div className="relative h-[800px] w-full max-w-4xl overflow-auto rounded-lg border border-gray-600 bg-white p-4 shadow-lg">
             {/* Save 버튼 추가 */}
             <img
               src={SaveIcon}

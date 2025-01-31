@@ -43,11 +43,18 @@ const DiagramPage = () => {
         setTimeout(() => {
           const svg = diagramContainer.querySelector('svg');
           if (svg) {
-            // SVG를 축소
-            svg.style.transform = 'scale(1.4)'; // 스케일 값 조정 가능 (예: 0.7)
-            svg.style.transformOrigin = '0 0'; // 축소 기준점 설정
-            svg.style.width = '100%';
-            svg.style.height = '100%';
+            // 박스를 넘지 않도록 크기 조정
+            svg.style.maxWidth = '100%';
+            svg.style.maxHeight = '100%';
+            svg.style.width = 'auto';
+            svg.style.height = 'auto';
+            svg.style.display = 'block';
+            svg.style.margin = 'auto';
+
+            // 다이어그램 중앙 배치
+            svg.style.transform = 'scale(0.8)'; // 필요시 조정
+            svg.style.transformOrigin = 'center center';
+            svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
           }
         }, 500);
       }
