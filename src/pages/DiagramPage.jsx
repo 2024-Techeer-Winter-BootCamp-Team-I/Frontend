@@ -8,7 +8,7 @@ import SaveIcon from '../assets/image/save.svg';
 
 const DiagramPage = () => {
   const navigate = useNavigate();
-  const { documentId, diagramCode } = useDocumentStore(); // documentId 추가
+  const { documentId, diagramCode } = useDocumentStore();
   const [activePage, setActivePage] = useState('DIAGRAM');
   const [activeTab, setActiveTab] = useState('image');
   const [cleanDiagramCode, setCleanDiagramCode] = useState('');
@@ -19,7 +19,15 @@ const DiagramPage = () => {
       return;
     }
 
-    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        primaryColor: '#1f2937',
+        edgeLabelBackground: '#374151',
+        nodeBorder: '#4b5563',
+      },
+    });
 
     const cleanCode = diagramCode.replace(/```mermaid\n|```/g, '').trim();
     setCleanDiagramCode(cleanCode);
@@ -29,6 +37,20 @@ const DiagramPage = () => {
       if (diagramContainer) {
         diagramContainer.innerHTML = `<div class="mermaid">${cleanCode}</div>`;
         mermaid.contentLoaded();
+
+        // 다이어그램 크기 자동 조절 (박스 안에 들어가도록)
+        setTimeout(() => {
+          const svg = diagramContainer.querySelector('svg');
+          if (svg) {
+            svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+            svg.setAttribute('width', '100%');
+            svg.setAttribute('height', '100%');
+            svg.setAttribute(
+              'viewBox',
+              `0 0 ${svg.getBBox().width} ${svg.getBBox().height}`,
+            );
+          }
+        }, 500);
       }
     }
   }, [diagramCode, activeTab]);
@@ -101,7 +123,7 @@ const DiagramPage = () => {
           </div>
 
           {/* 콘텐츠 박스 */}
-          <div className="relative h-[700px] w-full max-w-4xl rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
+          <div className="relative h-[800px] w-full max-w-4xl rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
             {/* Save 버튼 추가 */}
             <img
               src={SaveIcon}
