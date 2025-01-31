@@ -5,6 +5,7 @@ import Layout from './Layout';
 import useDocumentStore from '../store/useDocumentStore';
 import { saveDocumentData } from '../api/documentsApi';
 import SaveIcon from '../assets/image/save.svg';
+import GlassIcon from '../assets/glass.svg'; // glass.svg 임포트
 
 const ErdPage = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const ErdPage = () => {
   const [cleanErdCode, setCleanErdCode] = useState('');
   const [activePage, setActivePage] = useState('ERD');
   const [activeTab, setActiveTab] = useState('image');
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
 
   useEffect(() => {
     if (!erdCode) {
@@ -37,11 +39,27 @@ const ErdPage = () => {
   const handleSave = async () => {
     if (!documentId) {
       console.error('문서 ID가 없습니다.');
+      alert('저장에 실패했습니다: 문서 ID가 없습니다.');
       return;
     }
-    console.log(`Saving document with ID: ${documentId}, Type: erd`);
-    await saveDocumentData(documentId, 'erd');
-    alert('ERD가 저장되었습니다');
+    try {
+      console.log(`Saving document with ID: ${documentId}, Type: erd`);
+      await saveDocumentData(documentId, 'erd');
+      alert('ERD가 저장되었습니다');
+    } catch (error) {
+      console.error('저장 중 오류 발생:', error);
+      alert('저장에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
+
+  // 전체보기 모달 열기
+  const handleViewAll = () => {
+    setIsModalOpen(true);
+  };
+
+  // 전체보기 모달 닫기
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   // 상단 버튼 클릭 핸들러
@@ -101,16 +119,23 @@ const ErdPage = () => {
           </div>
 
           {/* 콘텐츠 박스 (스크롤 가능하도록 overflow-auto 추가) */}
-          <div className="relative h-[800px] w-full max-w-4xl overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
-            {/* Save 버튼 추가 */}
+          <div className="relative h-[800px] w-full max-w-4xl overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg flex items-center justify-center">
+            {/* Save 아이콘 */}
             <img
               src={SaveIcon}
               alt="Save"
               className="absolute right-4 top-4 h-8 w-8 cursor-pointer"
               onClick={handleSave}
             />
+            {/* Glass 아이콘 */}
+            <img
+              src={GlassIcon}
+              alt="View All"
+              className="absolute right-16 top-4 h-8 w-8 cursor-pointer"
+              onClick={handleViewAll}
+            />
             {activeTab === 'image' && (
-              <div id="mermaid-container" className="h-full w-full"></div>
+              <div id="mermaid-container" className="h-full w-full flex items-center justify-center"></div>
             )}
             {activeTab === 'code' && (
               <pre className="h-full w-full overflow-auto whitespace-pre-wrap text-white">
@@ -142,7 +167,7 @@ const ErdPage = () => {
               코드보기
             </button>
 
-            {/* 오른쪽 아래 가장자리에 위치한 버튼들 */}
+            {/* 오른쪽 아래 버튼 */}
             <div className="absolute bottom-0 right-0 mb-9 mr-9 flex flex-col gap-2">
               <button
                 onClick={handleMainButtonClick}
@@ -158,6 +183,27 @@ const ErdPage = () => {
               </button>
             </div>
           </div>
+
+          {/* 전체보기 모달 */}
+          {isModalOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
+              <div className="relative bg-white rounded-lg p-4 max-w-4xl w-full h-[90vh] overflow-auto">
+                {/* 닫기 버튼 */}
+                <button
+                  onClick={handleCloseModal}
+                  className="absolute top-2 right-2 text-gray-700 hover:text-gray-900"
+                >
+                  &#10005;
+                </button>
+                {/* 전체 다이어그램 */}
+                <div className="h-full w-full flex items-center justify-center">
+                  <div className="mermaid">
+                    {cleanErdCode}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </Layout>
