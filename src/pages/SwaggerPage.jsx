@@ -98,7 +98,10 @@ const SwaggerPage = () => {
               src={SaveIcon}
               alt="Save"
               className="absolute right-4 top-4 h-8 w-8 cursor-pointer"
-              onClick={handleSave}
+              onClick={() => {
+                handleSave();
+                alert("저장이 완료되었습니다!");
+              }}
             />
             {activeTab === 'image' && (
               <div className="h-full w-full">
