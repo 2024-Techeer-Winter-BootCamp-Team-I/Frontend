@@ -52,6 +52,7 @@ const ErdPage = () => {
       console.error('저장에 실패했습니다:', error);
       alert("저장에 실패했습니다");
     }
+
   };
 
   // 상단 버튼 클릭 핸들러
@@ -76,6 +77,7 @@ const ErdPage = () => {
       <div className="relative flex min-h-screen w-full text-gray-200">
         {/* 콘텐츠 영역 */}
         <div className="flex w-full flex-col items-center justify-center">
+
           {isLoading ? (
             <div className="loading-screen">로딩 중...</div>
           ) : (
@@ -172,6 +174,7 @@ const ErdPage = () => {
               </div>
             </>
           )}
+
         </div>
       </div>
     </Layout>

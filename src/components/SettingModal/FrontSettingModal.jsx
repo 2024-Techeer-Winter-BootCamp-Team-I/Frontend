@@ -41,7 +41,7 @@ const FrontStackModal = ({ isOpen, onClose, onConfirm }) => {
     try {
       // techStackSetupApi 호출
       if (!selectedPositions.includes('Backend')) {
-        const response = await techStackSetupApi(
+        const response = await techStackSetupApi(     
           frontendTechStack,
           backendTechStack,
           directoryName,

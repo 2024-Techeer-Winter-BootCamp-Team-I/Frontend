@@ -50,10 +50,10 @@ const BackStackModal = ({ isOpen, onClose, onConfirm }) => {
 
     try {
       // API 호출
-      const response = await techStackSetupApi(
-        directoryName,
+      const response = await techStackSetupApi(        
         frontendTechStack,
         backendTechStack,
+        directoryName,
         documentId,
       );
 

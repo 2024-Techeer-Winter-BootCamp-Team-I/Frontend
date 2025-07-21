@@ -16,7 +16,9 @@ const Specific = () => {
     useDocumentStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [documentContent, setDocumentContent] = useState('');
+
   const [isLoading, setIsLoading] = useState(false);
+
 
   useEffect(() => {
     if (!documentId) {
@@ -29,7 +31,9 @@ const Specific = () => {
 
     const fetchStream = async () => {
       setIsLoading(true);
+
       setDocumentContent('');
+
 
       try {
         await getDocumentStream(
@@ -38,14 +42,14 @@ const Specific = () => {
             setDocumentContent((prev) => prev + char);
           },
           (error) => {
-            console.error('스트림 요청 실패:', error);
+            console.error('🚨 스트림 요청 실패:', error);
             setIsLoading(false);
           },
           signal,
         );
       } catch (error) {
         if (error.name !== 'AbortError') {
-          console.error('스트림 요청 실패:', error);
+          console.error('🚨 스트림 요청 실패:', error);
         }
         setIsLoading(false);
       }
@@ -97,7 +101,9 @@ const Specific = () => {
       return;
     }
 
+
     setIsLoading(true);
+
 
     try {
       console.log(`🔄 설계 요청 시작: documentId = ${documentId}`);
@@ -114,7 +120,9 @@ const Specific = () => {
     } catch (error) {
       console.error('🚨 설계 요청 실패:', error);
       alert('설계 요청 중 오류가 발생했습니다.');
+
       setIsLoading(false);
+
     }
   };
 
@@ -126,7 +134,10 @@ const Specific = () => {
           <div className="relative z-10 h-[500px] overflow-auto rounded-lg border border-gray-600 bg-gray-800 p-6 shadow-lg">
             {documentContent ? (
               <pre className="whitespace-pre-wrap text-white">
-                {documentContent}
+                {/* ✅ HTML 해석 가능하도록 띄어쓰기 & 줄바꿈 변환 */}
+                <span
+                  dangerouslySetInnerHTML={{ __html: documentContent }}
+                ></span>
               </pre>
             ) : isLoading ? (
               <p className="text-center text-white">로딩 중...</p>
@@ -155,6 +166,37 @@ const Specific = () => {
         {isModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
             <EditModal onClose={closeModal} onSubmit={handleUpdate} />
+          </div>
+        )}
+
+        {/* ✅ Loading Overlay for Design Request */}
+        {isDesignLoading && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="flex flex-col items-center justify-center rounded bg-white p-6 shadow-lg">
+              <svg
+                className="mb-4 h-12 w-12 animate-spin text-blue-500"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v8H4z"
+                ></path>
+              </svg>
+              <p className="text-lg font-semibold text-gray-800">
+                설계 요청 중...
+              </p>
+            </div>
           </div>
         )}
       </div>

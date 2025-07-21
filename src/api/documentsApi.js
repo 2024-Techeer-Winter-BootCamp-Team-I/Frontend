@@ -31,7 +31,7 @@ export const postDocument = async ({ title, content, requirements }) => {
 export const getDocumentStream = async (documentId, onMessage, onError) => {
   try {
     const response = await fetch(
-      `http://localhost:8000/api/v1/documents/${documentId}/stream`,
+      `https://api.devsketch.xyz/api/v1/documents/${documentId}/stream`,
       {
         method: 'GET',
         headers: {},
@@ -46,41 +46,39 @@ export const getDocumentStream = async (documentId, onMessage, onError) => {
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
+    let accumulatedText = ''; // 데이터를 누적할 버퍼
 
     while (true) {
       const { value, done } = await reader.read();
       if (done) break;
 
-      const chunk = decoder.decode(value, { stream: true });
+      accumulatedText += decoder.decode(value, { stream: true });
 
-      if (chunk.includes('[DONE]')) {
-        console.log('Streaming finished.');
-        break;
-      }
+      // 데이터 단위로 분리 (SSE 형식 처리)
+      const lines = accumulatedText.split('\n\n');
+      accumulatedText = lines.pop(); // 처리되지 않은 남은 데이터 유지
 
-      // ✅ 누적 없이 한 글자씩 즉시 반영!
-      for (const char of chunk) {
-        onMessage(char);
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+
+        const data = line.slice(6).trim(); // "data: " 제거
+
+        if (data === '[DONE]') {
+          console.log('✅ Streaming finished.');
+          return;
+        }
+
+        try {
+          // ✅ 별도 변환 없이 그대로 전달 (백엔드에서 변환 처리)
+          onMessage(data);
+        } catch (error) {
+          console.error('🚨 SSE 데이터 파싱 오류:', error);
+        }
       }
     }
   } catch (error) {
-    console.error('SSE Fetch Error:', error);
+    console.error('🚨 SSE Fetch Error:', error);
     if (onError) onError(error);
-  }
-};
-
-/**
- * 문서 수정 (PUT /documents/{document_id})
- */
-export const putDocument = async ({ documentId, prompt }) => {
-  try {
-    const response = await jsonAxios.put(`/documents/${documentId}`, {
-      prompt,
-    });
-    return response.data; // 응답 데이터 반환
-  } catch (error) {
-    console.error('문서 수정 실패:', error);
-    throw error;
   }
 };
 
@@ -95,10 +93,10 @@ export const updateDocumentStream = async (
 ) => {
   try {
     const response = await fetch(
-      `http://localhost:8000/api/v1/documents/${documentId}/update`,
+      `https://api.devsketch.xyz/api/v1/documents/${documentId}/update`,
       {
         method: 'PUT',
-        headers: {},
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ modifications }), // 요청 본문
         mode: 'cors',
         credentials: 'include',
@@ -111,25 +109,38 @@ export const updateDocumentStream = async (
 
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
+    let accumulatedText = '';
 
     while (true) {
       const { value, done } = await reader.read();
       if (done) break;
 
-      const chunk = decoder.decode(value, { stream: true });
+      accumulatedText += decoder.decode(value, { stream: true });
 
-      if (chunk.includes('[DONE]')) {
-        console.log('Streaming finished.');
-        break;
-      }
+      // ✅ SSE 이벤트 데이터 추출 (파싱)
+      const lines = accumulatedText.split('\n\n');
+      accumulatedText = lines.pop(); // 남은 데이터는 보존
 
-      // ✅ 한 글자씩 즉시 반영
-      for (const char of chunk) {
-        onMessage(char);
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+
+        const data = line.slice(6).trim(); // "data: " 부분 제거
+
+        if (data === '[DONE]') {
+          console.log('✅ Streaming finished.');
+          return;
+        }
+
+        try {
+          // ✅ 별도 변환 없이 그대로 전달 (백엔드에서 변환 처리)
+          onMessage(data);
+        } catch (error) {
+          console.error('🚨 SSE 데이터 파싱 오류:', error);
+        }
       }
     }
   } catch (error) {
-    console.error('SSE Update Fetch Error:', error);
+    console.error('🚨 SSE Update Fetch Error:', error);
     if (onError) onError(error);
   }
 };

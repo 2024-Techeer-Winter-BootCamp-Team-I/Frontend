@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import mermaid from 'mermaid';
 import Layout from './Layout';
@@ -8,10 +8,11 @@ import SaveIcon from '../assets/image/save.svg';
 
 const DiagramPage = () => {
   const navigate = useNavigate();
-  const { documentId, diagramCode } = useDocumentStore(); // documentId 추가
+  const { documentId, diagramCode } = useDocumentStore();
   const [activePage, setActivePage] = useState('DIAGRAM');
   const [activeTab, setActiveTab] = useState('image');
   const [cleanDiagramCode, setCleanDiagramCode] = useState('');
+  const mermaidRef = useRef(null); // Mermaid 컨테이너에 대한 ref 추가
 
   useEffect(() => {
     if (!diagramCode) {
@@ -19,13 +20,21 @@ const DiagramPage = () => {
       return;
     }
 
-    mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        primaryColor: '#1f2937',
+        edgeLabelBackground: '#374151',
+        nodeBorder: '#4b5563',
+      },
+    });
 
     const cleanCode = diagramCode.replace(/```mermaid\n|```/g, '').trim();
     setCleanDiagramCode(cleanCode);
 
     if (activeTab === 'image') {
-      const diagramContainer = document.getElementById('mermaid-container');
+      const diagramContainer = mermaidRef.current;
       if (diagramContainer) {
         diagramContainer.innerHTML = `<div class="mermaid">${cleanCode}</div>`;
         mermaid.contentLoaded();
@@ -33,7 +42,7 @@ const DiagramPage = () => {
     }
   }, [diagramCode, activeTab]);
 
-  // 저장 버튼 핸들러
+  // 저장 버튼 핸들러 (알림창 추가)
   const handleSave = async () => {
     if (!documentId) {
       console.error('문서 ID가 없습니다.');
@@ -41,6 +50,7 @@ const DiagramPage = () => {
     }
     console.log(`Saving document with ID: ${documentId}, Type: diagram`);
     await saveDocumentData(documentId, 'diagram');
+    alert('Diagram이 저장되었습니다');
   };
 
   // 상단 버튼 클릭 핸들러
@@ -70,9 +80,7 @@ const DiagramPage = () => {
             <button
               onClick={() => handlePageClick('ERD', '/erdpage')}
               className={`rounded px-4 py-2 ${
-                activePage === 'ERD'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-700 text-gray-200'
+                activePage === 'ERD' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-gray-200'
               }`}
             >
               ERD
@@ -80,9 +88,7 @@ const DiagramPage = () => {
             <button
               onClick={() => handlePageClick('DIAGRAM', '/diagrampage')}
               className={`rounded px-4 py-2 ${
-                activePage === 'DIAGRAM'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-700 text-gray-200'
+                activePage === 'DIAGRAM' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-gray-200'
               }`}
             >
               DIAGRAM
@@ -90,18 +96,18 @@ const DiagramPage = () => {
             <button
               onClick={() => handlePageClick('API', '/swaggerpage')}
               className={`rounded px-4 py-2 ${
-                activePage === 'API'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-700 text-gray-200'
+                activePage === 'API' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-gray-200'
               }`}
             >
               API
             </button>
           </div>
 
+
           {/* 콘텐츠 박스 */}
           <div className="relative h-[500px] w-full max-w-4xl overflow-auto rounded-lg border border-gray-600 bg-[#090909] opacity-50 p-4 shadow-lg">
             {/* Save 버튼 추가 */}
+
             <img
               src={SaveIcon}
               alt="Save"
@@ -112,10 +118,10 @@ const DiagramPage = () => {
               }}
             />
             {activeTab === 'image' && (
-              <div id="mermaid-container" className="h-full w-full"></div>
+              <div id="mermaid-container" ref={mermaidRef} className="h-full w-full"></div>
             )}
             {activeTab === 'code' && (
-              <pre className="h-full w-full whitespace-pre-wrap text-white">
+              <pre className="h-full w-full overflow-auto whitespace-pre-wrap text-white">
                 {cleanDiagramCode}
               </pre>
             )}
@@ -126,9 +132,7 @@ const DiagramPage = () => {
             <button
               onClick={() => handleTabClick('image')}
               className={`rounded px-4 py-2 ${
-                activeTab === 'image'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-700 text-gray-200'
+                activeTab === 'image' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-gray-200'
               }`}
             >
               이미지보기
@@ -136,26 +140,18 @@ const DiagramPage = () => {
             <button
               onClick={() => handleTabClick('code')}
               className={`rounded px-4 py-2 ${
-                activeTab === 'code'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-700 text-gray-200'
+                activeTab === 'code' ? 'bg-blue-500 text-white' : 'bg-gray-700 text-gray-200'
               }`}
             >
               코드보기
             </button>
 
-            {/* 오른쪽 아래 가장자리에 위치한 버튼들 */}
+            {/* 오른쪽 아래 버튼 */}
             <div className="absolute bottom-0 right-0 mb-9 mr-9 flex flex-col gap-2">
-              <button
-                onClick={handleMainButtonClick}
-                className="rounded bg-gray-700 px-4 py-2"
-              >
+              <button onClick={handleMainButtonClick} className="rounded bg-gray-700 px-4 py-2">
                 메인으로가기
               </button>
-              <button
-                onClick={handleSettingButtonClick}
-                className="rounded bg-gray-700 px-4 py-2"
-              >
+              <button onClick={handleSettingButtonClick} className="rounded bg-gray-700 px-4 py-2">
                 세팅하러가기
               </button>
             </div>
