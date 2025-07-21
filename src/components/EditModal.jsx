@@ -14,13 +14,14 @@ const EditModal = ({ onClose, onSubmit }) => {
   };
 
   return (
-    <div className="relative w-[480px] rounded-lg bg-[#1e1e1e] p-6 shadow-lg">
+    <div className="relative w-[480px] rounded-lg bg-[#1e1e1e] opacity-80 p-6 shadow-lg">
+
       <button
         onClick={onClose}
         className="absolute right-4 top-4 text-xl text-gray-500 hover:text-gray-700"
       >
         &times;
-      </button>
+      </button> 
 
       <h2 className="mb-4 text-[1rem] font-semibold text-white">
         이전 버전을 바탕으로 어떻게 수정할까요?

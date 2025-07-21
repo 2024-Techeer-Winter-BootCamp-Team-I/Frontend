@@ -103,14 +103,19 @@ const DiagramPage = () => {
             </button>
           </div>
 
-          {/* 콘텐츠 박스 (스크롤 가능하도록 overflow-auto 추가) */}
-          <div className="relative h-[800px] w-full max-w-4xl overflow-auto justify-center items-center rounded-lg border border-gray-600 bg-gray-800 p-4 shadow-lg">
-            {/* Save 버튼 */}
+
+          {/* 콘텐츠 박스 */}
+          <div className="relative h-[500px] w-full max-w-4xl overflow-auto rounded-lg border border-gray-600 bg-[#090909] opacity-50 p-4 shadow-lg">
+            {/* Save 버튼 추가 */}
+
             <img
               src={SaveIcon}
               alt="Save"
               className="absolute right-4 top-4 h-8 w-8 cursor-pointer"
-              onClick={handleSave}
+              onClick={() => {
+                handleSave();
+                alert("저장이 완료되었습니다!");
+              }}
             />
             {activeTab === 'image' && (
               <div id="mermaid-container" ref={mermaidRef} className="h-full w-full"></div>
